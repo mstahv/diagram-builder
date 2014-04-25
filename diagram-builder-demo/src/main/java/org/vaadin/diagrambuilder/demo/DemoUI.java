@@ -13,11 +13,15 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.vaadin.diagrambuilder.DiagramBuilder;
 import org.vaadin.diagrambuilder.DiagramStateEvent;
 import org.vaadin.diagrambuilder.Node;
@@ -35,6 +39,23 @@ public class DemoUI extends UI implements DiagramBuilder.StateCallback {
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "org.vaadin.diagrambuilder.demo.DemoWidgetSet")
     public static class Servlet extends VaadinServlet {
+
+        @Override
+        protected void writeStaticResourceResponse(HttpServletRequest request,
+                HttpServletResponse response, URL resourceUrl) throws IOException {
+            
+            if (resourceUrl.getFile().contains("/widgetsets/") && 
+                    (resourceUrl.getFile().endsWith(".js") || resourceUrl.getFile().endsWith(".css"))
+                    )  {
+                URL gzipurl = new URL(resourceUrl.toString() + ".gz");
+                response.setHeader("Content-Encoding", "gzip");
+                super.writeStaticResourceResponse(request, response,
+                                gzipurl);
+                return;
+            }
+            super.writeStaticResourceResponse(request, response, resourceUrl);
+        }
+
     }
 
     @Override

@@ -9,6 +9,8 @@
     <!-- Inherit add-on widgetset -->
     <inherits name="org.vaadin.diagrambuilder.WidgetSet" />
 
+    <inherits name="com.google.gwt.precompress.Precompress"/>
+    
     <!--
      Uncomment the following to compile the widgetset for one browser only.
 
