@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
- * @author mattitahvonenitmill
+ * A Node in the diagram.
+ * 
+ * Names in diagram should be unique as they work as identifiers as well.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Node implements Serializable {

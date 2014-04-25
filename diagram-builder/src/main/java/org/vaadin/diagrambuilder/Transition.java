@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
 /**
- *
- * @author mattitahvonenitmill
+ * Transition from a Node to another.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transition implements Serializable {

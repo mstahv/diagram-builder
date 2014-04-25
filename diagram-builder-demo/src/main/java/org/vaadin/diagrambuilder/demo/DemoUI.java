@@ -15,7 +15,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +33,9 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 @SuppressWarnings("serial")
 @JavaScript("http://cdn.alloyui.com/2.5.0/aui/aui-min.js")
 @StyleSheet("http://cdn.alloyui.com/2.5.0/aui-css/css/bootstrap.min.css")
-public class DemoUI extends UI implements DiagramBuilder.StateCallback {
+public class DemoUI extends UI {
+
+    private DiagramBuilder diagramBuilder;
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "org.vaadin.diagrambuilder.demo.DemoWidgetSet")
@@ -43,14 +44,14 @@ public class DemoUI extends UI implements DiagramBuilder.StateCallback {
         @Override
         protected void writeStaticResourceResponse(HttpServletRequest request,
                 HttpServletResponse response, URL resourceUrl) throws IOException {
-            
-            if (resourceUrl.getFile().contains("/widgetsets/") && 
-                    (resourceUrl.getFile().endsWith(".js") || resourceUrl.getFile().endsWith(".css"))
-                    )  {
+
+            /* Optimized widgetset serving, irrelevant for the actual diagram usage */
+            if (resourceUrl.getFile().contains("/widgetsets/")
+                    && (resourceUrl.getFile().endsWith(".js") || resourceUrl.
+                    getFile().endsWith(".css"))) {
                 URL gzipurl = new URL(resourceUrl.toString() + ".gz");
                 response.setHeader("Content-Encoding", "gzip");
-                super.writeStaticResourceResponse(request, response,
-                                gzipurl);
+                super.writeStaticResourceResponse(request, response, gzipurl);
                 return;
             }
             super.writeStaticResourceResponse(request, response, resourceUrl);
@@ -58,13 +59,32 @@ public class DemoUI extends UI implements DiagramBuilder.StateCallback {
 
     }
 
+    Button button = new Button("Get state to server and report as JSON",
+            new Button.ClickListener() {
+
+                @Override
+                public void buttonClick(Button.ClickEvent event) {
+                    /*
+                     * Using asynchronous API to lazily fetch the current state
+                     * of the diagram.
+                     */
+                    diagramBuilder.getDiagramState(new DiagramBuilder.StateCallback() {
+
+                        @Override
+                        public void onStateReceived(DiagramStateEvent event) {
+                            reportStateBack(event);
+                        }
+
+                    });
+                }
+            });
+
     @Override
     protected void init(VaadinRequest request) {
 
         // Initialize our new UI component
-        final DiagramBuilder component = new DiagramBuilder();
-
-        component.setAvailableFields(
+        diagramBuilder = new DiagramBuilder();
+        diagramBuilder.setAvailableFields(
                 new NodeType(
                         "diagram-node-start-icon",
                         "Start",
@@ -100,7 +120,7 @@ public class DemoUI extends UI implements DiagramBuilder.StateCallback {
                         "End",
                         "end"
                 ));
-        component.setFields(
+        diagramBuilder.setFields(
                 new Node(
                         "StartNode",
                         "start",
@@ -147,7 +167,7 @@ public class DemoUI extends UI implements DiagramBuilder.StateCallback {
                         326, 500
                 ));
 
-        component.setTransitions(
+        diagramBuilder.setTransitions(
                 new Transition("StartNode", "Condition", "TaskConnector1"),
                 new Transition("Condition", "Fork", "TaskConnector2"),
                 new Transition("Fork", "Task1", "TaskConnector3"),
@@ -159,29 +179,19 @@ public class DemoUI extends UI implements DiagramBuilder.StateCallback {
                 new Transition("Task3", "EndNode", "TaskConnector9")
         );
 
-        component.setSizeFull();;
-
-        Button button = new Button("Get state to server and report as JSON",
-                new Button.ClickListener() {
-
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        component.getDiagramState(DemoUI.this);
-                    }
-                });
+        diagramBuilder.setSizeFull();
 
         setContent(
                 new MVerticalLayout(
                         new RichText().withMarkDownResource("/intro.md"),
                         button,
-                        component
+                        diagramBuilder
                 )
         );
 
     }
 
-    @Override
-    public void onStateReceived(DiagramStateEvent event) {
+    public void reportStateBack(DiagramStateEvent event) {
         List<Node> nodes = event.getNodes();
 
         // Normally you'd do something with the nodes, in this 

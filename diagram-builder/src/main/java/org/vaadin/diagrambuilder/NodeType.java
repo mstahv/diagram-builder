@@ -1,7 +1,7 @@
 package org.vaadin.diagrambuilder;
 
 /**
- *
+ * A NodeType that can be used in the Diagram.
  */
 public class NodeType {
 

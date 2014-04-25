@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
 /**
- *
- * @author mattitahvonenitmill
+ * Connector details.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Connector implements Serializable {

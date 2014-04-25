@@ -13,24 +13,7 @@
 		<vaadin.version>7.2.0.beta1</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
-
-	<organization>
-		<name>Matti Tahvonen</name>
-		<url>https://github.com/mstahv/diagram-builder/</url>
-	</organization>
-    
-	<scm>
-		<url>git://github.com/mygithubaccount/diagram-builder.git</url>
-		<connection>scm:git:git://github.com/mygithubaccount/diagram-builder.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:/mygithubaccount/${ComponentClassName}.git</developerConnection>
-		<tag>DiagramBuilder add-on for Vaadin</tag>
-	</scm>
-
-        <issueManagement>
-                <system>GitHub</system>
-                <url>https://github.com/mygithubaccount/diagram-builder/issues</url>
-        </issueManagement>
-
+        
     <licenses>
         <license>
             <name>Apache 2</name>

@@ -4,13 +4,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.Widget;
 
-// Extend any GWT Widget
 public class DiagramBuilderWidget extends Widget {
 
     static int count;
     private final int id;
     
-    // gets assigned lazily
+    // gets assigned lazily, byt the JSNIWrapper as the diagrambuilder js 
+    // component may be instantiated asynchronously.
     DiagramBuilderJsniWrapper wrapper;
 
     public DiagramBuilderWidget() {
@@ -20,7 +20,9 @@ public class DiagramBuilderWidget extends Widget {
         setStyleName("diagram-builder");
         
         getElement().setInnerHTML(
-                "<div id=\"diagram-builder-bb" + id + "\" style='height:100%'><div id=\"diagram-builder-sn" + id + "\" style='height:100%'></div></div>");
+                "<div id=\"diagram-builder-bb" + id + "\" style='height:100%'>"
+                        + "<div id=\"diagram-builder-sn" + id + "\" style='height:100%'></div>"
+                        + "</div>");
     }
     
     void setConf(JavaScriptObject conf) {

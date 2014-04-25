@@ -5,7 +5,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  *
- * @author mattitahvonenitmill
  */
 public class DiagramBuilderJsniWrapper extends JavaScriptObject {
     
