@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
+import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -33,6 +34,7 @@ import org.vaadin.maddon.layouts.MVerticalLayout;
 @SuppressWarnings("serial")
 @JavaScript("http://cdn.alloyui.com/2.5.0/aui/aui-min.js")
 @StyleSheet("http://cdn.alloyui.com/2.5.0/aui-css/css/bootstrap.min.css")
+@Theme("dawn")
 public class DemoUI extends UI {
 
     private DiagramBuilder diagramBuilder;

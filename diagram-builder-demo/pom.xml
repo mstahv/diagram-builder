@@ -62,6 +62,20 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
             <version>${vaadin.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>vaadin-sass-compiler</artifactId>
+                    <groupId>com.vaadin</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.vaadin.external.google</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>flute</artifactId>
+                    <groupId>com.vaadin.external.flute</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -69,9 +83,9 @@
             <version>${vaadin.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-themes</artifactId>
-            <version>${vaadin.version}</version>
+            <groupId>org.peimari</groupId>
+            <artifactId>dawn</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -146,6 +160,7 @@
                     <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
                     <noServer>true</noServer>
                     <persistentunitcachedir>${basedir}/target/tmp/gwt-unitCache</persistentunitcachedir>
+                    <deploy>target/gwtdirt</deploy>
 <!--                    <draftCompile>true</draftCompile>
                     <style>PRETTY</style>-->
                     <strict>true</strict>
