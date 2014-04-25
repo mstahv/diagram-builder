@@ -20,6 +20,11 @@ mvn jetty:run
 
 To see the demo, navigate to http://localhost:8080/
 
+## Usage
+
+ * Add ALLOYUI stuff to your host page, not added automatically as in e.g. Liferay they most likely already exist. Example of that using [@JavaScript/@Stylesheet annotations](https://github.com/mstahv/diagram-builder/blob/master/diagram-builder-demo/src/main/java/org/vaadin/diagrambuilder/demo/DemoUI.java#L34-L35)
+ * Otherwise, use like any other Vaadin Add-on component
+
  
 ## Release notes
 
