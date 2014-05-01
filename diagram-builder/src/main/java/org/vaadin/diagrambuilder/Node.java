@@ -117,5 +117,13 @@ public class Node implements Serializable {
     public void setY(int y) {
         xy[1] = y;
     }
+    
+    public int getX() {
+        return xy[0];
+    }
+    
+    public int getY() {
+        return xy[1];
+    }
 
 }
