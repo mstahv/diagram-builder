@@ -14,6 +14,8 @@ public class Node implements Serializable {
 
     
     private int[] xy = new int[]{0, 0};
+    private int width;
+    private int height;
     private String name;
     private String type;
     private String description;
@@ -32,6 +34,12 @@ public class Node implements Serializable {
         this.name = name;
         this.type = typeId;
         xy = new int[]{x, y};
+    }
+
+    public Node(String name, String typeId, int x, int y, int width, int height) {
+        this(name, typeId, x, y);
+        this.width = width;
+        this.height = height;
     }
     
 
@@ -126,4 +134,19 @@ public class Node implements Serializable {
         return xy[1];
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }
