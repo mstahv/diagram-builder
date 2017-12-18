@@ -16,6 +16,7 @@ public class Node implements Serializable {
     private int[] xy = new int[]{0, 0};
     private int width;
     private int height;
+    private boolean allowsLinking;
     private String name;
     private String type;
     private String description;
@@ -148,5 +149,13 @@ public class Node implements Serializable {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public boolean isAllowsLinking() {
+        return allowsLinking;
+    }
+
+    public void setAllowsLinking(boolean allowsLinking) {
+        this.allowsLinking = allowsLinking;
     }
 }
