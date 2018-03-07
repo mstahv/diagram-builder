@@ -22,6 +22,7 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
           var trs = conf.transitions;
 
           var diagramBuilder = new Y.DiagramBuilder(conf).render();
+          debugger;
           
           diagramBuilder.connectAll(trs.map(function(transition) {
               debugger;
