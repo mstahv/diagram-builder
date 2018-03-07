@@ -23,7 +23,11 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
 
           var diagramBuilder = new Y.DiagramBuilder(conf).render();
           
-          diagramBuilder.connectAll(trs);
+          diagramBuilder.connectAll(trs.map(function(transition) {
+              debugger;
+              transition.connector.click = widget.@org.vaadin.diagrambuilder.client.DiagramBuilderWidget::connectorClick(Ljava/lang/Object;);
+              return transition;
+          } ));
           
           widget.@org.vaadin.diagrambuilder.client.DiagramBuilderWidget::wrapper = diagramBuilder;
         }
