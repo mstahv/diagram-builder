@@ -15,20 +15,14 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
       $wnd.YUI().use(
         'aui-diagram-builder',
         function(Y) {
-            
           conf.boundingBox =  '#diagram-builder-bb' + id;
           conf.srcNode = '#diagram-builder-sn' + id;
             
           var trs = conf.transitions;
 
           var diagramBuilder = new Y.DiagramBuilder(conf).render();
-          debugger;
           
-          diagramBuilder.connectAll(trs.map(function(transition) {
-              debugger;
-              transition.connector.click = widget.@org.vaadin.diagrambuilder.client.DiagramBuilderWidget::connectorClick(Ljava/lang/Object;);
-              return transition;
-          } ));
+          diagramBuilder.connectAll(trs);
           
           widget.@org.vaadin.diagrambuilder.client.DiagramBuilderWidget::wrapper = diagramBuilder;
         }
