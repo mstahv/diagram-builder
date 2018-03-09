@@ -24,7 +24,7 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     private ArrayList<TransitionMouseMoveListener> transitionMouseMoveListeners = new ArrayList<>();
 
     public interface TransitionMouseMoveListener extends Serializable {
-        public void move(String connectorName, String event, Double top, Double left);
+        public void move(String connectorName, EventType event, Double top, Double left);
     }
 
     public interface StateCallback {
@@ -60,14 +60,20 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
                 Double top = jsonArray.getObject(0).getNumber("clientY");
                 Double left = jsonArray.getObject(0).getNumber("clientX");
 
-                fireTransitionMouseMoveListener(connectorName, event, top, left);
+                EventType eventType = EventType.CONNECTOR_MOUSE_LEAVES;
+
+                if ("mouseEnter".equals(event)) {
+                    eventType = EventType.CONNECTOR_MOUSE_ENTER;
+                }
+
+                fireTransitionMouseMoveListener(connectorName, eventType, top, left);
             }
 
         });
     }
 
-    public void fireTransitionMouseMoveListener(String connectorName, String event, Double top, Double left) {
-        for (TransitionMouseMoveListener listener: transitionMouseMoveListeners)
+    public void fireTransitionMouseMoveListener(String connectorName, EventType event, Double top, Double left) {
+        for (TransitionMouseMoveListener listener : transitionMouseMoveListeners)
             listener.move(connectorName, event, top, left);
     }
 
@@ -136,5 +142,10 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public void getDiagramState(StateCallback callback) {
         cb = callback;
         getRpcProxy(DiagramBuilderClientRpc.class).get();
+    }
+
+    public enum EventType {
+        CONNECTOR_MOUSE_ENTER,
+        CONNECTOR_MOUSE_LEAVES
     }
 }
