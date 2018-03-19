@@ -2,6 +2,7 @@
 package org.vaadin.diagrambuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -10,14 +11,20 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Connector implements Serializable {
 
+    private String name;
+    private String onMouseMove = DiagramBuilder.JAVASCRIPT_ON_MOUSE_MOVE_CONNECTOR;
+    private Boolean showName = true;
+
     public Connector() {
     }
 
     public Connector(String name) {
         this.name = name;
     }
-    
-    private String name;
+    public Connector(String name, Boolean showName) {
+        this.name = name;
+        this.showName = showName;
+    }
 
     /**
      * Get the value of name
@@ -37,4 +44,15 @@ public class Connector implements Serializable {
         this.name = name;
     }
 
+    public String getOnMouseMove() {
+        return onMouseMove;
+    }
+
+    public Boolean getShowName() {
+        return showName;
+    }
+
+    public void setShowName(Boolean showName) {
+        this.showName = showName;
+    }
 }

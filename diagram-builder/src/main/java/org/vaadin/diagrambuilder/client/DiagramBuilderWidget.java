@@ -24,6 +24,10 @@ public class DiagramBuilderWidget extends Widget {
                         + "<div id=\"diagram-builder-sn" + id + "\" style='height:100%'></div>"
                         + "</div>");
     }
+
+    public static void connectorClick(Object connector) {
+        System.out.println("yeah and yeah");
+    }
     
     void setConf(JavaScriptObject conf) {
         DiagramBuilderJsniWrapper.create(conf, id, this);
