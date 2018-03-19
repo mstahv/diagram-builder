@@ -15,7 +15,6 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
       $wnd.YUI().use(
         'aui-diagram-builder',
         function(Y) {
-            
           conf.boundingBox =  '#diagram-builder-bb' + id;
           conf.srcNode = '#diagram-builder-sn' + id;
             

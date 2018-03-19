@@ -28,6 +28,12 @@ public class Transition implements Serializable {
         this.connector = new Connector(connectorName);
     }
 
+    public Transition(String source, String target, String connectorName, Boolean showName) {
+        this.source = source;
+        this.target = target;
+        this.connector = new Connector(connectorName, showName);
+    }
+
     public String getSource() {
         return source;
     }

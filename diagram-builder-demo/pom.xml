@@ -5,12 +5,12 @@
 	<groupId>org.vaadin</groupId>
 	<artifactId>diagram-builder-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.2-SNAPSHOT</version>
 	<name>DiagramBuilder Add-on Demo</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.2.0.beta1</vaadin.version>
+		<vaadin.version>7.1.13</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
         
@@ -53,11 +53,11 @@
     </pluginRepositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>diagram-builder</artifactId>
-            <version>${version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.vaadin</groupId>-->
+            <!--<artifactId>diagram-builder</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -85,7 +85,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>dawn</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>12</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -98,6 +98,11 @@
             <artifactId>maddon</artifactId>
             <version>1.4</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
 
