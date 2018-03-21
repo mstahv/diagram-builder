@@ -4,7 +4,7 @@
     <groupId>org.vaadin</groupId>
     <artifactId>diagram-builder</artifactId>
     <packaging>jar</packaging>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <name>diagram-builder</name>
 
     <properties>
