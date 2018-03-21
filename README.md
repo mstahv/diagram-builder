@@ -1,3 +1,47 @@
+# DiagramBuilder Add-on for Vaadin 7 - Continuum Security Fork
+
+[![](https://jitpack.io/v/continuumsecurity/diagram-builder.svg)](https://jitpack.io/#continuumsecurity/diagram-builder)
+
+> This repository uses the a forked Alloy-ui library generated from this repository: [Alloy-ui forked reporisoty](https://github.com/continuumsecurity/alloy-ui)
+
+### Upgrade Vaadin version from 7.2.0.beta1 to 7.6.1
+Continuum security use Vaadin 7.6.1 and some errors were spotted when using an older version
+
+### Adds MouseOver custom function call over Transition
+Integrate MouseOver custom function call with Alloy-UI diagram-builder component when
+user mouse move over transition
+
+```Java
+diagramBuilder.addTransitionMouseMoveListener(new DiagramBuilder.TransitionMouseMoveListener() {
+    @Override
+    void move(String connectorName, DiagramBuilder.EventType eventType, Double top, Double left) {
+
+    }
+})
+```
+
+### Show/Hide Transition node Name
+Option to show/hide the Transition Name
+```Java
+Transition transition = new Transition(source, target, name);
+transition.connector.setShowName(false);
+```
+
+### Custom Height/Width for Task and Group
+Option to set the height/width of tasks and groups
+```Java
+int height = 400;
+int width = 200
+Node node = new Node(name, "task", 0, 0, width, height);
+```
+
+### Enable/Disable User Interface Tasks linking
+Option to enable/disable the tasks from the User Interface
+```Java
+Node node = new Node(name, "task", 0, 0, 100, 100);
+node.setAllowsLinking(false);
+```
+
 # DiagramBuilder Add-on for Vaadin 7
 
 DiagramBuilder is an UI component add-on for Vaadin 7 that wraps [ALLOYUI's 
@@ -27,6 +71,13 @@ To see the demo, navigate to http://localhost:8080/
 
  
 ## Release notes
+
+### Version 1.21
+* Upgrade Vaadin version from 7.2.0.beta1 to 7.6.1
+* Adds MouseOver custom function call over Transition
+* Show/Hide Transition node Name
+* Custom Height/Width for Task and Group
+* Enable/Disable User Interface Tasks linking
 
 ### Version 1.0-SNAPSHOT
 
