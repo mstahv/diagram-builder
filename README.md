@@ -4,6 +4,15 @@
 
 > This repository uses the a forked Alloy-ui library generated from this repository: [Alloy-ui forked reporisoty](https://github.com/continuumsecurity/alloy-ui)
 
+### Enables/Disables delete by key stroke and hides/shows delete button
+Enables/Disables the key stroke for delete and hides/shows the button to delete when
+the user clicks in a node.
+```Java
+DiagramBuilder diagramBuilder = new DiagramBuilder();
+diagramBuilder.setShowDeleteNodeIcon(false);
+diagramBuilder.setEnableDeleteByKeyStroke(false);
+```
+
 ### Upgrade Vaadin version from 7.2.0.beta1 to 7.6.1
 Continuum security use Vaadin 7.6.1 and some errors were spotted when using an older version
 
