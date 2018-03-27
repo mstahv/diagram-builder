@@ -13,6 +13,17 @@ class DiagramInitState implements Serializable {
     private List<NodeType> availableFields;
     private List<Node> fields;
     private List<Transition> transitions;
+    private Boolean showDeleteNodeIcon = true;
+    private Boolean enableDeleteByKeyStroke = true;
+
+    public DiagramInitState() {
+    }
+
+    public DiagramInitState(NodeType[] availableFields, Node[] fields, Transition[] transitions) {
+        this.availableFields = Arrays.asList(availableFields);
+        this.fields = Arrays.asList(fields);
+        this.transitions = Arrays.asList(transitions);
+    }
 
     public List<Transition> getTransitions() {
         return transitions;
@@ -21,7 +32,7 @@ class DiagramInitState implements Serializable {
     public void setTransitions(List<Transition> transitions) {
         this.transitions = transitions;
     }
-    
+
     public List<NodeType> getAvailableFields() {
         return availableFields;
     }
@@ -38,13 +49,19 @@ class DiagramInitState implements Serializable {
         this.fields = Arrays.asList(fields);
     }
 
-    public DiagramInitState() {
+    public Boolean getShowDeleteNodeIcon() {
+        return showDeleteNodeIcon;
     }
 
-    public DiagramInitState(NodeType[] availableFields, Node[] fields, Transition[] transitions) {
-        this.availableFields = Arrays.asList(availableFields);
-        this.fields = Arrays.asList(fields);
-        this.transitions = Arrays.asList(transitions);
+    public void setShowDeleteNodeIcon(Boolean showDeleteNodeIcon) {
+        this.showDeleteNodeIcon = showDeleteNodeIcon;
     }
 
+    public Boolean getEnableDeleteByKeyStroke() {
+        return enableDeleteByKeyStroke;
+    }
+
+    public void setEnableDeleteByKeyStroke(Boolean enableDeleteByKeyStroke) {
+        this.enableDeleteByKeyStroke = enableDeleteByKeyStroke;
+    }
 }

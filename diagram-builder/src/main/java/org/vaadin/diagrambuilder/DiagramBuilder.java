@@ -22,6 +22,8 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public static final String JAVASCRIPT_ON_MOUSE_MOVE_CONNECTOR = DiagramBuilder.class.getCanonicalName() + ".onMouseMoveConnector";
 
     private ArrayList<TransitionMouseMoveListener> transitionMouseMoveListeners = new ArrayList<>();
+    private boolean showDeleteNodeIcon = true;
+    private boolean enableDeleteByKeyStroke = true;
 
     public interface TransitionMouseMoveListener extends Serializable {
         public void move(String connectorName, EventType event, Double top, Double left);
@@ -127,8 +129,11 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public void beforeClientResponse(boolean initial) {
         super.beforeClientResponse(initial); //To change body of generated methods, choose Tools | Templates.
         try {
-            getState().diagramJson = mapper.writeValueAsString(
-                    new DiagramInitState(availableFields, fields, transitions));
+            DiagramInitState diagramInitState = new DiagramInitState(availableFields, fields, transitions);
+            diagramInitState.setShowDeleteNodeIcon(showDeleteNodeIcon);
+            diagramInitState.setEnableDeleteByKeyStroke(enableDeleteByKeyStroke);
+
+            getState().diagramJson = mapper.writeValueAsString(diagramInitState);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(DiagramBuilder.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -147,5 +152,21 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public enum EventType {
         CONNECTOR_MOUSE_ENTER,
         CONNECTOR_MOUSE_LEAVES
+    }
+
+    public boolean isShowDeleteNodeIcon() {
+        return showDeleteNodeIcon;
+    }
+
+    public void setShowDeleteNodeIcon(boolean showDeleteNodeIcon) {
+        this.showDeleteNodeIcon = showDeleteNodeIcon;
+    }
+
+    public boolean isEnableDeleteByKeyStroke() {
+        return enableDeleteByKeyStroke;
+    }
+
+    public void setEnableDeleteByKeyStroke(boolean enableDeleteByKeyStroke) {
+        this.enableDeleteByKeyStroke = enableDeleteByKeyStroke;
     }
 }
