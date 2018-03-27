@@ -4,6 +4,15 @@
 
 > This repository uses the a forked Alloy-ui library generated from this repository: [Alloy-ui forked reporisoty](https://github.com/continuumsecurity/alloy-ui)
 
+### Group Node can have children
+Group Node can have children. These children will be moved alongside the group node
+````java
+Node node1 = new Node(name, "task1", 0, 0, width, height);
+Node node2 = new Node(name, "task2", 0, 0, width, height);
+Node node = new Node(name, "task", 0, 0, width, height);
+node.setChildren(new ArrayList(){"task1", "task2"});
+````
+
 ### Enables/Disables delete by key stroke and hides/shows delete button
 Enables/Disables the key stroke for delete and hides/shows the button to delete when
 the user clicks in a node.
@@ -26,7 +35,7 @@ diagramBuilder.addTransitionMouseMoveListener(new DiagramBuilder.TransitionMouse
     void move(String connectorName, DiagramBuilder.EventType eventType, Double top, Double left) {
 
     }
-})
+});
 ```
 
 ### Show/Hide Transition node Name

@@ -21,6 +21,7 @@ public class Node implements Serializable {
     private String type;
     private String description;
     private List<Transition> transitions;
+    private List<String> children;
 
     public Node() {
     }
@@ -157,5 +158,13 @@ public class Node implements Serializable {
 
     public void setAllowsLinking(boolean allowsLinking) {
         this.allowsLinking = allowsLinking;
+    }
+
+    public List<String> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<String> children) {
+        this.children = children;
     }
 }
