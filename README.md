@@ -1,6 +1,6 @@
 # DiagramBuilder Add-on for Vaadin 7 - Continuum Security Fork
 
-[![](https://jitpack.io/v/continuumsecurity/diagram-builder.svg)](https://jitpack.io/#continuumsecurity/diagram-builder/diagram-builder-1.2.3)
+[![](https://jitpack.io/v/continuumsecurity/diagram-builder.svg)](https://jitpack.io/#continuumsecurity/diagram-builder/)
 
 > This repository uses the a forked Alloy-ui library generated from this repository: [Alloy-ui forked reporisoty](https://github.com/continuumsecurity/alloy-ui)
 
