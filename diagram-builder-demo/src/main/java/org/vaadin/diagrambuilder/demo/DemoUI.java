@@ -27,14 +27,14 @@ import org.vaadin.diagrambuilder.DiagramStateEvent;
 import org.vaadin.diagrambuilder.Node;
 import org.vaadin.diagrambuilder.NodeType;
 import org.vaadin.diagrambuilder.Transition;
-import org.vaadin.maddon.label.RichText;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.label.RichText;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 @Title("DiagramBuilder Add-on Demo")
 @SuppressWarnings("serial")
-@JavaScript("http://cdn.alloyui.com/2.5.0/aui/aui-min.js")
-@StyleSheet("http://cdn.alloyui.com/2.5.0/aui-css/css/bootstrap.min.css")
-@Theme("dawn")
+@JavaScript("http://cdn.alloyui.com/3.0.1/aui/aui-min.js")
+@StyleSheet("http://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css")
+@Theme("valo")
 public class DemoUI extends UI {
 
     private DiagramBuilder diagramBuilder;
@@ -182,6 +182,7 @@ public class DemoUI extends UI {
         );
 
         diagramBuilder.setSizeFull();
+        
 
         setContent(
                 new MVerticalLayout(
@@ -190,6 +191,7 @@ public class DemoUI extends UI {
                         diagramBuilder
                 )
         );
+//        setContent(diagramBuilder);
 
     }
 
