@@ -52,7 +52,6 @@ public class DiagramBuilderConnector extends AbstractComponentConnector {
 		super.onStateChanged(stateChangeEvent);
         JavaScriptObject conf = JsonUtils.safeEval(getState().diagramJson);
 		getWidget().setConf(conf);
-		System.out.println();
 	}
 
 }
