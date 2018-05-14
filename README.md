@@ -60,7 +60,7 @@ Node node = new Node(name, "task", 0, 0, 100, 100);
 node.setAllowsLinking(false);
 ```
 
-# DiagramBuilder Add-on for Vaadin 7
+# DiagramBuilder Add-on for Vaadin 7 - Official Repository
 
 DiagramBuilder is an UI component add-on for Vaadin 7 that wraps [ALLOYUI's 
 Diagram Builder](http://alloyui.com/examples/diagram-builder/) as a server side Java component.
