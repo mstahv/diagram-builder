@@ -19,9 +19,16 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
           conf.srcNode = '#diagram-builder-sn' + id;
             
           var trs = conf.transitions;
+          var diagramBuilder = widget.@org.vaadin.diagrambuilder.client.DiagramBuilderWidget::wrapper;
 
-          var diagramBuilder = new Y.DiagramBuilder(conf).render();
-          
+          if(diagramBuilder != null) {
+              diagramBuilder.clearFields();
+              diagramBuilder.setAttrs(conf);
+          } else {
+              diagramBuilder = new Y.DiagramBuilder(conf);
+          }
+
+          diagramBuilder.render();
           diagramBuilder.connectAll(trs);
           
           widget.@org.vaadin.diagrambuilder.client.DiagramBuilderWidget::wrapper = diagramBuilder;
