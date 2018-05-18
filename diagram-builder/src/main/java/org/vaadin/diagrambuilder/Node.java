@@ -22,6 +22,7 @@ public class Node implements Serializable {
     private String description;
     private List<Transition> transitions;
     private List<String> children;
+    private String onRightClick = DiagramBuilder.JAVASCRIPT_ON_RIGHT_CLICK_NODE;
 
     public Node() {
     }
@@ -166,5 +167,9 @@ public class Node implements Serializable {
 
     public void setChildren(List<String> children) {
         this.children = children;
+    }
+
+    public String getOnRightClick() {
+        return onRightClick;
     }
 }
