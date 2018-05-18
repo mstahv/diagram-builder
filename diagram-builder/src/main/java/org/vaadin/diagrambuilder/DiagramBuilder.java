@@ -20,13 +20,20 @@ import elemental.json.JsonArray;
 public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     public static final String JAVASCRIPT_ON_MOUSE_MOVE_CONNECTOR = DiagramBuilder.class.getCanonicalName() + ".onMouseMoveConnector";
+    public static final String JAVASCRIPT_ON_RIGHT_CLICK_NODE = DiagramBuilder.class.getCanonicalName() + ".onRightClickNode";
 
     private ArrayList<TransitionMouseMoveListener> transitionMouseMoveListeners = new ArrayList<>();
+    private ArrayList<TaskRightClickListener> taskRightClickListeners = new ArrayList<>();
+
     private boolean showDeleteNodeIcon = true;
     private boolean enableDeleteByKeyStroke = true;
 
     public interface TransitionMouseMoveListener extends Serializable {
         public void move(String connectorName, EventType event, Double top, Double left);
+    }
+
+    public interface TaskRightClickListener extends Serializable {
+        public void rightClick(String connectorName, Double top, Double left);
     }
 
     public interface StateCallback {
@@ -72,6 +79,21 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
             }
 
         });
+
+        com.vaadin.ui.JavaScript.getCurrent().addFunction(JAVASCRIPT_ON_RIGHT_CLICK_NODE, new JavaScriptFunction() {
+            @Override
+            public void call(JsonArray jsonArray) {
+                String nodeName = jsonArray.getObject(0).getString("name");
+                String type = jsonArray.getObject(0).getString("type");
+                Double top = jsonArray.getObject(0).getNumber("clientY");
+                Double left = jsonArray.getObject(0).getNumber("clientX");
+
+                if (type.equals("task")) {
+                    fireTaskRightClickListener(nodeName, top, left);
+                }
+            }
+
+        });
     }
 
     public void fireTransitionMouseMoveListener(String connectorName, EventType event, Double top, Double left) {
@@ -79,8 +101,17 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
             listener.move(connectorName, event, top, left);
     }
 
+    public void fireTaskRightClickListener(String connectorName, Double top, Double left) {
+        for (TaskRightClickListener listener : taskRightClickListeners)
+            listener.rightClick(connectorName, top, left);
+    }
+
     public void addTransitionMouseMoveListener(TransitionMouseMoveListener listener) {
         transitionMouseMoveListeners.add(listener);
+    }
+
+    public void addTaskRightClickListener(TaskRightClickListener listener) {
+        taskRightClickListeners.add(listener);
     }
 
     @Override

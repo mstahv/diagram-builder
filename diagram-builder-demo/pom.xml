@@ -5,7 +5,7 @@
 	<groupId>org.vaadin</groupId>
 	<artifactId>diagram-builder-demo</artifactId>
 	<packaging>war</packaging>
-    <version>1.2.4</version>
+    <version>1.2.5</version>
 	<name>DiagramBuilder Add-on Demo</name>
 
 	<properties>
