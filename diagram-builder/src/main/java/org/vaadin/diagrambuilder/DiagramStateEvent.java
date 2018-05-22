@@ -1,6 +1,8 @@
 
 package org.vaadin.diagrambuilder;
 
+import org.vaadin.diagrambuilder.domain.Node;
+
 import java.util.List;
 
 /**
@@ -8,11 +10,11 @@ import java.util.List;
  */
 public class DiagramStateEvent {
 
-    private List<Node> nodes;
+    private List<org.vaadin.diagrambuilder.domain.Node> nodes;
     
     private String rawJsonString;
 
-    public List<Node> getNodes() {
+    public List<org.vaadin.diagrambuilder.domain.Node> getNodes() {
         return nodes;
     }
 

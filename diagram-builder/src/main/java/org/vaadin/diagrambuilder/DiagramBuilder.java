@@ -3,38 +3,34 @@ package org.vaadin.diagrambuilder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vaadin.ui.JavaScriptFunction;
 
 import org.vaadin.diagrambuilder.client.DiagramBuilderClientRpc;
 import org.vaadin.diagrambuilder.client.DiagramBuilderServerRpc;
 import org.vaadin.diagrambuilder.client.DiagramBuilderState;
+import org.vaadin.diagrambuilder.domain.Node;
+import org.vaadin.diagrambuilder.domain.NodeType;
+import org.vaadin.diagrambuilder.domain.Transition;
+import org.vaadin.diagrambuilder.listener.ConnectorLeftClickListener;
+import org.vaadin.diagrambuilder.listener.ConnectorMouseOutListener;
+import org.vaadin.diagrambuilder.listener.ConnectorMouseOverListener;
+import org.vaadin.diagrambuilder.listener.ConnectorRightClickListener;
+import org.vaadin.diagrambuilder.listener.TaskRightClickListener;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import elemental.json.JsonArray;
-
 public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
-    public static final String JAVASCRIPT_ON_MOUSE_MOVE_CONNECTOR = DiagramBuilder.class.getCanonicalName() + ".onMouseMoveConnector";
-    public static final String JAVASCRIPT_ON_RIGHT_CLICK_NODE = DiagramBuilder.class.getCanonicalName() + ".onRightClickNode";
+    private org.vaadin.diagrambuilder.domain.NodeType[] availableFields;
+    private org.vaadin.diagrambuilder.domain.Node[] fields;
+    private org.vaadin.diagrambuilder.domain.Transition[] transitions;
 
-    private ArrayList<TransitionMouseMoveListener> transitionMouseMoveListeners = new ArrayList<>();
-    private ArrayList<TaskRightClickListener> taskRightClickListeners = new ArrayList<>();
+    private ConnectorEvent connectorEvent;
+    private NodeEvent nodeEvent;
 
     private boolean showDeleteNodeIcon = true;
     private boolean enableDeleteByKeyStroke = true;
-
-    public interface TransitionMouseMoveListener extends Serializable {
-        public void move(String connectorName, EventType event, Double top, Double left);
-    }
-
-    public interface TaskRightClickListener extends Serializable {
-        public void rightClick(String connectorName, Double top, Double left);
-    }
 
     public interface StateCallback {
         public void onStateReceived(DiagramStateEvent event);
@@ -46,14 +42,12 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
         public void reportState(String stateJson) {
             try {
-                DiagramStateEvent value = mapper.readValue(stateJson,
-                        DiagramStateEvent.class);
+                DiagramStateEvent value = mapper.readValue(stateJson, DiagramStateEvent.class);
                 value.setRawJsonString(stateJson);
                 cb.onStateReceived(value);
                 cb = null;
             } catch (IOException ex) {
-                Logger.getLogger(DiagramBuilder.class.getName()).
-                        log(Level.SEVERE, null, ex);
+                Logger.getLogger(DiagramBuilder.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     };
@@ -61,69 +55,37 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public DiagramBuilder() {
         registerRpc(rpc);
 
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(JAVASCRIPT_ON_MOUSE_MOVE_CONNECTOR, new JavaScriptFunction() {
-            @Override
-            public void call(JsonArray jsonArray) {
-                String connectorName = jsonArray.getObject(0).getString("name");
-                String event = jsonArray.getObject(0).getString("event");
-                Double top = jsonArray.getObject(0).getNumber("clientY");
-                Double left = jsonArray.getObject(0).getNumber("clientX");
+        connectorEvent = new ConnectorEvent();
+        connectorEvent.createMouseMoveEvent();
+        connectorEvent.createLeftClickEvent();
+        connectorEvent.createRightClickEvent();
 
-                EventType eventType = EventType.CONNECTOR_MOUSE_LEAVES;
-
-                if ("mouseEnter".equals(event)) {
-                    eventType = EventType.CONNECTOR_MOUSE_ENTER;
-                }
-
-                fireTransitionMouseMoveListener(connectorName, eventType, top, left);
-            }
-
-        });
-
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(JAVASCRIPT_ON_RIGHT_CLICK_NODE, new JavaScriptFunction() {
-            @Override
-            public void call(JsonArray jsonArray) {
-                String nodeName = jsonArray.getObject(0).getString("name");
-                String type = jsonArray.getObject(0).getString("type");
-                Double top = jsonArray.getObject(0).getNumber("clientY");
-                Double left = jsonArray.getObject(0).getNumber("clientX");
-
-                if (type.equals("task")) {
-                    fireTaskRightClickListener(nodeName, top, left);
-                }
-            }
-
-        });
+        nodeEvent = new NodeEvent();
+        nodeEvent.createRightclickEvent();
     }
 
-    public void fireTransitionMouseMoveListener(String connectorName, EventType event, Double top, Double left) {
-        for (TransitionMouseMoveListener listener : transitionMouseMoveListeners)
-            listener.move(connectorName, event, top, left);
+    public void addConnectorMouseOutListener(ConnectorMouseOutListener listener) {
+        connectorEvent.addMouseOutListener(listener);
     }
 
-    public void fireTaskRightClickListener(String connectorName, Double top, Double left) {
-        for (TaskRightClickListener listener : taskRightClickListeners)
-            listener.rightClick(connectorName, top, left);
+    public void addConnectorMouseOverListener(ConnectorMouseOverListener listener) {
+        connectorEvent.addMouseOverListener(listener);
     }
 
-    public void addTransitionMouseMoveListener(TransitionMouseMoveListener listener) {
-        transitionMouseMoveListeners.add(listener);
+    public void addConnectorLeftClickListener(ConnectorLeftClickListener listener) {
+        connectorEvent.addLeftClickListener(listener);
+    }
+
+    public void addConnectorRightClickListener(ConnectorRightClickListener listener) {
+        connectorEvent.addRightClickListener(listener);
     }
 
     public void addTaskRightClickListener(TaskRightClickListener listener) {
-        taskRightClickListeners.add(listener);
+        nodeEvent.addRightClickListener(listener);
     }
 
-    @Override
-    public DiagramBuilderState getState() {
-        return (DiagramBuilderState) super.getState();
-    }
 
-    private NodeType[] availableFields;
-    private Node[] fields;
-    private Transition[] transitions;
-
-    public Transition[] getTransitions() {
+    public org.vaadin.diagrambuilder.domain.Transition[] getTransitions() {
         return transitions;
     }
 
@@ -132,7 +94,8 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         markAsDirty();
     }
 
-    public Node[] getFields() {
+
+    public org.vaadin.diagrambuilder.domain.Node[] getFields() {
         return fields;
     }
 
@@ -141,7 +104,7 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         markAsDirty();
     }
 
-    public NodeType[] getAvailableFields() {
+    public org.vaadin.diagrambuilder.domain.NodeType[] getAvailableFields() {
         return availableFields;
     }
 
@@ -154,6 +117,11 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     static {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    @Override
+    public DiagramBuilderState getState() {
+        return (DiagramBuilderState) super.getState();
     }
 
     @Override
@@ -178,11 +146,6 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public void getDiagramState(StateCallback callback) {
         cb = callback;
         getRpcProxy(DiagramBuilderClientRpc.class).get();
-    }
-
-    public enum EventType {
-        CONNECTOR_MOUSE_ENTER,
-        CONNECTOR_MOUSE_LEAVES
     }
 
     public boolean isShowDeleteNodeIcon() {

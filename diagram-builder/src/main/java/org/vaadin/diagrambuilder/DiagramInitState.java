@@ -1,5 +1,9 @@
 package org.vaadin.diagrambuilder;
 
+import org.vaadin.diagrambuilder.domain.Node;
+import org.vaadin.diagrambuilder.domain.NodeType;
+import org.vaadin.diagrambuilder.domain.Transition;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -8,24 +12,24 @@ import java.util.List;
  *
  * @author mattitahvonenitmill
  */
-class DiagramInitState implements Serializable {
+public class DiagramInitState implements Serializable {
 
-    private List<NodeType> availableFields;
-    private List<Node> fields;
-    private List<Transition> transitions;
+    private List<org.vaadin.diagrambuilder.domain.NodeType> availableFields;
+    private List<org.vaadin.diagrambuilder.domain.Node> fields;
+    private List<org.vaadin.diagrambuilder.domain.Transition> transitions;
     private Boolean showDeleteNodeIcon = true;
     private Boolean enableDeleteByKeyStroke = true;
 
     public DiagramInitState() {
     }
 
-    public DiagramInitState(NodeType[] availableFields, Node[] fields, Transition[] transitions) {
+    public DiagramInitState(org.vaadin.diagrambuilder.domain.NodeType[] availableFields, org.vaadin.diagrambuilder.domain.Node[] fields, org.vaadin.diagrambuilder.domain.Transition[] transitions) {
         this.availableFields = Arrays.asList(availableFields);
         this.fields = Arrays.asList(fields);
         this.transitions = Arrays.asList(transitions);
     }
 
-    public List<Transition> getTransitions() {
+    public List<org.vaadin.diagrambuilder.domain.Transition> getTransitions() {
         return transitions;
     }
 
@@ -33,7 +37,7 @@ class DiagramInitState implements Serializable {
         this.transitions = transitions;
     }
 
-    public List<NodeType> getAvailableFields() {
+    public List<org.vaadin.diagrambuilder.domain.NodeType> getAvailableFields() {
         return availableFields;
     }
 
@@ -41,7 +45,7 @@ class DiagramInitState implements Serializable {
         this.availableFields = Arrays.asList(availableFields);
     }
 
-    public List<Node> getFields() {
+    public List<org.vaadin.diagrambuilder.domain.Node> getFields() {
         return fields;
     }
 
