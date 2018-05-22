@@ -1,6 +1,7 @@
-package org.vaadin.diagrambuilder;
+package org.vaadin.diagrambuilder.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Node implements Serializable {
 
+    public static final String ON_RIGHT_CLICK_JAVASCRIPT = Node.class.getCanonicalName() + ".onRightClickNode";
     
     private int[] xy = new int[]{0, 0};
     private int width;
@@ -22,7 +24,8 @@ public class Node implements Serializable {
     private String description;
     private List<Transition> transitions;
     private List<String> children;
-    private String onRightClick = DiagramBuilder.JAVASCRIPT_ON_RIGHT_CLICK_NODE;
+    private String onRightClick = ON_RIGHT_CLICK_JAVASCRIPT;
+
 
     public Node() {
     }

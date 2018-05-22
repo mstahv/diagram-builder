@@ -1,4 +1,4 @@
-package org.vaadin.diagrambuilder;
+package org.vaadin.diagrambuilder.domain;
 
 /**
  * A NodeType that can be used in the Diagram.

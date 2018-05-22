@@ -1,6 +1,7 @@
-package org.vaadin.diagrambuilder;
+package org.vaadin.diagrambuilder.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -11,12 +12,12 @@ public class Transition implements Serializable {
 
     private String source;
     private String target;
-    private Connector connector;
+    private org.vaadin.diagrambuilder.domain.Connector connector;
 
     public Transition() {
     }
 
-    public Transition(String source, String target, Connector connector) {
+    public Transition(String source, String target, org.vaadin.diagrambuilder.domain.Connector connector) {
         this.source = source;
         this.target = target;
         this.connector = connector;
@@ -25,13 +26,13 @@ public class Transition implements Serializable {
     public Transition(String source, String target, String connectorName) {
         this.source = source;
         this.target = target;
-        this.connector = new Connector(connectorName);
+        this.connector = new org.vaadin.diagrambuilder.domain.Connector(connectorName);
     }
 
     public Transition(String source, String target, String connectorName, Boolean showName) {
         this.source = source;
         this.target = target;
-        this.connector = new Connector(connectorName, showName);
+        this.connector = new org.vaadin.diagrambuilder.domain.Connector(connectorName, showName);
     }
 
     public String getSource() {
@@ -50,7 +51,7 @@ public class Transition implements Serializable {
         this.target = target;
     }
 
-    public Connector getConnector() {
+    public org.vaadin.diagrambuilder.domain.Connector getConnector() {
         return connector;
     }
 
