@@ -20,6 +20,7 @@ public class Node implements Serializable {
     private int height;
     private boolean allowsLinking;
     private String name;
+    private Long id;
     private String type;
     private String description;
     private List<Transition> transitions;
@@ -174,5 +175,13 @@ public class Node implements Serializable {
 
     public String getOnRightClick() {
         return onRightClick;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
