@@ -4,10 +4,10 @@ package org.vaadin.diagrambuilder.dto;/*
 
 public class EventDto {
 
-    Long id;
-    String name;
-    Double top;
-    Double left;
+    private Long id;
+    private String name;
+    private Double top;
+    private Double left;
 
     public Long getId() {
         return id;
