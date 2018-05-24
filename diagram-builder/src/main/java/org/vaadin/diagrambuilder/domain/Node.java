@@ -25,7 +25,7 @@ public class Node implements Serializable {
     private String description;
     private List<Transition> transitions;
     private List<String> children;
-    private String onRightClick = ON_RIGHT_CLICK_JAVASCRIPT;
+    private String onRightClick;
 
 
     public Node() {
@@ -175,6 +175,10 @@ public class Node implements Serializable {
 
     public String getOnRightClick() {
         return onRightClick;
+    }
+
+    public void setOnRightClick(String onRightClick) {
+        this.onRightClick = onRightClick;
     }
 
     public Long getId() {

@@ -7,9 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.vaadin.diagrambuilder.client.DiagramBuilderClientRpc;
 import org.vaadin.diagrambuilder.client.DiagramBuilderServerRpc;
 import org.vaadin.diagrambuilder.client.DiagramBuilderState;
+import org.vaadin.diagrambuilder.domain.Connector;
 import org.vaadin.diagrambuilder.domain.Node;
 import org.vaadin.diagrambuilder.domain.NodeType;
 import org.vaadin.diagrambuilder.domain.Transition;
+import org.vaadin.diagrambuilder.dto.ConnectorDto;
 import org.vaadin.diagrambuilder.listener.ConnectorLeftClickListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOutListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOverListener;
@@ -22,15 +24,17 @@ import java.util.logging.Logger;
 
 public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
-    private org.vaadin.diagrambuilder.domain.NodeType[] availableFields;
-    private org.vaadin.diagrambuilder.domain.Node[] fields;
-    private org.vaadin.diagrambuilder.domain.Transition[] transitions;
+    private NodeType[] availableFields;
+    private Node[] fields;
+    private Transition[] transitions;
 
     private ConnectorEvent connectorEvent;
     private NodeEvent nodeEvent;
 
     private boolean showDeleteNodeIcon = true;
     private boolean enableDeleteByKeyStroke = true;
+
+    private final String eventId = Integer.toString(this.hashCode());
 
     public interface StateCallback {
         public void onStateReceived(DiagramStateEvent event);
@@ -55,12 +59,12 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public DiagramBuilder() {
         registerRpc(rpc);
 
-        connectorEvent = new ConnectorEvent();
+        connectorEvent = new ConnectorEvent(eventId);
         connectorEvent.createMouseMoveEvent();
         connectorEvent.createLeftClickEvent();
         connectorEvent.createRightClickEvent();
 
-        nodeEvent = new NodeEvent();
+        nodeEvent = new NodeEvent(eventId);
         nodeEvent.createRightclickEvent();
     }
 
@@ -85,26 +89,35 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     }
 
 
-    public org.vaadin.diagrambuilder.domain.Transition[] getTransitions() {
+    public Transition[] getTransitions() {
         return transitions;
     }
 
     public void setTransitions(Transition... transitions) {
         this.transitions = transitions;
+        for (Transition transition : this.transitions) {
+            transition.getConnector().setOnMouseMove(Connector.ON_MOUSE_MOVE_JAVASCRIPT + eventId);
+            transition.getConnector().setOnLeftClick(Connector.ON_LEFT_CLICK_JAVASCRIPT + eventId);
+            transition.getConnector().setOnRightClick(Connector.ON_RIGHT_CLICK_JAVASCRIPT + eventId);
+        }
         markAsDirty();
     }
 
 
-    public org.vaadin.diagrambuilder.domain.Node[] getFields() {
+    public Node[] getFields() {
         return fields;
     }
 
     public void setFields(Node... fields) {
         this.fields = fields;
+        for (Node node : this.fields) {
+            node.setOnRightClick(Node.ON_RIGHT_CLICK_JAVASCRIPT + eventId);
+        }
+
         markAsDirty();
     }
 
-    public org.vaadin.diagrambuilder.domain.NodeType[] getAvailableFields() {
+    public NodeType[] getAvailableFields() {
         return availableFields;
     }
 

@@ -25,9 +25,18 @@ public class ConnectorEvent {
     private ArrayList<ConnectorLeftClickListener> connectorLeftClickListeners = new ArrayList<>();
     private ArrayList<ConnectorRightClickListener> connectorRightClickListeners = new ArrayList<>();
 
+    private String eventId;
+
+    public ConnectorEvent() {
+        this.eventId = "";
+    }
+
+    public ConnectorEvent(String eventId) {
+        this.eventId = eventId;
+    }
 
     public void createMouseMoveEvent() {
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(org.vaadin.diagrambuilder.domain.Connector.ON_MOUSE_MOVE_JAVASCRIPT, new JavaScriptFunction() {
+        com.vaadin.ui.JavaScript.getCurrent().addFunction(Connector.ON_MOUSE_MOVE_JAVASCRIPT + this.eventId, new JavaScriptFunction() {
             @Override
             public void call(JsonArray jsonArray) {
                 ConnectorDto connectorDto = null;
@@ -53,7 +62,7 @@ public class ConnectorEvent {
     }
 
     public void createLeftClickEvent() {
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(org.vaadin.diagrambuilder.domain.Connector.ON_LEFT_CLICK_JAVASCRIPT, new JavaScriptFunction() {
+        com.vaadin.ui.JavaScript.getCurrent().addFunction(Connector.ON_LEFT_CLICK_JAVASCRIPT + this.eventId, new JavaScriptFunction() {
             @Override
             public void call(JsonArray jsonArray) {
                 ConnectorDto connectorDto = null;
@@ -71,7 +80,7 @@ public class ConnectorEvent {
     }
 
     public void createRightClickEvent() {
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(Connector.ON_RIGHT_CLICK_JAVASCRIPT, new JavaScriptFunction() {
+        com.vaadin.ui.JavaScript.getCurrent().addFunction(Connector.ON_RIGHT_CLICK_JAVASCRIPT + this.eventId, new JavaScriptFunction() {
             @Override
             public void call(JsonArray jsonArray) {
                 ConnectorDto connectorDto = null;
