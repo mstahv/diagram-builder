@@ -87,14 +87,21 @@
             <version>${vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
 		
         <!-- This can be replaced with TestNG or some other test framework supported by the surefire plugin -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.1</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
