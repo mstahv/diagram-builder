@@ -19,8 +19,18 @@ public class NodeEvent {
 
     private ArrayList<TaskRightClickListener> taskRightClickListeners = new ArrayList<>();
 
+    private String eventId;
+
+    public NodeEvent(){
+        this.eventId = "";
+    }
+
+    public NodeEvent(String eventId){
+        this.eventId = eventId;
+    }
+
     public void createRightclickEvent() {
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(Node.ON_RIGHT_CLICK_JAVASCRIPT, new JavaScriptFunction() {
+        com.vaadin.ui.JavaScript.getCurrent().addFunction(Node.ON_RIGHT_CLICK_JAVASCRIPT + this.eventId, new JavaScriptFunction() {
             @Override
             public void call(JsonArray jsonArray) {
                 NodeDto nodeDto = null;

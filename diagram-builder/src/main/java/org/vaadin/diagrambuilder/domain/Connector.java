@@ -17,9 +17,9 @@ public class Connector implements Serializable {
 
     private Long id;
     private String name;
-    private String onMouseMove = ON_MOUSE_MOVE_JAVASCRIPT;
-    private String onRightClick = ON_RIGHT_CLICK_JAVASCRIPT;
-    private String onLeftClick = ON_LEFT_CLICK_JAVASCRIPT;
+    private String onMouseMove;
+    private String onRightClick;
+    private String onLeftClick;
     private Boolean showName = true;
 
     public Connector() {
@@ -54,12 +54,24 @@ public class Connector implements Serializable {
         return onMouseMove;
     }
 
+    public void setOnMouseMove(String onMouseMove) {
+        this.onMouseMove = onMouseMove;
+    }
+
     public String getOnRightClick() {
         return onRightClick;
     }
 
+    public void setOnRightClick(String onRightClick) {
+        this.onRightClick = onRightClick;
+    }
+
     public String getOnLeftClick() {
         return onLeftClick;
+    }
+
+    public void setOnLeftClick(String onLeftClick) {
+        this.onLeftClick = onLeftClick;
     }
 
     public Boolean getShowName() {
