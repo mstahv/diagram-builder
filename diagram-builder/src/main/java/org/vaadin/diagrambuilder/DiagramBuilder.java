@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.vaadin.diagrambuilder.client.DiagramBuilderClientRpc;
@@ -45,8 +46,10 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     }
 
     private NodeType[] availableFields;
+    private CustomNodeType[] customNodeTypes;
     private Node[] fields;
     private Transition[] transitions;
+    private String initJsonString;
 
     public Transition[] getTransitions() {
         return transitions;
@@ -75,6 +78,23 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         markAsDirty();
     }
 
+    public CustomNodeType[] getCustomNodeTypes() {
+        return customNodeTypes;
+    }
+
+    public void setCustomNodeTypes(CustomNodeType... customNodeTypes) {
+        this.customNodeTypes = customNodeTypes;
+        markAsDirty();
+    }
+
+    public String getInitJsonString() {
+        return initJsonString;
+    }
+
+    public void setInitJsonString(String initJsonString) {
+        this.initJsonString = initJsonString;
+    }
+
     private static final ObjectMapper mapper = new ObjectMapper();
     static {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -84,8 +104,13 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public void beforeClientResponse(boolean initial) {
         super.beforeClientResponse(initial); //To change body of generated methods, choose Tools | Templates.
         try {
-            getState().diagramJson = mapper.writeValueAsString(
-                    new DiagramInitState(availableFields, fields, transitions));
+            if(initJsonString != null && !initJsonString.isEmpty()) {
+                getState().diagramJson = mapper.writeValueAsString(
+                        new DiagramInitState(availableFields, customNodeTypes, initJsonString));
+            } else {
+                getState().diagramJson = mapper.writeValueAsString(
+                        new DiagramInitState(availableFields, customNodeTypes, fields, transitions));
+            }
         } catch (JsonProcessingException ex) {
             Logger.getLogger(DiagramBuilder.class.getName()).
                     log(Level.SEVERE, null, ex);
