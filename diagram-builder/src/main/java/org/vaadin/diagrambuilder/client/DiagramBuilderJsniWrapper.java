@@ -16,36 +16,31 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
             'aui-diagram-builder',
             function(Y) {
 
-                var customNodes = conf.customNodeTypes;
+                var customNodeTypes = conf.customNodeTypes;
 
-                if (typeof customNodes != 'undefined') {
-                    for (var i = 0; i < customNodes.length; i++) {
-                        var customNode = customNodes[i];
+                if (typeof customNodeTypes != 'undefined') {
+                    for (var i = 0; i < customNodeTypes.length; i++) {
+                        var customNodeType = customNodeTypes[i];
                         var attrs = {
                             type: {
-                                value: customNode.type
+                                value: customNodeType.type
                             }
                         };
 
-                        var customAttributes = customNode.customAttributes;
-
-                        var attributesForModel = new Array();
+                        var customAttributes = customNodeType.customAttributes;
 
                         if (typeof customAttributes != 'undefined') {
                             for (var j = 0; j < customAttributes.length; j++) {
                                 var customAttr = customAttributes[j];
-                                attrs[customAttr.name] = {
+                                attrs[customAttr.name.toLowerCase()] = {
                                     validator: Y.Lang.isString,
                                     value: customAttr.defaultValue
                                 };
-                                attributesForModel.push({
-                                    attributeName: customAttr.name,
-                                    name: customAttr.name
-                                });
                             }
+                            Y["DiagramNodeCustom" + customNodeType.type + "_custom_attrs"] = customAttributes;
                         }
 
-                        Y["DiagramNodeCustom" + customNode.type] = Y.Component.create({
+                        Y["DiagramNodeCustom" + customNodeType.type] = Y.Component.create({
                             NAME: 'diagram-node',
 
                             ATTRS: attrs,
@@ -53,29 +48,73 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
                             EXTENDS: Y.DiagramNodeTask,
 
                             prototype: {
+
+                                customNodeTypeName: customNodeType.type,
+                                customNodeTypeUsesDefaultAttributes: customNodeType.usesDefaultAttributes,
+
                                 initializer: function() {
                                     var instance = this;
 
-                                    this.SERIALIZABLE_ATTRS = this.SERIALIZABLE_ATTRS.concat(
-                                        attributesForModel.map(
-                                            function(x) {
-                                                return x.attributeName;
-                                            }));
+                                    if(!instance.customNodeTypeUsesDefaultAttributes) {
+                                        this.SERIALIZABLE_ATTRS = this.SERIALIZABLE_ATTRS.filter(function (attributeName) {
+                                            if(["name", "description"].indexOf(attributeName) == -1){
+                                                return attributeName;
+                                            }
+                                        });
+                                    }
+
+
+                                    customAttributes = Y["DiagramNodeCustom" + instance.customNodeTypeName + "_custom_attrs"];
+
+                                    if (typeof customAttributes != 'undefined') {
+                                        for (var j = 0; j < customAttributes.length; j++) {
+                                            var customAttr = customAttributes[j];
+                                            this.SERIALIZABLE_ATTRS.push(customAttr.name.toLowerCase());
+                                        }
+                                    }
                                 },
 
                                 getPropertyModel: function () {
                                     var instance = this;
 
+                                    customAttributes = Y["DiagramNodeCustom" + instance.customNodeTypeName + "_custom_attrs"];
+
                                     var model = Y.DiagramNodeTask.superclass.getPropertyModel.apply(instance, arguments);
-
-                                    model = model.concat(attributesForModel);
-
+                                    if(!instance.customNodeTypeUsesDefaultAttributes) {
+                                        model = model.filter(function (attrObject) {
+                                            if(["name", "description"].indexOf(attrObject.attributeName) == -1){
+                                                return attrObject;
+                                            }
+                                        });
+                                    }
+                                    if (typeof customAttributes != 'undefined') {
+                                        for (var j = 0; j < customAttributes.length; j++) {
+                                            var customAttr = customAttributes[j];
+                                            var attrObject;
+                                            if (customAttr.comboBox) {
+                                                attrObject = {
+                                                    attributeName: customAttr.name.toLowerCase(),
+                                                    name: customAttr.name,
+                                                    value: customAttr.defaultValue,
+                                                    editor: new Y.DropDownCellEditor({
+                                                        options: customAttr.options
+                                                    })
+                                                };
+                                            } else {
+                                                attrObject = {
+                                                    attributeName: customAttr.name.toLowerCase(),
+                                                    name: customAttr.name
+                                                }
+                                            }
+                                            model.push(attrObject);
+                                        }
+                                    }
                                     return model;
                                 }
                             }
                         });
 
-                        Y.DiagramBuilder.types[customNode.type] = Y["DiagramNodeCustom" + customNode.type];
+                        Y.DiagramBuilder.types[customNodeType.type] = Y["DiagramNodeCustom" + customNodeType.type];
                     }
                 }
 
