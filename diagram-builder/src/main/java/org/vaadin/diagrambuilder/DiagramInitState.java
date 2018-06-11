@@ -69,7 +69,9 @@ class DiagramInitState implements Serializable {
 
     public DiagramInitState(NodeType[] availableFields, CustomNodeType[] customNodeTypes, String initJsonString) {
         this.availableFields = Arrays.asList(availableFields);
-        this.customNodeTypes = Arrays.asList(customNodeTypes);
+        if(customNodeTypes != null) {
+            this.customNodeTypes = Arrays.asList(customNodeTypes);
+        }
         ObjectMapper mapper = new ObjectMapper();
         try {
             this.initJson = mapper.readTree(initJsonString);
@@ -80,7 +82,9 @@ class DiagramInitState implements Serializable {
 
     public DiagramInitState(NodeType[] availableFields, CustomNodeType[] customNodeTypes, Node[] fields, Transition[] transitions) {
         this.availableFields = Arrays.asList(availableFields);
-        this.customNodeTypes = Arrays.asList(customNodeTypes);
+        if(customNodeTypes != null) {
+            this.customNodeTypes = Arrays.asList(customNodeTypes);
+        }
         this.fields = Arrays.asList(fields);
         this.transitions = Arrays.asList(transitions);
     }
