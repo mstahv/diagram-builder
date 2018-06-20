@@ -7,14 +7,16 @@ import java.util.List;
 
 /**
  * A Node in the diagram.
- * 
+ *
  * Names in diagram should be unique as they work as identifiers as well.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Node implements Serializable {
 
     public static final String ON_RIGHT_CLICK_JAVASCRIPT = Node.class.getCanonicalName() + ".onRightClickNode";
-    
+    public static final String ON_DRAG_START_JAVASCRIPT = Node.class.getCanonicalName() + ".onDragStartNode";
+    public static final String ON_DRAG_END_JAVASCRIPT = Node.class.getCanonicalName() + ".onDragEndNode";
+
     private int[] xy = new int[]{0, 0};
     private int width;
     private int height;
@@ -26,6 +28,8 @@ public class Node implements Serializable {
     private List<Transition> transitions;
     private List<String> children;
     private String onRightClick;
+    private String onDragStart;
+    private String onDragEnd;
 
 
     public Node() {
@@ -36,7 +40,7 @@ public class Node implements Serializable {
         this.type = type.getType();
         xy = new int[]{x, y};
     }
-    
+
     public Node(String name, String typeId, int x, int y) {
         this.name = name;
         this.type = typeId;
@@ -48,7 +52,7 @@ public class Node implements Serializable {
         this.width = width;
         this.height = height;
     }
-    
+
 
     public String getDescription() {
         return description;
@@ -66,7 +70,7 @@ public class Node implements Serializable {
         this.transitions = transitions;
     }
 
-    
+
     /**
      * Get the value of name
      *
@@ -107,6 +111,7 @@ public class Node implements Serializable {
     public void setNodeType(NodeType type) {
         this.type = type.getType();
     }
+
     /**
      * Get the value of xy
      *
@@ -132,11 +137,11 @@ public class Node implements Serializable {
     public void setY(int y) {
         xy[1] = y;
     }
-    
+
     public int getX() {
         return xy[0];
     }
-    
+
     public int getY() {
         return xy[1];
     }
@@ -187,5 +192,21 @@ public class Node implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setOnDragStart(String onDragStart) {
+        this.onDragStart = onDragStart;
+    }
+
+    public void setOnDragEnd(String onDragEnd) {
+        this.onDragEnd = onDragEnd;
+    }
+
+    public String getOnDragStart() {
+        return onDragStart;
+    }
+
+    public String getOnDragEnd() {
+        return onDragEnd;
     }
 }

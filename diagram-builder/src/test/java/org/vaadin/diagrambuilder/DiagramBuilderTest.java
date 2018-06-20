@@ -54,6 +54,8 @@ public class DiagramBuilderTest {
 
         String dbOneNodeOneRightEvent = nodeOne.getOnRightClick();
         String dbOneNodeTwoRightEvent = nodeTwo.getOnRightClick();
+        String dbTwoNodeOneDragEndEvent = nodeOne.getOnDragEnd();
+        String dbTwoNodeOneDragStartEvent = nodeOne.getOnDragStart();
 
         String dbOneConnectorRightEvent = connector.getOnRightClick();
         String dbOneConnectorLeftEvent = connector.getOnLeftClick();
@@ -64,6 +66,8 @@ public class DiagramBuilderTest {
 
         String dbTwoNodeOneRightEvent = nodeOne.getOnRightClick();
         String dbTwoNodeTwoRightEvent = nodeTwo.getOnRightClick();
+        String dbTwoNodeTwoDragEndEvent = nodeTwo.getOnDragEnd();
+        String dbTwoNodeTwoDragStartEvent = nodeTwo.getOnDragStart();
 
         String dbTwoConnectorRightEvent = connector.getOnRightClick();
         String dbTwoConnectorLeftEvent = connector.getOnLeftClick();
@@ -73,7 +77,9 @@ public class DiagramBuilderTest {
 
         Assert.assertEquals(dbOneNodeOneRightEvent, dbOneNodeTwoRightEvent);
         Assert.assertEquals(dbTwoNodeOneRightEvent, dbTwoNodeTwoRightEvent);
-        Assert.assertNotSame(dbOneNodeOneRightEvent, dbTwoNodeOneRightEvent);
+        Assert.assertNotSame(dbTwoNodeOneDragStartEvent, dbTwoNodeTwoDragStartEvent);
+        Assert.assertNotSame(dbTwoNodeOneDragEndEvent, dbTwoNodeOneRightEvent);
+        Assert.assertNotSame(dbOneNodeOneRightEvent, dbTwoNodeTwoDragEndEvent);
 
         Assert.assertNotSame(dbOneConnectorRightEvent, dbTwoConnectorRightEvent);
         Assert.assertNotSame(dbOneConnectorLeftEvent, dbTwoConnectorLeftEvent);
@@ -85,6 +91,8 @@ public class DiagramBuilderTest {
         Assert.assertTrue(dbOneConnectorLeftEvent.startsWith(Connector.ON_LEFT_CLICK_JAVASCRIPT));
         Assert.assertTrue(dbOneConnectorMoveEvent.startsWith(Connector.ON_MOUSE_MOVE_JAVASCRIPT));
 
+        Assert.assertTrue(dbTwoNodeTwoDragStartEvent.startsWith(Node.ON_DRAG_START_JAVASCRIPT));
+        Assert.assertTrue(dbTwoNodeTwoDragEndEvent.startsWith(Node.ON_DRAG_END_JAVASCRIPT));
         Assert.assertTrue(dbTwoNodeOneRightEvent.startsWith(Node.ON_RIGHT_CLICK_JAVASCRIPT));
         Assert.assertTrue(dbTwoNodeTwoRightEvent.startsWith(Node.ON_RIGHT_CLICK_JAVASCRIPT));
         Assert.assertTrue(dbTwoConnectorRightEvent.startsWith(Connector.ON_RIGHT_CLICK_JAVASCRIPT));

@@ -11,11 +11,12 @@ import org.vaadin.diagrambuilder.domain.Connector;
 import org.vaadin.diagrambuilder.domain.Node;
 import org.vaadin.diagrambuilder.domain.NodeType;
 import org.vaadin.diagrambuilder.domain.Transition;
-import org.vaadin.diagrambuilder.dto.ConnectorDto;
 import org.vaadin.diagrambuilder.listener.ConnectorLeftClickListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOutListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOverListener;
 import org.vaadin.diagrambuilder.listener.ConnectorRightClickListener;
+import org.vaadin.diagrambuilder.listener.TaskDragEndListener;
+import org.vaadin.diagrambuilder.listener.TaskDragStartListener;
 import org.vaadin.diagrambuilder.listener.TaskRightClickListener;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     private boolean showDeleteNodeIcon = true;
     private boolean enableDeleteByKeyStroke = true;
+    private boolean moveNodeOutSideGroup = false;
 
     private final String eventId = Integer.toString(this.hashCode());
 
@@ -65,7 +67,9 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         connectorEvent.createRightClickEvent();
 
         nodeEvent = new NodeEvent(eventId);
-        nodeEvent.createRightclickEvent();
+        nodeEvent.createRightClickEvent();
+        nodeEvent.createDragStartEvent();
+        nodeEvent.createDragEndEvent();
     }
 
     public void addConnectorMouseOutListener(ConnectorMouseOutListener listener) {
@@ -88,6 +92,13 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         nodeEvent.addRightClickListener(listener);
     }
 
+    public void addTaskDragStartListener(TaskDragStartListener listener) {
+        nodeEvent.addTaskDragStartListener(listener);
+    }
+
+    public void addTaskDragEndListener(TaskDragEndListener listener) {
+        nodeEvent.addTaskDragEndListener(listener);
+    }
 
     public Transition[] getTransitions() {
         return transitions;
@@ -112,6 +123,8 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         this.fields = fields;
         for (Node node : this.fields) {
             node.setOnRightClick(Node.ON_RIGHT_CLICK_JAVASCRIPT + eventId);
+            node.setOnDragStart(Node.ON_DRAG_START_JAVASCRIPT + eventId);
+            node.setOnDragEnd(Node.ON_DRAG_END_JAVASCRIPT + eventId);
         }
 
         markAsDirty();
@@ -144,6 +157,7 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
             DiagramInitState diagramInitState = new DiagramInitState(availableFields, fields, transitions);
             diagramInitState.setShowDeleteNodeIcon(showDeleteNodeIcon);
             diagramInitState.setEnableDeleteByKeyStroke(enableDeleteByKeyStroke);
+            diagramInitState.setMoveNodeOutSideGroup(moveNodeOutSideGroup);
 
             getState().diagramJson = mapper.writeValueAsString(diagramInitState);
         } catch (JsonProcessingException ex) {
@@ -175,5 +189,13 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     public void setEnableDeleteByKeyStroke(boolean enableDeleteByKeyStroke) {
         this.enableDeleteByKeyStroke = enableDeleteByKeyStroke;
+    }
+
+    public boolean isMoveNodeOutSideGroup() {
+        return moveNodeOutSideGroup;
+    }
+
+    public void setMoveNodeOutSideGroup(boolean moveNodeOutSideGroup) {
+        this.moveNodeOutSideGroup = moveNodeOutSideGroup;
     }
 }
