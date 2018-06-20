@@ -19,6 +19,7 @@ public class DiagramInitState implements Serializable {
     private List<org.vaadin.diagrambuilder.domain.Transition> transitions;
     private Boolean showDeleteNodeIcon = true;
     private Boolean enableDeleteByKeyStroke = true;
+    private Boolean moveNodeOutSideGroup = false;
 
     public DiagramInitState() {
     }
@@ -67,5 +68,13 @@ public class DiagramInitState implements Serializable {
 
     public void setEnableDeleteByKeyStroke(Boolean enableDeleteByKeyStroke) {
         this.enableDeleteByKeyStroke = enableDeleteByKeyStroke;
+    }
+
+    public Boolean getMoveNodeOutSideGroup() {
+        return moveNodeOutSideGroup;
+    }
+
+    public void setMoveNodeOutSideGroup(Boolean moveNodeOutSideGroup) {
+        this.moveNodeOutSideGroup = moveNodeOutSideGroup;
     }
 }
