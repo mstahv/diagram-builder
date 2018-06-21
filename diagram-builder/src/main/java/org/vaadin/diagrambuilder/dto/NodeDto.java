@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NodeDto extends EventDto {
 
+    private String type;
+
     @Override
     @JsonGetter("clientY")
     public Double getTop() {
@@ -19,5 +21,14 @@ public class NodeDto extends EventDto {
     @JsonGetter("clientX")
     public Double getLeft() {
         return super.getLeft();
+    }
+
+    @JsonGetter("type")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

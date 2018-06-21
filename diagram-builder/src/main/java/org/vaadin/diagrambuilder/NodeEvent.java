@@ -54,19 +54,12 @@ public class NodeEvent {
 
 
     private void fireEvent(JsonArray jsonArray, Consumer<NodeDto> fireMethod) {
-        NodeDto nodeDto = null;
-
         try {
-            nodeDto = JsonUtil.jsonToObject(jsonArray.getObject(0).toString(), NodeDto.class);
+            NodeDto nodeDto = JsonUtil.jsonToObject(jsonArray.getObject(0).toString(), NodeDto.class);
+            fireMethod.accept(nodeDto);
         } catch (Exception exception) {
             String message = "Json could'nt serialize in object: " + jsonArray.getObject(0);
             Logger.getLogger(DiagramBuilder.class.getName()).log(Level.SEVERE, message, exception);
-        }
-
-        String type = jsonArray.getObject(0).getString("type");
-
-        if (type.equals("task")) {
-            fireMethod.accept(nodeDto);
         }
     }
 
