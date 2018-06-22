@@ -15,6 +15,9 @@ import org.vaadin.diagrambuilder.listener.ConnectorLeftClickListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOutListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOverListener;
 import org.vaadin.diagrambuilder.listener.ConnectorRightClickListener;
+import org.vaadin.diagrambuilder.listener.GroupDragEndListener;
+import org.vaadin.diagrambuilder.listener.GroupDragStartListener;
+import org.vaadin.diagrambuilder.listener.GroupRightClickListener;
 import org.vaadin.diagrambuilder.listener.TaskDragEndListener;
 import org.vaadin.diagrambuilder.listener.TaskDragStartListener;
 import org.vaadin.diagrambuilder.listener.TaskRightClickListener;
@@ -98,6 +101,18 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     public void addTaskDragEndListener(TaskDragEndListener listener) {
         nodeEvent.addTaskDragEndListener(listener);
+    }
+
+    public void addGroupRightClickListener(GroupRightClickListener listener) {
+        nodeEvent.addRightClickListener(listener);
+    }
+
+    public void addGroupDragStartListener(GroupDragStartListener listener) {
+        nodeEvent.addGroupDragStartListener(listener);
+    }
+
+    public void addGroupDragEndListener(GroupDragEndListener listener) {
+        nodeEvent.addGroupDragEndListener(listener);
     }
 
     public Transition[] getTransitions() {

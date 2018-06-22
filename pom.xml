@@ -10,7 +10,7 @@
 
 	<modules>
 		<module>diagram-builder</module>
-		<!--<module>diagram-builder-demo</module>-->
+		<module>diagram-builder-demo</module>
 	</modules>
 
 </project>

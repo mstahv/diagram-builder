@@ -5,7 +5,7 @@
 	<groupId>org.vaadin</groupId>
 	<artifactId>diagram-builder-demo</artifactId>
 	<packaging>war</packaging>
-    <version>1.3.2</version>
+    <version>1.3.6-SNAPSHOT</version>
 	<name>DiagramBuilder Add-on Demo</name>
 
 	<properties>
@@ -53,11 +53,11 @@
     </pluginRepositories>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.vaadin</groupId>-->
-            <!--<artifactId>diagram-builder</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.vaadin</groupId>
+            <artifactId>diagram-builder</artifactId>
+            <version>1.3.6-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -104,6 +104,12 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.5.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -114,8 +120,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 

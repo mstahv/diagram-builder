@@ -5,8 +5,8 @@ import org.vaadin.diagrambuilder.dto.NodeDto;
 /*
  * Copyright (c) 2012-2018 Continuum Security SLNE.  All rights reserved
  */
-public interface TaskDragStartListener {
+public interface GroupDragEndListener {
 
-    public void onTaskDragStart(NodeDto nodeDto);
+    public void onGroupDragEnd(NodeDto nodeDto);
 
 }
