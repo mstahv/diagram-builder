@@ -3,9 +3,6 @@ package org.vaadin.diagrambuilder.demo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.vaadin.annotations.JavaScript;
-import com.vaadin.annotations.StyleSheet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -14,26 +11,23 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import org.vaadin.diagrambuilder.DiagramBuilder;
 import org.vaadin.diagrambuilder.DiagramStateEvent;
-import org.vaadin.diagrambuilder.Node;
-import org.vaadin.diagrambuilder.NodeType;
-import org.vaadin.diagrambuilder.Transition;
+import org.vaadin.diagrambuilder.domain.Node;
+import org.vaadin.diagrambuilder.domain.NodeType;
+import org.vaadin.diagrambuilder.domain.Transition;
 import org.vaadin.maddon.label.RichText;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.servlet.annotation.WebServlet;
+
 @Title("DiagramBuilder Add-on Demo")
 @SuppressWarnings("serial")
-@JavaScript("http://cdn.alloyui.com/2.5.0/aui/aui-min.js")
-@StyleSheet("http://cdn.alloyui.com/2.5.0/aui-css/css/bootstrap.min.css")
 @Theme("dawn")
 public class DemoUI extends UI {
 
@@ -42,23 +36,6 @@ public class DemoUI extends UI {
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "org.vaadin.diagrambuilder.demo.DemoWidgetSet")
     public static class Servlet extends VaadinServlet {
-
-        @Override
-        protected void writeStaticResourceResponse(HttpServletRequest request,
-                HttpServletResponse response, URL resourceUrl) throws IOException {
-
-            /* Optimized widgetset serving, irrelevant for the actual diagram usage */
-            if (resourceUrl.getFile().contains("/widgetsets/")
-                    && (resourceUrl.getFile().endsWith(".js") || resourceUrl.
-                    getFile().endsWith(".css"))) {
-                URL gzipurl = new URL(resourceUrl.toString() + ".gz");
-                response.setHeader("Content-Encoding", "gzip");
-                super.writeStaticResourceResponse(request, response, gzipurl);
-                return;
-            }
-            super.writeStaticResourceResponse(request, response, resourceUrl);
-        }
-
     }
 
     Button button = new Button("Get state to server and report as JSON",
@@ -159,8 +136,8 @@ public class DemoUI extends UI {
                         287, 377
                 ),
                 new Node(
-                        "Task3",
-                        "task",
+                        "Group",
+                        "group",
                         100, 444
                 ),
                 new Node(
@@ -183,6 +160,10 @@ public class DemoUI extends UI {
 
         diagramBuilder.setSizeFull();
 
+        diagramBuilder.addTaskRightClickListener(nodeDto -> System.out.println(nodeDto.toString()));
+        diagramBuilder.addGroupRightClickListener(nodeDto -> System.out.println(nodeDto.toString()));
+        diagramBuilder.addGroupDragEndListener(nodeDto -> System.out.println(nodeDto.getTop()));
+
         setContent(
                 new MVerticalLayout(
                         new RichText().withMarkDownResource("/intro.md"),
@@ -200,7 +181,7 @@ public class DemoUI extends UI {
         // demo, just report it back to browser
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
         try {
             String writeValueAsString = mapper.writeValueAsString(event.
                     getNodes());
@@ -211,7 +192,7 @@ public class DemoUI extends UI {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(
                     DemoUI.class.
-                    getName()).
+                            getName()).
                     log(Level.SEVERE, null, ex);
         }
 

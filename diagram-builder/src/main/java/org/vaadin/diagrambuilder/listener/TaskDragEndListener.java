@@ -7,6 +7,6 @@ import org.vaadin.diagrambuilder.dto.NodeDto;
  */
 public interface TaskDragEndListener {
 
-    public void onDragEnd(NodeDto nodeDto);
+    public void onTaskDragEnd(NodeDto nodeDto);
 
 }
