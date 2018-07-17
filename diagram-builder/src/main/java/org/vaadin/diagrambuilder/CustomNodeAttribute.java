@@ -8,7 +8,7 @@ import java.util.List;
 public class CustomNodeAttribute {
 	private String name;
 	private String defaultValue;
-
+ 	private boolean readOnly = false;
 	// TODO later we can add different types
 	private boolean isComboBox = false;
 	private List<String> options;
@@ -22,9 +22,23 @@ public class CustomNodeAttribute {
 		this.defaultValue = defaultValue;
 	}
 
+	public CustomNodeAttribute(String name, String defaultValue, boolean readOnly) {
+		this.name = name;
+		this.defaultValue = defaultValue;
+		this.readOnly = readOnly;
+	}
+
 	public CustomNodeAttribute(String name, String defaultValue, boolean isComboBox, List<String> options) {
 		this.name = name;
 		this.defaultValue = defaultValue;
+		this.isComboBox = isComboBox;
+		this.options = options;
+	}
+
+	public CustomNodeAttribute(String name, String defaultValue, boolean readOnly, boolean isComboBox, List<String> options) {
+		this.name = name;
+		this.defaultValue = defaultValue;
+		this.readOnly = readOnly;
 		this.isComboBox = isComboBox;
 		this.options = options;
 	}
@@ -60,5 +74,13 @@ public class CustomNodeAttribute {
 
 	public void setOptions(List<String> options) {
 		this.options = options;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 }

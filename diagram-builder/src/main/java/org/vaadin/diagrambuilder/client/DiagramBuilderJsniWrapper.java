@@ -91,20 +91,22 @@ public class DiagramBuilderJsniWrapper extends JavaScriptObject {
                                         for (var j = 0; j < customAttributes.length; j++) {
                                             var customAttr = customAttributes[j];
                                             var attrObject;
+                                            attrObject = {
+                                                attributeName: customAttr.name.toLowerCase(),
+                                                name: customAttr.name,
+                                                value: customAttr.defaultValue,
+                                                readOnly: customAttr.readOnly
+                                            };
                                             if (customAttr.comboBox) {
-                                                attrObject = {
-                                                    attributeName: customAttr.name.toLowerCase(),
-                                                    name: customAttr.name,
-                                                    value: customAttr.defaultValue,
-                                                    editor: new Y.DropDownCellEditor({
-                                                        options: customAttr.options
-                                                    })
-                                                };
+                                                attrObject.editor =
+                                                    new Y.DropDownCellEditor({
+                                                        options: customAttr.options,
+                                                    });
                                             } else {
-                                                attrObject = {
-                                                    attributeName: customAttr.name.toLowerCase(),
-                                                    name: customAttr.name
-                                                }
+                                                attrObject.editor =
+                                                    new Y.TextCellEditor({
+                                                        options: customAttr.options,
+                                                    });
                                             }
                                             model.push(attrObject);
                                         }
