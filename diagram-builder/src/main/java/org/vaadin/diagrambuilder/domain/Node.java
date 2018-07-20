@@ -16,10 +16,12 @@ public class Node implements Serializable {
     public static final String ON_RIGHT_CLICK_JAVASCRIPT = Node.class.getCanonicalName() + ".onRightClickNode";
     public static final String ON_DRAG_START_JAVASCRIPT = Node.class.getCanonicalName() + ".onDragStartNode";
     public static final String ON_DRAG_END_JAVASCRIPT = Node.class.getCanonicalName() + ".onDragEndNode";
+    private static final int DEFAULT_WIDTH = 60;
+    private static final int DEFAULT_HEIGHT = 60;
 
     private int[] xy = new int[]{0, 0};
-    private int width;
-    private int height;
+    private int width = DEFAULT_WIDTH;
+    private int height = DEFAULT_HEIGHT;
     private boolean allowsLinking;
     private String name;
     private Long id;

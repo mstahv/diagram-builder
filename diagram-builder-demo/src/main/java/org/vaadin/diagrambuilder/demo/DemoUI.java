@@ -20,6 +20,7 @@ import org.vaadin.diagrambuilder.domain.Transition;
 import org.vaadin.maddon.label.RichText;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,13 +29,13 @@ import javax.servlet.annotation.WebServlet;
 
 @Title("DiagramBuilder Add-on Demo")
 @SuppressWarnings("serial")
-@Theme("dawn")
+@Theme("valo")
 public class DemoUI extends UI {
 
     private DiagramBuilder diagramBuilder;
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "org.vaadin.diagrambuilder.demo.DemoWidgetSet")
+    @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "app.widgetset")
     public static class Servlet extends VaadinServlet {
     }
 
@@ -60,109 +61,14 @@ public class DemoUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+        diagramBuilder = createDiagramBuilder();
 
-        // Initialize our new UI component
-        diagramBuilder = new DiagramBuilder();
-        diagramBuilder.setAvailableFields(
-                new NodeType(
-                        "diagram-node-start-icon",
-                        "Start",
-                        "start"
-                ),
-                new NodeType(
-                        "diagram-node-task-icon",
-                        "Task",
-                        "task"
-                ),
-                new NodeType(
-                        "diagram-node-state-icon",
-                        "State",
-                        "state"
-                ),
-                new NodeType(
-                        "diagram-node-join-icon",
-                        "Join",
-                        "join"
-                ),
-                new NodeType(
-                        "diagram-node-fork-icon",
-                        "Fork",
-                        "fork"
-                ),
-                new NodeType(
-                        "diagram-node-condition-icon",
-                        "Condition",
-                        "condition"
-                ),
-                new NodeType(
-                        "diagram-node-end-icon",
-                        "End",
-                        "end"
-                ));
-        diagramBuilder.setFields(
-                new Node(
-                        "StartNode",
-                        "start",
-                        10, 10
-                ),
-                new Node(
-                        "Condition",
-                        "condition",
-                        260, 16
-                ),
-                new Node(
-                        "Fork",
-                        "fork",
-                        183, 99
-                ),
-                new Node(
-                        "Task1",
-                        "task",
-                        38, 158
-                ),
-                new Node(
-                        "Task2",
-                        "task",
-                        262, 221
-                ),
-                new Node(
-                        "Join",
-                        "join",
-                        99, 300
-                ),
-                new Node(
-                        "State",
-                        "state",
-                        287, 377
-                ),
-                new Node(
-                        "Group",
-                        "group",
-                        100, 444
-                ),
-                new Node(
-                        "EndNode",
-                        "end",
-                        326, 500
-                ));
+        initDiagramBuilder(diagramBuilder);
 
-        diagramBuilder.setTransitions(
-                new Transition("StartNode", "Condition", "TaskConnector1"),
-                new Transition("Condition", "Fork", "TaskConnector2"),
-                new Transition("Fork", "Task1", "TaskConnector3"),
-                new Transition("Fork", "Task2", "TaskConnector4"),
-                new Transition("Task1", "Join", "TaskConnector5"),
-                new Transition("Task2", "Join", "TaskConnector6"),
-                new Transition("Join", "State", "TaskConnector7"),
-                new Transition("State", "Task3", "TaskConnector8"),
-                new Transition("Task3", "EndNode", "TaskConnector9")
-        );
-
-        diagramBuilder.setSizeFull();
-
-        diagramBuilder.addTaskRightClickListener(nodeDto -> System.out.println(nodeDto.toString()));
-        diagramBuilder.addGroupRightClickListener(nodeDto -> System.out.println(nodeDto.toString()));
-        diagramBuilder.addGroupDragEndListener(nodeDto -> System.out.println(nodeDto.getTop()));
+        diagramBuilder.addTaskRightClickListener(nodeDto -> Notification.show("Task Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addGroupRightClickListener(nodeDto -> Notification.show("Group Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addGroupDragEndListener(nodeDto -> Notification.show("Group Drag ends " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addGroupDragStartListener(nodeDto -> Notification.show("Group Drag starts " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
 
         setContent(
                 new MVerticalLayout(
@@ -171,31 +77,62 @@ public class DemoUI extends UI {
                         diagramBuilder
                 )
         );
+    }
 
+    private void initDiagramBuilder(DiagramBuilder diagramBuilder) {
+        Node task1 = new Node("Task1", "task", 38, 158);
+        Node task2 = new Node("Task2", "task", 262, 221);
+
+        List<String> taskNames = new ArrayList<>();
+        taskNames.add(task1.getName());
+        taskNames.add(task2.getName());
+
+        Node group = new Node("Group", "group", 30, 140, 400, 200);
+        group.setChildren(taskNames);
+
+        Node[] nodes = {task1, task2, group};
+
+        diagramBuilder.setFields(nodes);
+
+        diagramBuilder.setTransitions(
+                new Transition("Task1", "Task2", "TaskConnector")
+        );
+    }
+
+    private DiagramBuilder createDiagramBuilder() {
+        DiagramBuilder diagramBuilder = new DiagramBuilder();
+        diagramBuilder.setSizeFull();
+        diagramBuilder.setAvailableFields(
+                new NodeType(
+                        "diagram-node-task-icon",
+                        "Task",
+                        "task"
+                ),
+                new NodeType(
+                        "diagram-node-group-icon",
+                        "Group",
+                        "group"
+                )
+        );
+
+        return diagramBuilder;
     }
 
     public void reportStateBack(DiagramStateEvent event) {
-        List<Node> nodes = event.getNodes();
-
-        // Normally you'd do something with the nodes, in this 
+        // Normally you'd do something with the nodes, in this
         // demo, just report it back to browser
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         try {
-            String writeValueAsString = mapper.writeValueAsString(event.
-                    getNodes());
+            String writeValueAsString = mapper.writeValueAsString(event.getNodes());
             Notification.show(
                     "State reported: ",
                     writeValueAsString,
                     Notification.Type.WARNING_MESSAGE);
         } catch (JsonProcessingException ex) {
-            Logger.getLogger(
-                    DemoUI.class.
-                            getName()).
-                    log(Level.SEVERE, null, ex);
+            Logger.getLogger(DemoUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
 }
