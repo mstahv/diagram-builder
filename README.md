@@ -1,3 +1,7 @@
+# This project is moving!
+
+A newer and maintained version is available in: https://github.com/continuumsecurity/diagram-builder 
+
 # DiagramBuilder Add-on for Vaadin 7
 
 DiagramBuilder is an UI component add-on for Vaadin 7 that wraps [ALLOYUI's 
