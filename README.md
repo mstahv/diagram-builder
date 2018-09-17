@@ -1,3 +1,6 @@
+[![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/diagram-builder)
+[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/diagram-builder.svg)](https://vaadin.com/directory/component/diagram-builder)
+
 # This project is moving!
 
 A newer and maintained version is available in: https://github.com/continuumsecurity/diagram-builder 
