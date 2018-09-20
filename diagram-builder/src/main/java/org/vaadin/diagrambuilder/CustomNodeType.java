@@ -10,6 +10,7 @@ public class CustomNodeType {
 
 	private String type;
 	private List<CustomNodeAttribute> customAttributes;
+	private boolean usesDefaultAttributes = true;
 
 	public CustomNodeType(String type) {
 		this.type = type;
@@ -18,6 +19,12 @@ public class CustomNodeType {
 	public CustomNodeType(String type, CustomNodeAttribute... customAttributes) {
 		this.type = type;
 		this.customAttributes = Arrays.asList(customAttributes);
+	}
+
+	public CustomNodeType(String type, boolean usesDefaultAttributes, CustomNodeAttribute... customAttributes) {
+		this.type = type;
+		this.customAttributes = Arrays.asList(customAttributes);
+		this.setUsesDefaultAttributes(usesDefaultAttributes);
 	}
 
 	public String getType() {
@@ -36,4 +43,11 @@ public class CustomNodeType {
 		this.customAttributes = customAttributes;
 	}
 
+	public boolean isUsesDefaultAttributes() {
+		return usesDefaultAttributes;
+	}
+
+	public void setUsesDefaultAttributes(boolean usesDefaultAttributes) {
+		this.usesDefaultAttributes = usesDefaultAttributes;
+	}
 }
