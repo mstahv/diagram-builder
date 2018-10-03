@@ -487,7 +487,7 @@ DiagramNode = A.Component.create({
 
         CONTROLS_TEMPLATE: '<div class="' + CSS_DB_CONTROLS + '"></div>',
 
-        SERIALIZABLE_ATTRS: ['description', 'name', 'required', 'type', 'width', 'height', 'zIndex', 'xy'],
+        SERIALIZABLE_ATTRS: ['description', 'id', 'name', 'required', 'type', 'width', 'height', 'zIndex', 'xy'],
 
         /**
          * Construction logic executed during DiagramNode instantiation.
