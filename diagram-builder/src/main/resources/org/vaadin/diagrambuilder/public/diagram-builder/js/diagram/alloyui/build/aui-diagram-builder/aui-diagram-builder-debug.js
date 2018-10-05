@@ -1387,7 +1387,7 @@ var DiagramBuilder = A.Component.create({
                 var children = diagramNode._getAttr('children').map(
                     function (mapItem) {
                         return instance._getAttr('fields').filter(function (it) {
-                            return it._getAttr('name') === mapItem
+                            return it._getAttr('id') === mapItem.id
                         }).item(0)
                     }
                 );
