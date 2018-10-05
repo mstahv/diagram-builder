@@ -83,12 +83,12 @@ public class DemoUI extends UI {
         Node task1 = new Node("Task1", "task", 38, 158);
         Node task2 = new Node("Task2", "task", 262, 221);
 
-        List<String> taskNames = new ArrayList<>();
-        taskNames.add(task1.getName());
-        taskNames.add(task2.getName());
+        List<Node> tasks = new ArrayList<>();
+        tasks.add(task1);
+        tasks.add(task2);
 
         Node group = new Node("Group", "group", 30, 140, 400, 200);
-        group.setChildren(taskNames);
+        group.setChildren(tasks);
 
         Node[] nodes = {task1, task2, group};
 

@@ -28,7 +28,7 @@ public class Node implements Serializable {
     private String type;
     private String description;
     private List<Transition> transitions;
-    private List<String> children;
+    private List<Node> children;
     private String onRightClick;
     private String onDragStart;
     private String onDragEnd;
@@ -172,11 +172,11 @@ public class Node implements Serializable {
         this.allowsLinking = allowsLinking;
     }
 
-    public List<String> getChildren() {
+    public List<Node> getChildren() {
         return children;
     }
 
-    public void setChildren(List<String> children) {
+    public void setChildren(List<Node> children) {
         this.children = children;
     }
 
