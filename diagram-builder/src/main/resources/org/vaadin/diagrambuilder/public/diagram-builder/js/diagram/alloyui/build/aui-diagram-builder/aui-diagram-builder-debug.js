@@ -390,15 +390,15 @@ var DiagramBuilder = A.Component.create({
             var instance = this;
 
             if (isString(diagramNode1)) {
-                diagramNode1 = A.DiagramNode.getNodeByName(diagramNode1);
+                diagramNode1 = A.DiagramNode.getNodeById(diagramNode1);
             }
 
             if (isString(diagramNode2)) {
-                diagramNode2 = A.DiagramNode.getNodeByName(diagramNode2);
+                diagramNode2 = A.DiagramNode.getNodeById(diagramNode2);
             }
 
             if (diagramNode1 && diagramNode2) {
-                diagramNode1.connect(diagramNode2.get('name'), optConnector);
+                diagramNode1.connect(diagramNode2.get('id'), optConnector);
             }
 
             return instance;
@@ -633,7 +633,7 @@ var DiagramBuilder = A.Component.create({
         getSourceNodes: function(diagramNode) {
             var instance = this;
 
-            return instance.getNodesByTransitionProperty('target', diagramNode.get('name'));
+            return instance.getNodesByTransitionProperty('target', diagramNode.get('id'));
         },
 
         /**
@@ -1418,7 +1418,7 @@ var DiagramBuilder = A.Component.create({
             if (diagramNode.get('type') === 'task') {
                 instance.get('fields').each(function (node) {
                     if (node.get('type') === 'group' && node.get('children')) {
-                        if (!instance._getAttr('moveNodeOutSideGroup') && node.get('children').includes(diagramNode.get('name'))) {
+                        if (!instance._getAttr('moveNodeOutSideGroup') && node.get('children').includes(diagramNode.get('id'))) {
 
                             var leftGroupBoundary = node.get('x');
                             var topGroupBoundary = node.get('y');
