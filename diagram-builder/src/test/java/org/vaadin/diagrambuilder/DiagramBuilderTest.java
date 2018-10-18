@@ -38,15 +38,17 @@ public class DiagramBuilderTest {
         // When - set the same elements to both diagramBuilders
 
         Node nodeOne = new Node("one", new NodeType("", "", ""), 0, 0);
+        nodeOne.setId(1L);
         Node nodeTwo = new Node("two", new NodeType("", "", ""), 0, 0);
+        nodeTwo.setId(2L);
 
         Connector connector = new Connector();
         connector.setId(0L);
         connector.setName("zero");
 
         Transition transition = new Transition();
-        transition.setSource(nodeOne.getName());
-        transition.setSource(nodeTwo.getName());
+        transition.setSource(Long.toString(nodeOne.getId()));
+        transition.setSource(Long.toString(nodeTwo.getId()));
         transition.setConnector(connector);
 
         diagramBuilderOne.setFields(nodeOne, nodeTwo);
