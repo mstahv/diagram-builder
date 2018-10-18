@@ -451,6 +451,16 @@ DiagramNode = A.Component.create({
     },
 
     /**
+     *
+     * @method getNodeById
+     * @param id
+     * @private
+     */
+    getNodeById: function (id) {
+        return A.Widget.getByNode('[id=' + id + ']')
+    },
+
+    /**
      * Gets the node top and left coordinates based on the container.
      *
      * @method getNodeCoordinates
@@ -585,7 +595,7 @@ DiagramNode = A.Component.create({
          */
         alignTransition: function(transition) {
             var instance = this;
-            var diagramNode = A.DiagramNode.getNodeByName(transition.target);
+            var diagramNode = A.DiagramNode.getNodeById(transition.target);
 
             if (diagramNode) {
                 var bestMatch = findHotPointBestMatch(instance, diagramNode);
@@ -639,7 +649,7 @@ DiagramNode = A.Component.create({
             transition = instance.addTransition(transition);
 
             var connector = null;
-            var diagramNode = A.DiagramNode.getNodeByName(transition.target);
+            var diagramNode = A.DiagramNode.getNodeById(transition.target);
 
             if (diagramNode) {
                 if (!instance.isTransitionConnected(transition)) {
@@ -752,7 +762,7 @@ DiagramNode = A.Component.create({
             instance.connect(
                 instance.prepareTransition({
                     sourceXY: A.DiagramNode.getNodeCoordinates(dd.startXY, instance.get('boundingBox')),
-                    target: diagramNode.get('name'),
+                    target: diagramNode.get('id'),
                     targetXY: A.DiagramNode.getNodeCoordinates(dd.mouseXY, diagramNode.get('boundingBox'))
                 })
             );
@@ -842,7 +852,7 @@ DiagramNode = A.Component.create({
                 var sourceConnectors = sourceNode.get('connectors');
 
                 A.Array.each(sourceConnectors.values(), function(connector) {
-                    if (instance.get('name') === connector.get('transition').target) {
+                    if (instance.get('id') === connector.get('transition').target) {
                         sourceNodes.push(sourceNode);
                         connectors.push(connector);
                     }
@@ -1000,12 +1010,15 @@ DiagramNode = A.Component.create({
 
             if (!transition) {
                 transition = {
-                    source: instance.get('name'),
+                    source: instance.get('id'),
                     target: null,
                     uid: A.guid()
                 };
 
                 if (A.Lang.isString(val)) {
+                    transition.target = val;
+                }
+                else if (A.Lang.isNumber(val)) {
                     transition.target = val;
                 }
                 else if (A.Lang.isObject(val)) {
