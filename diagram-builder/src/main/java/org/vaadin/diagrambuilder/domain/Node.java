@@ -16,6 +16,7 @@ public class Node implements Serializable {
     public static final String ON_RIGHT_CLICK_JAVASCRIPT = Node.class.getCanonicalName() + ".onRightClickNode";
     public static final String ON_DRAG_START_JAVASCRIPT = Node.class.getCanonicalName() + ".onDragStartNode";
     public static final String ON_DRAG_END_JAVASCRIPT = Node.class.getCanonicalName() + ".onDragEndNode";
+    public static final String ON_MOUSE_MOVE_JAVASCRIPT = Node.class.getCanonicalName() + ".onMouseMove";
     private static final int DEFAULT_WIDTH = 60;
     private static final int DEFAULT_HEIGHT = 60;
 
@@ -32,6 +33,7 @@ public class Node implements Serializable {
     private String onRightClick;
     private String onDragStart;
     private String onDragEnd;
+    private String onMouseMove;
 
 
     public Node() {
@@ -210,5 +212,13 @@ public class Node implements Serializable {
 
     public String getOnDragEnd() {
         return onDragEnd;
+    }
+
+    public String getOnMouseMove() {
+        return onMouseMove;
+    }
+
+    public void setOnMouseMove(String onMouseMove) {
+        this.onMouseMove = onMouseMove;
     }
 }

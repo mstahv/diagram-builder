@@ -48,14 +48,7 @@ public class DemoUI extends UI {
                      * Using asynchronous API to lazily fetch the current state
                      * of the diagram.
                      */
-                    diagramBuilder.getDiagramState(new DiagramBuilder.StateCallback() {
-
-                        @Override
-                        public void onStateReceived(DiagramStateEvent event) {
-                            reportStateBack(event);
-                        }
-
-                    });
+                    diagramBuilder.getDiagramState(event1 -> reportStateBack(event1));
                 }
             });
 
@@ -69,6 +62,8 @@ public class DemoUI extends UI {
         diagramBuilder.addGroupRightClickListener(nodeDto -> Notification.show("Group Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addGroupDragEndListener(nodeDto -> Notification.show("Group Drag ends " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addGroupDragStartListener(nodeDto -> Notification.show("Group Drag starts " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addTaskMouseOverListener(nodeDto -> Notification.show("Task Mouse OVER " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addTaskMouseOutListener(nodeDto -> Notification.show("Task Mouse OUT " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
 
         setContent(
                 new MVerticalLayout(
@@ -83,11 +78,15 @@ public class DemoUI extends UI {
         Node task1 = new Node("Task1", "task", 38, 158);
         Node task2 = new Node("Task2", "task", 262, 221);
 
+        task1.setId(200L);
+        task2.setId(201L);
+
         List<Node> tasks = new ArrayList<>();
         tasks.add(task1);
         tasks.add(task2);
 
         Node group = new Node("Group", "group", 30, 140, 400, 200);
+        group.setId(100L);
         group.setChildren(tasks);
 
         Node[] nodes = {task1, task2, group};
@@ -95,7 +94,7 @@ public class DemoUI extends UI {
         diagramBuilder.setFields(nodes);
 
         diagramBuilder.setTransitions(
-                new Transition("Task1", "Task2", "TaskConnector")
+                new Transition(task1.getId().toString(), task2.getId().toString(), "TaskConnector")
         );
     }
 

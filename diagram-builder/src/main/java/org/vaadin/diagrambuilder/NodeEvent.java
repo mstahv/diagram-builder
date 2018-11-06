@@ -8,9 +8,13 @@ import org.vaadin.diagrambuilder.domain.Node;
 import org.vaadin.diagrambuilder.dto.NodeDto;
 import org.vaadin.diagrambuilder.listener.GroupDragEndListener;
 import org.vaadin.diagrambuilder.listener.GroupDragStartListener;
+import org.vaadin.diagrambuilder.listener.GroupMouseOutListener;
+import org.vaadin.diagrambuilder.listener.GroupMouseOverListener;
 import org.vaadin.diagrambuilder.listener.GroupRightClickListener;
 import org.vaadin.diagrambuilder.listener.TaskDragEndListener;
 import org.vaadin.diagrambuilder.listener.TaskDragStartListener;
+import org.vaadin.diagrambuilder.listener.TaskMouseOutListener;
+import org.vaadin.diagrambuilder.listener.TaskMouseOverListener;
 import org.vaadin.diagrambuilder.listener.TaskRightClickListener;
 import org.vaadin.diagrambuilder.util.JsonUtil;
 
@@ -26,10 +30,14 @@ public class NodeEvent {
     private ArrayList<TaskRightClickListener> taskRightClickListeners = new ArrayList<>();
     private ArrayList<TaskDragStartListener> taskDragStartListeners = new ArrayList<>();
     private ArrayList<TaskDragEndListener> taskDragEndListeners = new ArrayList<>();
+    private ArrayList<TaskMouseOverListener> taskMouseOverListeners = new ArrayList<>();
+    private ArrayList<TaskMouseOutListener> taskMouseOutListeners = new ArrayList<>();
 
     private ArrayList<GroupRightClickListener> groupRightClickListeners = new ArrayList<>();
     private ArrayList<GroupDragStartListener> groupDragStartListeners = new ArrayList<>();
     private ArrayList<GroupDragEndListener> groupDragEndListeners = new ArrayList<>();
+    private ArrayList<GroupMouseOverListener> groupMouseOverListeners = new ArrayList<>();
+    private ArrayList<GroupMouseOutListener> groupMouseOutListeners = new ArrayList<>();
 
     private String eventId;
 
@@ -47,7 +55,7 @@ public class NodeEvent {
 
             if (type.equals("task")) {
                 fireEvent(jsonArray, NodeEvent.this::fireTaskRightClickListener);
-            } else if (type.equals("group")){
+            } else if (type.equals("group")) {
                 fireEvent(jsonArray, NodeEvent.this::fireGroupRightClickListener);
             }
 
@@ -60,7 +68,7 @@ public class NodeEvent {
 
             if (type.equals("task")) {
                 fireEvent(jsonArray, NodeEvent.this::fireTaskDragStartClickListener);
-            } else if (type.equals("group")){
+            } else if (type.equals("group")) {
                 fireEvent(jsonArray, NodeEvent.this::fireGroupDragStartClickListener);
             }
 
@@ -73,8 +81,30 @@ public class NodeEvent {
 
             if (type.equals("task")) {
                 fireEvent(jsonArray, NodeEvent.this::fireTaskDragEndClickListener);
-            } else if (type.equals("group")){
+            } else if (type.equals("group")) {
                 fireEvent(jsonArray, NodeEvent.this::fireGroupDragEndClickListener);
+            }
+
+        });
+    }
+
+    public void createMouseMoveEvent() {
+        com.vaadin.ui.JavaScript.getCurrent().addFunction(Node.ON_MOUSE_MOVE_JAVASCRIPT + this.eventId, (JavaScriptFunction) jsonArray -> {
+            String type = jsonArray.getObject(0).getString("type");
+            String event = JsonUtil.getStringValue(jsonArray, "event");
+
+            if (type.equals("task")) {
+                if ("mouseEnter".equals(event)) {
+                    fireEvent(jsonArray, NodeEvent.this::fireTaskMouseOverListener);
+                } else if ("mouseLeave".equals(event)) {
+                    fireEvent(jsonArray, NodeEvent.this::fireTaskMouseOutListener);
+                }
+            } else if (type.equals("group")) {
+                if ("mouseEnter".equals(event)) {
+                    fireEvent(jsonArray, NodeEvent.this::fireGroupMouseOverListener);
+                } else if ("mouseLeave".equals(event)) {
+                    fireEvent(jsonArray, NodeEvent.this::fireGroupMouseOutListener);
+                }
             }
 
         });
@@ -114,6 +144,22 @@ public class NodeEvent {
         groupDragEndListeners.add(listener);
     }
 
+    public void addTaskMouseOverListener(TaskMouseOverListener listener) {
+        taskMouseOverListeners.add(listener);
+    }
+
+    public void addTaskMouseOutListener(TaskMouseOutListener listener) {
+        taskMouseOutListeners.add(listener);
+    }
+
+    public void addGroupMouseOverListener(GroupMouseOverListener listener) {
+        groupMouseOverListeners.add(listener);
+    }
+
+    public void addGroupMouseOutListener(GroupMouseOutListener listener) {
+        groupMouseOutListeners.add(listener);
+    }
+
     public void fireTaskRightClickListener(NodeDto nodeDto) {
         for (TaskRightClickListener listener : taskRightClickListeners) {
             listener.onTaskRightClick(nodeDto);
@@ -147,6 +193,30 @@ public class NodeEvent {
     public void fireGroupDragEndClickListener(NodeDto nodeDto) {
         for (GroupDragEndListener listener : groupDragEndListeners) {
             listener.onGroupDragEnd(nodeDto);
+        }
+    }
+
+    public void fireGroupMouseOverListener(NodeDto nodeDto) {
+        for (GroupMouseOverListener listener : groupMouseOverListeners) {
+            listener.onGroupMouseOver(nodeDto);
+        }
+    }
+
+    public void fireGroupMouseOutListener(NodeDto nodeDto) {
+        for (GroupMouseOutListener listener : groupMouseOutListeners) {
+            listener.onGroupMouseOut(nodeDto);
+        }
+    }
+
+    public void fireTaskMouseOverListener(NodeDto nodeDto) {
+        for (TaskMouseOverListener listener : taskMouseOverListeners) {
+            listener.onTaskMouseOver(nodeDto);
+        }
+    }
+
+    public void fireTaskMouseOutListener(NodeDto nodeDto) {
+        for (TaskMouseOutListener listener : taskMouseOutListeners) {
+            listener.onTaskMouseOut(nodeDto);
         }
     }
 
