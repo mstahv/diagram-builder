@@ -61,6 +61,8 @@ public class DemoUI extends UI {
         diagramBuilder.addGroupRightClickListener(nodeDto -> Notification.show("Group Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addGroupDragEndListener(nodeDto -> Notification.show("Group Drag ends " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addGroupDragStartListener(nodeDto -> Notification.show("Group Drag starts " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addTaskMouseOverListener(nodeDto -> Notification.show("Task Mouse OVER " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
+        diagramBuilder.addTaskMouseOutListener(nodeDto -> Notification.show("Task Mouse OUT " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
 
         diagramBuilder.addTaskRightClickListener(nodeDto -> Notification.show("Task Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addTaskMouseOverListener(nodeDto -> Notification.show("Task Mouse OVER " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
