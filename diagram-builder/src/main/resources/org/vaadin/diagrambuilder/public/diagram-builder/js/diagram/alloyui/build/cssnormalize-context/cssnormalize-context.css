@@ -566,8 +566,5 @@ input[type="reset"],
 .yui3-normalized [hidden] {
     display: none !important;
 }
-
 /* YUI CSS Detection Stamp */
-#yui3-css-stamp.cssnormalize-context {
-    display: none;
-}
+#yui3-css-stamp.cssnormalize-context { display: none; }

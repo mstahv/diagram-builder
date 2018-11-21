@@ -10,12 +10,12 @@ YUI.add('base-build', function (Y, NAME) {
      * @for Base
      */
     var BaseCore = Y.BaseCore,
-        Base = Y.Base,
-        L = Y.Lang,
+        Base     = Y.Base,
+        L        = Y.Lang,
 
         INITIALIZER = "initializer",
-        DESTRUCTOR = "destructor",
-        AGGREGATES = ["_PLUG", "_UNPLUG"],
+        DESTRUCTOR  = "destructor",
+        AGGREGATES  = ["_PLUG", "_UNPLUG"],
 
         build;
 
@@ -45,7 +45,7 @@ YUI.add('base-build', function (Y, NAME) {
         BaseCore.modifyAttrs(r, s.ATTRS);
     }
 
-    Base._build = function (name, main, extensions, px, sx, cfg) {
+    Base._build = function(name, main, extensions, px, sx, cfg) {
 
         var build = Base._build,
 
@@ -114,7 +114,7 @@ YUI.add('base-build', function (Y, NAME) {
 
     Y.mix(build, {
 
-        _mixCust: function (r, s, cfg) {
+        _mixCust: function(r, s, cfg) {
 
             var aggregates,
                 custom,
@@ -153,18 +153,17 @@ YUI.add('base-build', function (Y, NAME) {
 
         },
 
-        _tmpl: function (main) {
+        _tmpl: function(main) {
 
             function BuiltClass() {
                 BuiltClass.superclass.constructor.apply(this, arguments);
             }
-
             Y.extend(BuiltClass, main);
 
             return BuiltClass;
         },
 
-        _impl: function (extClass) {
+        _impl : function(extClass) {
             var classes = this._getClasses(), i, l, cls, exts, ll, j;
             for (i = 0, l = classes.length; i < l; i++) {
                 cls = classes[i];
@@ -182,11 +181,11 @@ YUI.add('base-build', function (Y, NAME) {
             return false;
         },
 
-        _ctor: function (main, cfg) {
+        _ctor : function(main, cfg) {
 
-            var dynamic = (cfg && false === cfg.dynamic) ? false : true,
-                builtClass = (dynamic) ? build._tmpl(main) : main,
-                buildCfg = builtClass._yuibuild;
+           var dynamic = (cfg && false === cfg.dynamic) ? false : true,
+               builtClass = (dynamic) ? build._tmpl(main) : main,
+               buildCfg = builtClass._yuibuild;
 
             if (!buildCfg) {
                 buildCfg = builtClass._yuibuild = {};
@@ -199,7 +198,7 @@ YUI.add('base-build', function (Y, NAME) {
             return builtClass;
         },
 
-        _cfg: function (main, cfg, exts) {
+        _cfg : function(main, cfg, exts) {
             var aggr = [],
                 cust = {},
                 statics = [],
@@ -266,7 +265,7 @@ YUI.add('base-build', function (Y, NAME) {
             };
         },
 
-        _clean: function (sx, cfg) {
+        _clean : function(sx, cfg) {
             var prop, i, l, sxclone = Y.merge(sx),
                 aggregates = cfg.aggregates,
                 custom = cfg.custom;
@@ -325,7 +324,7 @@ YUI.add('base-build', function (Y, NAME) {
      * @param {Object} cfg Optional. Build configuration for the class (see description).
      * @return {Function} A custom class, created from the provided main and extension classes
      */
-    Base.build = function (name, main, extensions, cfg) {
+    Base.build = function(name, main, extensions, cfg) {
         return build(name, main, extensions, null, null, cfg);
     };
 
@@ -380,8 +379,7 @@ YUI.add('base-build', function (Y, NAME) {
      *     }
      *
      * This way, when users pass your base or extension class to `Y.Base.create` or `Y.Base.mix`, they don't need to
-     * know which properties need special handling. `Y.Base` has a buildCfg which defines `ATTRS` for custom mix
-     * handling
+     * know which properties need special handling. `Y.Base` has a buildCfg which defines `ATTRS` for custom mix handling
      * (to protect the static config objects), and `Y.Widget` has a buildCfg which specifies `HTML_PARSER` for
      * straight up aggregation.
      *
@@ -395,7 +393,7 @@ YUI.add('base-build', function (Y, NAME) {
      * @param {Object} sx The set of static properties/methods to add to the built class.
      * @return {Function} The newly created class.
      */
-    Base.create = function (name, base, extensions, px, sx) {
+    Base.create = function(name, base, extensions, px, sx) {
         return build(name, base, extensions, px, sx);
     };
 
@@ -408,13 +406,13 @@ YUI.add('base-build', function (Y, NAME) {
      * @param {Function[]} extensions The set of extension classes which will mixed into the existing main class.
      * @return {Function} The modified main class, with extensions mixed in.
      */
-    Base.mix = function (main, extensions) {
+    Base.mix = function(main, extensions) {
 
         if (main._CACHED_CLASS_DATA) {
             main._CACHED_CLASS_DATA = null;
         }
 
-        return build(null, main, extensions, null, null, {dynamic: false});
+        return build(null, main, extensions, null, null, {dynamic:false});
     };
 
     /**
@@ -434,8 +432,8 @@ YUI.add('base-build', function (Y, NAME) {
         aggregates: AGGREGATES.concat(),
 
         custom: {
-            ATTRS: attrsAggregator,
-            _ATTR_CFG: attrCfgAggregator,
+            ATTRS         : attrsAggregator,
+            _ATTR_CFG     : attrCfgAggregator,
             _NON_ATTRS_CFG: arrayAggregator
         }
     };
@@ -445,10 +443,11 @@ YUI.add('base-build', function (Y, NAME) {
         aggregates: AGGREGATES.concat(),
 
         custom: {
-            ATTRS: attrsAggregator,
-            _ATTR_CFG: attrCfgAggregator,
+            ATTRS         : attrsAggregator,
+            _ATTR_CFG     : attrCfgAggregator,
             _NON_ATTRS_CFG: arrayAggregator
         }
     };
+
 
 }, 'patched-v3.18.1', {"requires": ["base-base"]});

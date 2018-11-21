@@ -21,8 +21,8 @@ YUI.add('attribute-base', function (Y, NAME) {
     /**
      * <p>
      * Attribute provides configurable attribute support along with attribute change events. It is designed to be
-     * augmented on to a host class, and provides the host with the ability to configure attributes to store and
-     * retrieve state, along with attribute change events.
+     * augmented on to a host class, and provides the host with the ability to configure attributes to store and retrieve state,
+     * along with attribute change events.
      * </p>
      * <p>For example, attributes added to the host can be configured:</p>
      * <ul>
@@ -38,19 +38,16 @@ YUI.add('attribute-base', function (Y, NAME) {
      * <p>See the <a href="#method_addAttr">addAttr</a> method, for the complete set of configuration
      * options available for attributes.</p>
      *
-     * <p><strong>NOTE:</strong> Most implementations will be better off extending the <a href="Base.html">Base</a>
-     * class, instead of augmenting Attribute directly. Base augments Attribute and will handle the initial
-     * configuration of attributes for derived classes, accounting for values passed into the constructor.</p>
+     * <p><strong>NOTE:</strong> Most implementations will be better off extending the <a href="Base.html">Base</a> class,
+     * instead of augmenting Attribute directly. Base augments Attribute and will handle the initial configuration
+     * of attributes for derived classes, accounting for values passed into the constructor.</p>
      *
      * @class Attribute
-     * @param attrs {Object} The attributes to add during construction (passed through to <a
-     *     href="#method_addAttrs">addAttrs</a>). These can also be defined on the constructor being augmented with
-     *     Attribute by defining the ATTRS property on the constructor.
-     * @param values {Object} The initial attribute values to apply (passed through to <a
-     *     href="#method_addAttrs">addAttrs</a>). These are not merged/cloned. The caller is responsible for isolating
-     *     user provided values if required.
-     * @param lazy {boolean} Whether or not to add attributes lazily (passed through to <a
-     *     href="#method_addAttrs">addAttrs</a>).
+     * @param attrs {Object} The attributes to add during construction (passed through to <a href="#method_addAttrs">addAttrs</a>).
+     *        These can also be defined on the constructor being augmented with Attribute by defining the ATTRS property on the constructor.
+     * @param values {Object} The initial attribute values to apply (passed through to <a href="#method_addAttrs">addAttrs</a>).
+     *        These are not merged/cloned. The caller is responsible for isolating user provided values if required.
+     * @param lazy {boolean} Whether or not to add attributes lazily (passed through to <a href="#method_addAttrs">addAttrs</a>).
      * @uses AttributeCore
      * @uses AttributeObservable
      * @uses EventTarget
@@ -108,5 +105,6 @@ YUI.add('attribute-base', function (Y, NAME) {
     Attribute.protectAttrs = Y.AttributeCore.protectAttrs;
 
     Y.Attribute = Attribute;
+
 
 }, 'patched-v3.18.1', {"requires": ["attribute-core", "attribute-observable", "attribute-extras"]});

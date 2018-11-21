@@ -1157,21 +1157,6 @@ var DiagramBuilder = A.Component.create({
             var diagramNode = A.Widget.getByNode(event.currentTarget);
 
             diagramNode.set('highlighted', true);
-
-            this._onNodeMouseMove('mouseEnter', diagramNode);
-        },
-
-        _onNodeMouseMove: function(eventName, diagramNode) {
-            var attrs = this.correctPosition({
-                                                 event: eventName,
-                                                 id: diagramNode.getAttrs().id,
-                                                 name: diagramNode.getAttrs().name,
-                                                 clientX: event.clientX,
-                                                 clientY: event.clientY,
-                                                 type: diagramNode.getAttrs().type
-                                             });
-
-            eval(diagramNode.get('onMouseMove'))(attrs);
         },
 
         /**
@@ -1189,8 +1174,6 @@ var DiagramBuilder = A.Component.create({
             if (!publishedSource || !publishedSource.boundaryDragDelegate.dd.get('dragging')) {
                 diagramNode.set('highlighted', false);
             }
-
-            this._onNodeMouseMove('mouseLeave', diagramNode);
         },
 
         /**
@@ -1488,7 +1471,7 @@ A.namespace('DiagramBuilder.types').task = A.DiagramNodeTask;
 
 A.namespace('DiagramBuilder.types').group = A.DiagramNodeGroup;
 
-}, '4.0.0', {
+}, '4.1.0', {
     "requires": [
         "aui-aria",
         "aui-map",

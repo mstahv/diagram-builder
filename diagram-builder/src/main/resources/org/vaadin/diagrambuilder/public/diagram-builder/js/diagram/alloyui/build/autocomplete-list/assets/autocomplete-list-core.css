@@ -3,9 +3,7 @@
     z-index: 1;
 }
 
-.yui3-aclist-hidden {
-    visibility: hidden;
-}
+.yui3-aclist-hidden { visibility: hidden; }
 
 .yui3-aclist-aria {
     /* Hide from sighted users, show to screen readers. */
@@ -26,6 +24,4 @@
     padding: 2px 5px;
 }
 
-.yui3-aclist-item-active {
-    outline: #afafaf dotted thin;
-}
+.yui3-aclist-item-active { outline: #afafaf dotted thin; }

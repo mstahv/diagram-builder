@@ -1,52 +1,53 @@
 YUI.add('aui-datatable-radio-cell-editor', function (A, NAME) {
 
+/**
+ * RadioCellEditor class.
+ *
+ * @class A.RadioCellEditor
+ * @extends A.CheckboxCellEditor
+ * @param {Object} config Object literal specifying widget configuration
+ * properties.
+ * @constructor
+ */
+var RadioCellEditor = A.Component.create({
+
     /**
-     * RadioCellEditor class.
+     * Static property provides a string to identify the class.
      *
-     * @class A.RadioCellEditor
-     * @extends A.CheckboxCellEditor
-     * @param {Object} config Object literal specifying widget configuration
-     * properties.
-     * @constructor
+     * @property NAME
+     * @type String
+     * @static
      */
-    var RadioCellEditor = A.Component.create({
+    NAME: 'radioCellEditor',
 
-                                                 /**
-                                                  * Static property provides a string to identify the class.
-                                                  *
-                                                  * @property NAME
-                                                  * @type String
-                                                  * @static
-                                                  */
-                                                 NAME: 'radioCellEditor',
+    /**
+     * Static property used to define which component it extends.
+     *
+     * @property EXTENDS
+     * @type Object
+     * @static
+     */
+    EXTENDS: A.CheckboxCellEditor,
 
-                                                 /**
-                                                  * Static property used to define which component it extends.
-                                                  *
-                                                  * @property EXTENDS
-                                                  * @type Object
-                                                  * @static
-                                                  */
-                                                 EXTENDS: A.CheckboxCellEditor,
+    prototype: {
+        OPTION_TEMPLATE: '<input class="field-input-choice" id="{id}" name="{name}" type="radio" value="{value}"/>',
+        OPTION_WRAPPER: '<label class="radio" for="{id}"> {label}</label>',
 
-                                                 prototype: {
-                                                     OPTION_TEMPLATE: '<input class="field-input-choice" id="{id}" name="{name}" type="radio" value="{value}"/>',
-                                                     OPTION_WRAPPER: '<label class="radio" for="{id}"> {label}</label>',
+        /**
+         * Gets the `A.RadioCellEditor` input value.
+         *
+         * @method getElementsValue
+         * @return {String} Input value.
+         */
+        getElementsValue: function() {
+            var instance = this;
 
-                                                     /**
-                                                      * Gets the `A.RadioCellEditor` input value.
-                                                      *
-                                                      * @method getElementsValue
-                                                      * @return {String} Input value.
-                                                      */
-                                                     getElementsValue: function () {
-                                                         var instance = this;
+            return instance._getSelectedOptions().get('value')[0];
+        }
+    }
+});
 
-                                                         return instance._getSelectedOptions().get('value')[0];
-                                                     }
-                                                 }
-                                             });
+A.RadioCellEditor = RadioCellEditor;
 
-    A.RadioCellEditor = RadioCellEditor;
 
-}, '3.1.0', {"requires": ["aui-datatable-base-options-cell-editor"]});
+}, '4.1.0', {"requires": ["aui-datatable-base-options-cell-editor"]});

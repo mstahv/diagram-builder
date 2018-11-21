@@ -1,29 +1,29 @@
 YUI.add('get', function (Y, NAME) {
 
     /**
-     * NodeJS specific Get module used to load remote resources.
-     * It contains the same signature as the default Get module so there is no code change needed.
-     * @module get-nodejs
-     * @class GetNodeJS
-     */
+    * NodeJS specific Get module used to load remote resources.
+    * It contains the same signature as the default Get module so there is no code change needed.
+    * @module get-nodejs
+    * @class GetNodeJS
+    */
 
     var Module = require('module'),
 
         path = require('path'),
         fs = require('fs'),
         request = require('request'),
-        end = function (cb, msg, result) {
+        end = function(cb, msg, result) {
             //Y.log('Get end: ' + cb.onEnd);
             if (Y.Lang.isFunction(cb.onEnd)) {
                 cb.onEnd.call(Y, msg, result);
             }
-        }, pass = function (cb) {
+        }, pass = function(cb) {
             //Y.log('Get pass: ' + cb.onSuccess);
             if (Y.Lang.isFunction(cb.onSuccess)) {
                 cb.onSuccess.call(Y, cb);
             }
             end(cb, 'success', 'success');
-        }, fail = function (cb, er) {
+        }, fail = function(cb, er) {
             //Y.log('Get fail: ' + er);
             er.errors = [er];
             if (Y.Lang.isFunction(cb.onFailure)) {
@@ -32,7 +32,8 @@ YUI.add('get', function (Y, NAME) {
             end(cb, er, 'fail');
         };
 
-    Y.Get = function () {
+
+    Y.Get = function() {
     };
 
     //Setup the default config base path
@@ -42,18 +43,18 @@ YUI.add('get', function (Y, NAME) {
     YUI.process = process;
 
     /**
-     * Takes the raw JS files and wraps them to be executed in the YUI context so they can be loaded
-     * into the YUI object
-     * @method _exec
-     * @private
-     * @param {String} data The JS to execute
-     * @param {String} url The path to the file that was parsed
-     * @param {Function} cb The callback to execute when this is completed
-     * @param {Error} cb.err=null Error object
-     * @param {String} cb.url The URL that was just parsed
-     */
+    * Takes the raw JS files and wraps them to be executed in the YUI context so they can be loaded
+    * into the YUI object
+    * @method _exec
+    * @private
+    * @param {String} data The JS to execute
+    * @param {String} url The path to the file that was parsed
+    * @param {Function} cb The callback to execute when this is completed
+    * @param {Error} cb.err=null Error object
+    * @param {String} cb.url The URL that was just parsed
+    */
 
-    Y.Get._exec = function (data, url, cb) {
+    Y.Get._exec = function(data, url, cb) {
         if (data.charCodeAt(0) === 0xFEFF) {
             data = data.slice(1);
         }
@@ -65,8 +66,8 @@ YUI.add('get', function (Y, NAME) {
             data = YUI._getLoadHook(data, url);
         }
         mod._compile('module.exports = function (YUI) {' +
-                     'return (function () {' + data + '\n;return YUI;}).apply(global);' +
-                     '};', url);
+            'return (function () {'+ data + '\n;return YUI;}).apply(global);' +
+        '};', url);
 
         /*global YUI:true */
         YUI = mod.exports(YUI);
@@ -77,13 +78,13 @@ YUI.add('get', function (Y, NAME) {
     };
 
     /**
-     * Fetches the content from a remote URL or a file from disc and passes the content
-     * off to `_exec` for parsing
-     * @method _include
-     * @private
-     * @param {String} url The URL/File path to fetch the content from
-     * @param {Function} cb The callback to fire once the content has been executed via `_exec`
-     */
+    * Fetches the content from a remote URL or a file from disc and passes the content
+    * off to `_exec` for parsing
+    * @method _include
+    * @private
+    * @param {String} url The URL/File path to fetch the content from
+    * @param {Function} cb The callback to fire once the content has been executed via `_exec`
+    */
     Y.Get._include = function (url, cb) {
         var cfg,
             mod,
@@ -109,7 +110,7 @@ YUI.add('get', function (Y, NAME) {
 
                 if (Y.config.useSync) {
                     //Needs to be in useSync
-                    mod = fs.readFileSync(url, 'utf8');
+                    mod = fs.readFileSync(url,'utf8');
                 } else {
                     fs.readFile(url, 'utf8', function (err, mod) {
                         if (err) {
@@ -129,22 +130,24 @@ YUI.add('get', function (Y, NAME) {
         }
     };
 
+
     /**
-     * Override for Get.script for loading local or remote YUI modules.
-     * @method js
-     * @param {Array|String} s The URL's to load into this context
-     * @param {Object} options Transaction options
-     */
-    Y.Get.js = function (s, options) {
-        var urls = Y.Array(s), url, i, l = urls.length, c = 0,
-            check = function () {
+    * Override for Get.script for loading local or remote YUI modules.
+    * @method js
+    * @param {Array|String} s The URL's to load into this context
+    * @param {Object} options Transaction options
+    */
+    Y.Get.js = function(s, options) {
+        var urls = Y.Array(s), url, i, l = urls.length, c= 0,
+            check = function() {
                 if (c === l) {
                     pass(options);
                 }
             };
 
+
         /*jshint loopfunc: true */
-        for (i = 0; i < l; i++) {
+        for (i=0; i<l; i++) {
             url = urls[i];
             if (Y.Lang.isObject(url)) {
                 url = url.url;
@@ -152,7 +155,7 @@ YUI.add('get', function (Y, NAME) {
 
             url = url.replace(/'/g, '%27');
             Y.log('URL: ' + url, 'info', 'get');
-            Y.Get._include(url, function (err, url) {
+            Y.Get._include(url, function(err, url) {
                 if (!Y.config) {
                     Y.config = {
                         debug: true
@@ -176,21 +179,22 @@ YUI.add('get', function (Y, NAME) {
 
         //Keeping Signature in the browser.
         return {
-            execute: function () {
-            }
+            execute: function() {}
         };
     };
 
     /**
-     * Alias for `Y.Get.js`
-     * @method script
-     */
+    * Alias for `Y.Get.js`
+    * @method script
+    */
     Y.Get.script = Y.Get.js;
 
     //Place holder for SS Dom access
-    Y.Get.css = function (s, cb) {
+    Y.Get.css = function(s, cb) {
         Y.log('Y.Get.css is not supported, just reporting that it has loaded but not fetching.', 'warn', 'get');
         pass(cb);
     };
+
+
 
 }, 'patched-v3.18.1');

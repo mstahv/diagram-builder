@@ -1,106 +1,107 @@
 YUI.add('autocomplete-highlighters-accentfold', function (Y, NAME) {
 
+/**
+Provides pre-built accent-folding result highlighters for AutoComplete.
+
+These highlighters are similar to the ones provided by the `autocomplete-
+highlighters` module, but use accent-aware comparisons. For example, "resume"
+and "résumé" will be considered equal when using the accent-folding
+highlighters.
+
+@module autocomplete
+@submodule autocomplete-highlighters-accentfold
+**/
+
+/**
+@class AutoCompleteHighlighters
+@static
+**/
+
+var Highlight = Y.Highlight,
+    YArray    = Y.Array;
+
+Y.mix(Y.namespace('AutoCompleteHighlighters'), {
     /**
-     Provides pre-built accent-folding result highlighters for AutoComplete.
+    Accent-folding version of `charMatch()`.
 
-     These highlighters are similar to the ones provided by the `autocomplete-
-     highlighters` module, but use accent-aware comparisons. For example, "resume"
-     and "résumé" will be considered equal when using the accent-folding
-     highlighters.
+    @method charMatchFold
+    @param {String} query Query to match
+    @param {Array} results Results to highlight
+    @return {Array} Highlighted results
+    @static
+    **/
+    charMatchFold: function (query, results) {
+        var queryChars = YArray.unique(query.split(''));
 
-     @module autocomplete
-     @submodule autocomplete-highlighters-accentfold
-     **/
+        return YArray.map(results, function (result) {
+            return Highlight.allFold(result.text, queryChars);
+        });
+    },
 
     /**
-     @class AutoCompleteHighlighters
-     @static
-     **/
+    Accent-folding version of `phraseMatch()`.
 
-    var Highlight = Y.Highlight,
-        YArray = Y.Array;
+    @method phraseMatchFold
+    @param {String} query Query to match
+    @param {Array} results Results to highlight
+    @return {Array} Highlighted results
+    @static
+    **/
+    phraseMatchFold: function (query, results) {
+        return YArray.map(results, function (result) {
+            return Highlight.allFold(result.text, [query]);
+        });
+    },
 
-    Y.mix(Y.namespace('AutoCompleteHighlighters'), {
-        /**
-         Accent-folding version of `charMatch()`.
+    /**
+    Accent-folding version of `startsWith()`.
 
-         @method charMatchFold
-         @param {String} query Query to match
-         @param {Array} results Results to highlight
-         @return {Array} Highlighted results
-         @static
-         **/
-        charMatchFold: function (query, results) {
-            var queryChars = YArray.unique(query.split(''));
-
-            return YArray.map(results, function (result) {
-                return Highlight.allFold(result.text, queryChars);
+    @method startsWithFold
+    @param {String} query Query to match
+    @param {Array} results Results to highlight
+    @return {Array} Highlighted results
+    @static
+    **/
+    startsWithFold: function (query, results) {
+        return YArray.map(results, function (result) {
+            return Highlight.allFold(result.text, [query], {
+                startsWith: true
             });
-        },
+        });
+    },
 
-        /**
-         Accent-folding version of `phraseMatch()`.
+    /**
+    Accent-folding version of `subWordMatch()`.
 
-         @method phraseMatchFold
-         @param {String} query Query to match
-         @param {Array} results Results to highlight
-         @return {Array} Highlighted results
-         @static
-         **/
-        phraseMatchFold: function (query, results) {
-            return YArray.map(results, function (result) {
-                return Highlight.allFold(result.text, [query]);
-            });
-        },
+    @method subWordMatchFold
+    @param {String} query Query to match
+    @param {Array} results Results to highlight
+    @return {Array} Highlighted results
+    @static
+    **/
+    subWordMatchFold: function (query, results) {
+        var queryWords = Y.Text.WordBreak.getUniqueWords(query);
 
-        /**
-         Accent-folding version of `startsWith()`.
+        return YArray.map(results, function (result) {
+            return Highlight.allFold(result.text, queryWords);
+        });
+    },
 
-         @method startsWithFold
-         @param {String} query Query to match
-         @param {Array} results Results to highlight
-         @return {Array} Highlighted results
-         @static
-         **/
-        startsWithFold: function (query, results) {
-            return YArray.map(results, function (result) {
-                return Highlight.allFold(result.text, [query], {
-                    startsWith: true
-                });
-            });
-        },
+    /**
+    Accent-folding version of `wordMatch()`.
 
-        /**
-         Accent-folding version of `subWordMatch()`.
+    @method wordMatchFold
+    @param {String} query Query to match
+    @param {Array} results Results to highlight
+    @return {Array} Highlighted results
+    @static
+    **/
+    wordMatchFold: function (query, results) {
+        return YArray.map(results, function (result) {
+            return Highlight.wordsFold(result.text, query);
+        });
+    }
+});
 
-         @method subWordMatchFold
-         @param {String} query Query to match
-         @param {Array} results Results to highlight
-         @return {Array} Highlighted results
-         @static
-         **/
-        subWordMatchFold: function (query, results) {
-            var queryWords = Y.Text.WordBreak.getUniqueWords(query);
-
-            return YArray.map(results, function (result) {
-                return Highlight.allFold(result.text, queryWords);
-            });
-        },
-
-        /**
-         Accent-folding version of `wordMatch()`.
-
-         @method wordMatchFold
-         @param {String} query Query to match
-         @param {Array} results Results to highlight
-         @return {Array} Highlighted results
-         @static
-         **/
-        wordMatchFold: function (query, results) {
-            return YArray.map(results, function (result) {
-                return Highlight.wordsFold(result.text, query);
-            });
-        }
-    });
 
 }, 'patched-v3.18.1', {"requires": ["array-extras", "highlight-accentfold"]});

@@ -1,10 +1,10 @@
 YUI.add('widget-position', function (Y, NAME) {
 
-    /**
-     * Provides basic XY positioning support for Widgets, though an extension
-     *
-     * @module widget-position
-     */
+/**
+ * Provides basic XY positioning support for Widgets, though an extension
+ *
+ * @module widget-position
+ */
     var Lang = Y.Lang,
         Widget = Y.Widget,
 
@@ -52,13 +52,13 @@ YUI.add('widget-position', function (Y, NAME) {
          * xy attribute. Changes in position can be monitored by listening for xyChange events.
          */
         x: {
-            setter: function (val) {
+            setter: function(val) {
                 this._setX(val);
             },
-            getter: function () {
+            getter: function() {
                 return this._getX();
             },
-            lazyAdd: false
+            lazyAdd:false
         },
 
         /**
@@ -70,10 +70,10 @@ YUI.add('widget-position', function (Y, NAME) {
          * xy attribute. Changes in position can be monitored by listening for xyChange events.
          */
         y: {
-            setter: function (val) {
+            setter: function(val) {
                 this._setY(val);
             },
-            getter: function () {
+            getter: function() {
                 return this._getY();
             },
             lazyAdd: false
@@ -87,8 +87,8 @@ YUI.add('widget-position', function (Y, NAME) {
          * @description Page XY co-ordinate pair for the widget.
          */
         xy: {
-            value: [0, 0],
-            validator: function (val) {
+            value:[0,0],
+            validator: function(val) {
                 return this._validateXY(val);
             }
         }
@@ -106,7 +106,7 @@ YUI.add('widget-position', function (Y, NAME) {
 
     Position.prototype = {
 
-        initializer: function () {
+        initializer : function() {
             this._posNode = this.get(BOUNDING_BOX);
 
             // WIDGET METHOD OVERLAP
@@ -124,7 +124,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @method _renderUIPosition
          * @protected
          */
-        _renderUIPosition: function () {
+        _renderUIPosition : function() {
             this._posNode.addClass(Position.POSITIONED_CLASS_NAME);
         },
 
@@ -137,7 +137,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @method _syncUIPosition
          * @protected
          */
-        _syncUIPosition: function () {
+        _syncUIPosition : function() {
             var posNode = this._posNode;
             if (posNode.getStyle(POSITION) === RELATIVE) {
                 this.syncXY();
@@ -155,7 +155,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @method _bindUIPosition
          * @protected
          */
-        _bindUIPosition: function () {
+        _bindUIPosition :function() {
             this.after(XYChange, this._afterXYChange);
         },
 
@@ -171,7 +171,7 @@ YUI.add('widget-position', function (Y, NAME) {
         move: function () {
             var args = arguments,
                 coord = (Lang.isArray(args[0])) ? args[0] : [args[0], args[1]];
-            this.set(XY_COORD, coord);
+                this.set(XY_COORD, coord);
         },
 
         /**
@@ -180,7 +180,7 @@ YUI.add('widget-position', function (Y, NAME) {
          *
          * @method syncXY
          */
-        syncXY: function () {
+        syncXY : function () {
             this.set(XY_COORD, this._posNode.getXY(), {src: UI});
         },
 
@@ -192,7 +192,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @param {Array} val The XY page co-ordinate value which is being set.
          * @return {boolean} true if valid, false if not.
          */
-        _validateXY: function (val) {
+        _validateXY : function(val) {
             return (Lang.isArray(val) && Lang.isNumber(val[0]) && Lang.isNumber(val[1]));
         },
 
@@ -204,7 +204,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @protected
          * @param {Number} val The X page co-ordinate value
          */
-        _setX: function (val) {
+        _setX : function(val) {
             this.set(XY_COORD, [val, this.get(XY_COORD)[1]]);
         },
 
@@ -216,7 +216,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @protected
          * @param {Number} val The Y page co-ordinate value
          */
-        _setY: function (val) {
+        _setY : function(val) {
             this.set(XY_COORD, [this.get(XY_COORD)[0], val]);
         },
 
@@ -228,7 +228,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @protected
          * @return {Number} The X page co-ordinate value
          */
-        _getX: function () {
+        _getX : function() {
             return this.get(XY_COORD)[0];
         },
 
@@ -240,7 +240,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @protected
          * @return {Number} The Y page co-ordinate value
          */
-        _getY: function () {
+        _getY : function() {
             return this.get(XY_COORD)[1];
         },
 
@@ -252,7 +252,7 @@ YUI.add('widget-position', function (Y, NAME) {
          * @protected
          * @param {EventFacade} e The event facade for the attribute change
          */
-        _afterXYChange: function (e) {
+        _afterXYChange : function(e) {
             if (e.src != UI) {
                 this._uiSetXY(e.newVal);
             }
@@ -265,11 +265,12 @@ YUI.add('widget-position', function (Y, NAME) {
          * @protected
          * @param {String} val The XY page co-ordinates value to be reflected in the UI
          */
-        _uiSetXY: function (val) {
+        _uiSetXY : function(val) {
             this._posNode.setXY(val);
         }
     };
 
     Y.WidgetPosition = Position;
+
 
 }, 'patched-v3.18.1', {"requires": ["base-build", "node-screen", "widget"]});

@@ -22,10 +22,10 @@ YUI.add('attribute-extras', function (Y, NAME) {
         INIT_VALUE = "initValue",
 
         MODIFIABLE = {
-            readOnly: 1,
-            writeOnce: 1,
-            getter: 1,
-            broadcast: 1
+            readOnly:1,
+            writeOnce:1,
+            getter:1,
+            broadcast:1
         };
 
     /**
@@ -35,8 +35,7 @@ YUI.add('attribute-extras', function (Y, NAME) {
      * @class AttributeExtras
      * @extensionfor AttributeCore
      */
-    function AttributeExtras() {
-    }
+    function AttributeExtras() {}
 
     AttributeExtras.prototype = {
 
@@ -62,10 +61,9 @@ YUI.add('attribute-extras', function (Y, NAME) {
          * </p>
          * @method modifyAttr
          * @param {String} name The name of the attribute whose configuration is to be updated.
-         * @param {Object} config An object with configuration property/value pairs, specifying the configuration
-         *     properties to modify.
+         * @param {Object} config An object with configuration property/value pairs, specifying the configuration properties to modify.
          */
-        modifyAttr: function (name, config) {
+        modifyAttr: function(name, config) {
             var host = this, // help compression
                 prop, state;
 
@@ -87,8 +85,7 @@ YUI.add('attribute-extras', function (Y, NAME) {
                     }
                 }
             } else {
-                Y.log('Attribute modifyAttr:' + name + ' has not been added. Use addAttr to add the attribute', 'warn',
-                                                                                                                'attribute');
+                Y.log('Attribute modifyAttr:' + name + ' has not been added. Use addAttr to add the attribute', 'warn', 'attribute');
             }
         },
 
@@ -98,7 +95,7 @@ YUI.add('attribute-extras', function (Y, NAME) {
          * @method removeAttr
          * @param {String} name The name of the attribute to be removed.
          */
-        removeAttr: function (name) {
+        removeAttr: function(name) {
             this._state.removeAll(name);
         },
 
@@ -111,7 +108,7 @@ YUI.add('attribute-extras', function (Y, NAME) {
          * @return {Object} A reference to the host object.
          * @chainable
          */
-        reset: function (name) {
+        reset : function(name) {
             var host = this;  // help compression
 
             if (name) {
@@ -120,7 +117,7 @@ YUI.add('attribute-extras', function (Y, NAME) {
                 }
                 host.set(name, host._state.get(name, INIT_VALUE));
             } else {
-                Y.Object.each(host._state.data, function (v, n) {
+                Y.Object.each(host._state.data, function(v, n) {
                     host.reset(n);
                 });
             }
@@ -134,11 +131,10 @@ YUI.add('attribute-extras', function (Y, NAME) {
          *
          * @method _getAttrCfg
          * @protected
-         * @param {String} name Optional. The attribute name. If not provided, the method will return the configuration
-         *     for all attributes.
+         * @param {String} name Optional. The attribute name. If not provided, the method will return the configuration for all attributes.
          * @return {Object} The configuration properties for the given attribute, or all attributes.
          */
-        _getAttrCfg: function (name) {
+        _getAttrCfg : function(name) {
             var o,
                 state = this._state;
 
@@ -146,7 +142,7 @@ YUI.add('attribute-extras', function (Y, NAME) {
                 o = state.getAll(name) || {};
             } else {
                 o = {};
-                Y.each(state.data, function (v, n) {
+                Y.each(state.data, function(v, n) {
                     o[n] = state.getAll(n);
                 });
             }
@@ -156,5 +152,6 @@ YUI.add('attribute-extras', function (Y, NAME) {
     };
 
     Y.AttributeExtras = AttributeExtras;
+
 
 }, 'patched-v3.18.1', {"requires": ["oop"]});

@@ -1,56 +1,57 @@
 .yui3-menu .yui3-menu {
 
-    position: absolute;
-    z-index: 1;
+	position: absolute;
+	z-index: 1;
 
 }
 
+
 .yui3-menu .yui3-shim {
 
-    /*
-        Styles for the <iframe> shim used to prevent <select> elements from poking through
-        submenus in IE < 7.  Note: For peformance, creation of the <iframe> shim for each submenu
-        is deferred until it is initially made visible by the user.
-    */
+	/*
+		Styles for the <iframe> shim used to prevent <select> elements from poking through
+		submenus in IE < 7.  Note: For peformance, creation of the <iframe> shim for each submenu
+		is deferred until it is initially made visible by the user.
+	*/
 
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
-    opacity: 0;
-    filter: alpha(opacity=0); /* For IE since it doesn't implement the CSS3 "opacity" property. */
-    border: none;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+	opacity: 0;
+	filter: alpha(opacity=0);  /* For IE since it doesn't implement the CSS3 "opacity" property. */
+	border: none;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
 
 }
 
 .yui3-menu-hidden {
 
-    /*
-        Position hidden menus outside the viewport boundaries to prevent them from
-        triggering scrollbars on the viewport.
-    */
+	/*
+		Position hidden menus outside the viewport boundaries to prevent them from
+		triggering scrollbars on the viewport.
+	*/
 
-    top: -10000px;
-    left: -10000px;
+	top: -10000px;
+	left: -10000px;
 
-    /*
-        Using "visibility:hidden" over "display" none because:
+	/*
+		Using "visibility:hidden" over "display" none because:
 
-        1)	As the "position" property for submenus is set to "absolute", they are out of
-            the document flow and take up no space.  Therefore, from that perspective use of
-            "display:none" is redundant.
+		1)	As the "position" property for submenus is set to "absolute", they are out of
+			the document flow and take up no space.  Therefore, from that perspective use of
+			"display:none" is redundant.
 
-        2)	According to MSDN use of "display:none" is more expensive:
-            "Display is the more expensive of the two CSS properties, so if you are
-            making elements appear and disappear often, visibility will be faster."
-            (See http://msdn.microsoft.com/en-us/library/bb264005(VS.85).aspx)
-    */
+		2)	According to MSDN use of "display:none" is more expensive:
+			"Display is the more expensive of the two CSS properties, so if you are
+			making elements appear and disappear often, visibility will be faster."
+			(See http://msdn.microsoft.com/en-us/library/bb264005(VS.85).aspx)
+	*/
 
-    visibility: hidden;
+	visibility: hidden;
 
 }
 
@@ -79,52 +80,53 @@
 
 .yui3-menu-horizontal li {
 
-    float: left;
-    width: auto;
+	float: left;
+	width: auto;
 
 }
 
 .yui3-menu-horizontal li li {
 
-    float: none;
+	float: none;
 
 }
 
 .yui3-menu-horizontal ul {
 
-    /*
-        Use of "zoom" sets the "hasLayout" property to "true" in IE (< 8).  When "hasLayout" is
-        set to "true", an element can clear its floated descendents.  For more:
-        http://msdn.microsoft.com/en-gb/library/ms533776(VS.85).aspx
-    */
+	/*
+		Use of "zoom" sets the "hasLayout" property to "true" in IE (< 8).  When "hasLayout" is
+		set to "true", an element can clear its floated descendents.  For more:
+		http://msdn.microsoft.com/en-gb/library/ms533776(VS.85).aspx
+	*/
 
-    *zoom: 1;
+	*zoom: 1;
 
 }
 
 .yui3-menu-horizontal ul ul {
 
-    /*
-        No need to clear <ul>s of submenus of horizontal menus since <li>s of submenus
-        aren't floated.
-    */
+	/*
+		No need to clear <ul>s of submenus of horizontal menus since <li>s of submenus
+		aren't floated.
+	*/
 
-    *zoom: normal;
+	*zoom: normal;
+
+}
+
+.yui3-menu-horizontal>.yui3-menu-content>ul:after {
+
+	/*	Self-clearing solution for Opera, Webkit, Gecko and IE > 7	*/
+
+	content: "";
+	display: block;
+	clear: both;
+	line-height: 0;
+	font-size: 0;
+	visibility: hidden;
 
 }
 
-.yui3-menu-horizontal > .yui3-menu-content > ul:after {
-
-    /*	Self-clearing solution for Opera, Webkit, Gecko and IE > 7	*/
-
-    content: "";
-    display: block;
-    clear: both;
-    line-height: 0;
-    font-size: 0;
-    visibility: hidden;
-
-}
 
 /*
 	The following two rules are for IE 7.  Triggering "hasLayout" (via use of "zoom") prevents
@@ -134,15 +136,17 @@
 
 .yui3-menu-content {
 
-    *zoom: 1;
+	*zoom: 1;
 
 }
+
 
 .yui3-menu-hidden .yui3-menu-content {
 
-    *zoom: normal;
+	*zoom: normal;
 
 }
+
 
 /*
 	The following two rules are for IE 6 (Standards Mode and Quirks Mode) and IE 7 (Quirks Mode
@@ -153,13 +157,13 @@
 .yui3-menuitem-content,
 .yui3-menu-label {
 
-    _zoom: 1;
+	_zoom: 1;
 
 }
 
 .yui3-menu-hidden .yui3-menuitem-content,
 .yui3-menu-hidden .yui3-menu-label {
 
-    _zoom: normal;
+	_zoom: normal;
 
 }

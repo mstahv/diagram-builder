@@ -1,44 +1,44 @@
 YUI.add('aui-datatable-text-cell-editor', function (A, NAME) {
 
-    var CSS_FORM_CONTROL = A.getClassName('form', 'control'),
-        CSS_CELLEDITOR_ELEMENT = A.getClassName('celleditor', 'element');
+var CSS_FORM_CONTROL = A.getClassName('form', 'control'),
+    CSS_CELLEDITOR_ELEMENT = A.getClassName('celleditor', 'element');
+
+/**
+ * TextCellEditor class.
+ *
+ * @class A.TextCellEditor
+ * @extends A.BaseCellEditor
+ * @param {Object} config Object literal specifying widget configuration
+ * properties.
+ * @constructor
+ */
+var TextCellEditor = A.Component.create({
 
     /**
-     * TextCellEditor class.
+     * Static property provides a string to identify the class.
      *
-     * @class A.TextCellEditor
-     * @extends A.BaseCellEditor
-     * @param {Object} config Object literal specifying widget configuration
-     * properties.
-     * @constructor
+     * @property NAME
+     * @type String
+     * @static
      */
-    var TextCellEditor = A.Component.create({
+    NAME: 'textCellEditor',
 
-                                                /**
-                                                 * Static property provides a string to identify the class.
-                                                 *
-                                                 * @property NAME
-                                                 * @type String
-                                                 * @static
-                                                 */
-                                                NAME: 'textCellEditor',
+    /**
+     * Static property used to define which component it extends.
+     *
+     * @property EXTENDS
+     * @type Object
+     * @static
+     */
+    EXTENDS: A.BaseCellEditor,
 
-                                                /**
-                                                 * Static property used to define which component it extends.
-                                                 *
-                                                 * @property EXTENDS
-                                                 * @type Object
-                                                 * @static
-                                                 */
-                                                EXTENDS: A.BaseCellEditor,
+    prototype: {
+        ELEMENT_TEMPLATE: '<input autocomplete="off" class="' +
+            [CSS_CELLEDITOR_ELEMENT, CSS_FORM_CONTROL].join(' ') + '" type="text" />'
+    }
+});
 
-                                                prototype: {
-                                                    ELEMENT_TEMPLATE: '<input autocomplete="off" class="' +
-                                                                      [CSS_CELLEDITOR_ELEMENT, CSS_FORM_CONTROL].join(
-                                                                          ' ') + '" type="text" />'
-                                                }
-                                            });
+A.TextCellEditor = TextCellEditor;
 
-    A.TextCellEditor = TextCellEditor;
 
-}, '3.1.0', {"requires": ["aui-datatable-base-options-cell-editor"]});
+}, '4.1.0', {"requires": ["aui-datatable-base-options-cell-editor"]});

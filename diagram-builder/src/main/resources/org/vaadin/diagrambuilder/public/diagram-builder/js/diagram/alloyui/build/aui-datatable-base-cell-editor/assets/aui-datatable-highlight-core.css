@@ -2,7 +2,7 @@
     position: relative;
 }
 
-.table-selection, .table-selection .table-cell {
+.table-selection, .table-selection .table-cell  {
     outline: 0;
 }
 

@@ -13,7 +13,6 @@
 .yui3-skin-sam-dark .yui3-slider-x .yui3-slider-rail {
     height: 26px;
 }
-
 .yui3-skin-sam-dark .yui3-slider-x .yui3-slider-thumb {
     height: 26px;
     width: 15px;
@@ -25,7 +24,6 @@
     left: -2px;
     width: 5px;
 }
-
 .yui3-skin-sam-dark .yui3-slider-x .yui3-slider-rail-cap-right {
     background-position: 0 -40px;
     height: 20px;
@@ -37,7 +35,6 @@
     left: 0;
     top: -10px;
 }
-
 .yui3-skin-sam-dark .yui3-slider-x .yui3-slider-thumb-shadow {
     left: 0;
     opacity: 0.15;
@@ -60,7 +57,6 @@
 .yui3-skin-sam-dark .yui3-slider-y .yui3-slider-rail {
     width: 26px;
 }
-
 .yui3-skin-sam-dark .yui3-slider-y .yui3-slider-thumb {
     width: 26px;
     height: 15px;
@@ -72,7 +68,6 @@
     top: -2px;
     height: 5px;
 }
-
 .yui3-skin-sam-dark .yui3-slider-y .yui3-slider-rail-cap-bottom {
     background-position: -40px 0;
     width: 20px;
@@ -84,7 +79,6 @@
     left: -10px;
     top: 0;
 }
-
 .yui3-skin-sam-dark .yui3-slider-y .yui3-slider-thumb-shadow {
     left: -50px;
     opacity: 0.15;

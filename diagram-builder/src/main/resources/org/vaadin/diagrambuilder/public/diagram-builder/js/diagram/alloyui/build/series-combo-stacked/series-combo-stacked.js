@@ -1,80 +1,86 @@
 YUI.add('series-combo-stacked', function (Y, NAME) {
 
+/**
+ * Provides functionality for creating a stacked combo series.
+ *
+ * @module charts
+ * @submodule series-combo-stacked
+ */
+/**
+ * The StackedComboSeries class renders a combination of lines, plots and area fills in a single series. Series
+ * are stacked along the value axis to indicate each series contribution to a cumulative total. Each
+ * series type has a corresponding boolean attribute indicating if it is rendered. By default, all three types are
+ * rendered.
+ *
+ * @class StackedComboSeries
+ * @extends ComboSeries
+ * @uses StackingUtil
+ * @constructor
+ * @param {Object} config (optional) Configuration parameters.
+ * @submodule series-combo-stacked
+ */
+Y.StackedComboSeries = Y.Base.create("stackedComboSeries", Y.ComboSeries, [Y.StackingUtil], {
     /**
-     * Provides functionality for creating a stacked combo series.
+     * @protected
      *
-     * @module charts
-     * @submodule series-combo-stacked
+     * Calculates the coordinates for the series. Overrides base implementation.
+     *
+     * @method setAreaData
      */
+    setAreaData: function()
+    {
+        Y.StackedComboSeries.superclass.setAreaData.apply(this);
+        this._stackCoordinates.apply(this);
+    },
+
     /**
-     * The StackedComboSeries class renders a combination of lines, plots and area fills in a single series. Series
-     * are stacked along the value axis to indicate each series contribution to a cumulative total. Each
-     * series type has a corresponding boolean attribute indicating if it is rendered. By default, all three types are
-     * rendered.
+     * @protected
      *
-     * @class StackedComboSeries
-     * @extends ComboSeries
-     * @uses StackingUtil
-     * @constructor
-     * @param {Object} config (optional) Configuration parameters.
-     * @submodule series-combo-stacked
+     * Draws the series.
+     *
+     * @method drawSeries
      */
-    Y.StackedComboSeries = Y.Base.create("stackedComboSeries", Y.ComboSeries, [Y.StackingUtil], {
+    drawSeries: function()
+    {
+        if(this.get("showAreaFill"))
+        {
+            this.drawFill.apply(this, this._getStackedClosingPoints());
+        }
+        if(this.get("showLines"))
+        {
+            this.drawLines();
+        }
+        if(this.get("showMarkers"))
+        {
+            this.drawPlots();
+        }
+    }
+
+}, {
+    ATTRS : {
         /**
-         * @protected
+         * Read-only attribute indicating the type of series.
          *
-         * Calculates the coordinates for the series. Overrides base implementation.
-         *
-         * @method setAreaData
+         * @attribute type
+         * @type String
+         * @default stackedCombo
          */
-        setAreaData: function () {
-            Y.StackedComboSeries.superclass.setAreaData.apply(this);
-            this._stackCoordinates.apply(this);
+        type: {
+            value: "stackedCombo"
         },
 
         /**
-         * @protected
+         * Indicates whether a fill is displayed.
          *
-         * Draws the series.
-         *
-         * @method drawSeries
+         * @attribute showAreaFill
+         * @type Boolean
+         * @default true
          */
-        drawSeries: function () {
-            if (this.get("showAreaFill")) {
-                this.drawFill.apply(this, this._getStackedClosingPoints());
-            }
-            if (this.get("showLines")) {
-                this.drawLines();
-            }
-            if (this.get("showMarkers")) {
-                this.drawPlots();
-            }
+        showAreaFill: {
+            value: true
         }
+    }
+});
 
-    }, {
-                                             ATTRS: {
-                                                 /**
-                                                  * Read-only attribute indicating the type of series.
-                                                  *
-                                                  * @attribute type
-                                                  * @type String
-                                                  * @default stackedCombo
-                                                  */
-                                                 type: {
-                                                     value: "stackedCombo"
-                                                 },
-
-                                                 /**
-                                                  * Indicates whether a fill is displayed.
-                                                  *
-                                                  * @attribute showAreaFill
-                                                  * @type Boolean
-                                                  * @default true
-                                                  */
-                                                 showAreaFill: {
-                                                     value: true
-                                                 }
-                                             }
-                                         });
 
 }, 'patched-v3.18.1', {"requires": ["series-stacked", "series-combo"]});

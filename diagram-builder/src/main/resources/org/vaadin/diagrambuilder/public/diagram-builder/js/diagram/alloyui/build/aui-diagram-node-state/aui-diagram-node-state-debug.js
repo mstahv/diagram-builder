@@ -116,4 +116,4 @@ var DiagramNodeState = A.Component.create({
 A.DiagramNodeState = DiagramNodeState;
 
 
-}, '3.4.0', {"requires": ["aui-diagram-node"]});
+}, '4.1.0', {"requires": ["aui-diagram-node"]});

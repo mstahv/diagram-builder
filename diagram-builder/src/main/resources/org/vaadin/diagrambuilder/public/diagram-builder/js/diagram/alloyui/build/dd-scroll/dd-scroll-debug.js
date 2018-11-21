@@ -16,30 +16,31 @@ YUI.add('dd-scroll', function (Y, NAME) {
      * @constructor
      */
 
-    var S = function () {
-            S.superclass.constructor.apply(this, arguments);
+    var S = function() {
+        S.superclass.constructor.apply(this, arguments);
 
-        },
-        WS, NS,
-        HOST = 'host',
-        BUFFER = 'buffer',
-        PARENT_SCROLL = 'parentScroll',
-        WINDOW_SCROLL = 'windowScroll',
-        SCROLL_TOP = 'scrollTop',
-        SCROLL_LEFT = 'scrollLeft',
-        OFFSET_WIDTH = 'offsetWidth',
-        OFFSET_HEIGHT = 'offsetHeight';
+    },
+    WS, NS,
+    HOST = 'host',
+    BUFFER = 'buffer',
+    PARENT_SCROLL = 'parentScroll',
+    WINDOW_SCROLL = 'windowScroll',
+    SCROLL_TOP = 'scrollTop',
+    SCROLL_LEFT = 'scrollLeft',
+    OFFSET_WIDTH = 'offsetWidth',
+    OFFSET_HEIGHT = 'offsetHeight';
+
 
     S.ATTRS = {
         /**
-         * Internal config option to hold the node that we are scrolling. Should not be set by the developer.
-         * @attribute parentScroll
-         * @protected
-         * @type Node
-         */
+        * Internal config option to hold the node that we are scrolling. Should not be set by the developer.
+        * @attribute parentScroll
+        * @protected
+        * @type Node
+        */
         parentScroll: {
             value: false,
-            setter: function (node) {
+            setter: function(node) {
                 if (node) {
                     return node;
                 }
@@ -47,54 +48,54 @@ YUI.add('dd-scroll', function (Y, NAME) {
             }
         },
         /**
-         * The number of pixels from the edge of the screen to turn on scrolling. Default: 30
-         * @attribute buffer
-         * @type Number
-         */
+        * The number of pixels from the edge of the screen to turn on scrolling. Default: 30
+        * @attribute buffer
+        * @type Number
+        */
         buffer: {
             value: 30,
             validator: Y.Lang.isNumber
         },
         /**
-         * The number of milliseconds delay to pass to the auto scroller. Default: 235
-         * @attribute scrollDelay
-         * @type Number
-         */
+        * The number of milliseconds delay to pass to the auto scroller. Default: 235
+        * @attribute scrollDelay
+        * @type Number
+        */
         scrollDelay: {
             value: 235,
             validator: Y.Lang.isNumber
         },
         /**
-         * The host we are plugged into.
-         * @attribute host
-         * @type Object
-         */
+        * The host we are plugged into.
+        * @attribute host
+        * @type Object
+        */
         host: {
             value: null
         },
         /**
-         * Turn on window scroll support, default: false
-         * @attribute windowScroll
-         * @type Boolean
-         */
+        * Turn on window scroll support, default: false
+        * @attribute windowScroll
+        * @type Boolean
+        */
         windowScroll: {
             value: false,
             validator: Y.Lang.isBoolean
         },
         /**
-         * Allow vertical scrolling, default: true.
-         * @attribute vertical
-         * @type Boolean
-         */
+        * Allow vertical scrolling, default: true.
+        * @attribute vertical
+        * @type Boolean
+        */
         vertical: {
             value: true,
             validator: Y.Lang.isBoolean
         },
         /**
-         * Allow horizontal scrolling, default: true.
-         * @attribute horizontal
-         * @type Boolean
-         */
+        * Allow horizontal scrolling, default: true.
+        * @attribute horizontal
+        * @type Boolean
+        */
         horizontal: {
             value: true,
             validator: Y.Lang.isBoolean
@@ -103,48 +104,48 @@ YUI.add('dd-scroll', function (Y, NAME) {
 
     Y.extend(S, Y.Base, {
         /**
-         * Tells if we are actively scrolling or not.
-         * @private
-         * @property _scrolling
-         * @type Boolean
-         */
+        * Tells if we are actively scrolling or not.
+        * @private
+        * @property _scrolling
+        * @type Boolean
+        */
         _scrolling: null,
         /**
-         * Cache of the Viewport dims.
-         * @private
-         * @property _vpRegionCache
-         * @type Object
-         */
+        * Cache of the Viewport dims.
+        * @private
+        * @property _vpRegionCache
+        * @type Object
+        */
         _vpRegionCache: null,
         /**
-         * Cache of the dragNode dims.
-         * @private
-         * @property _dimCache
-         * @type Object
-         */
+        * Cache of the dragNode dims.
+        * @private
+        * @property _dimCache
+        * @type Object
+        */
         _dimCache: null,
         /**
-         * Holder for the Timer object returned from Y.later.
-         * @private
-         * @property _scrollTimer
-         * @type {Y.later}
-         */
+        * Holder for the Timer object returned from Y.later.
+        * @private
+        * @property _scrollTimer
+        * @type {Y.later}
+        */
         _scrollTimer: null,
         /**
-         * Sets the _vpRegionCache property with an Object containing the dims from the viewport.
-         * @private
-         * @method _getVPRegion
-         */
-        _getVPRegion: function () {
+        * Sets the _vpRegionCache property with an Object containing the dims from the viewport.
+        * @private
+        * @method _getVPRegion
+        */
+        _getVPRegion: function() {
             var r = {},
                 n = this.get(PARENT_SCROLL),
-                b = this.get(BUFFER),
-                ws = this.get(WINDOW_SCROLL),
-                xy = ((ws) ? [] : n.getXY()),
-                w = ((ws) ? 'winWidth' : OFFSET_WIDTH),
-                h = ((ws) ? 'winHeight' : OFFSET_HEIGHT),
-                t = ((ws) ? n.get(SCROLL_TOP) : xy[1]),
-                l = ((ws) ? n.get(SCROLL_LEFT) : xy[0]);
+            b = this.get(BUFFER),
+            ws = this.get(WINDOW_SCROLL),
+            xy = ((ws) ? [] : n.getXY()),
+            w = ((ws) ? 'winWidth' : OFFSET_WIDTH),
+            h = ((ws) ? 'winHeight' : OFFSET_HEIGHT),
+            t = ((ws) ? n.get(SCROLL_TOP) : xy[1]),
+            l = ((ws) ? n.get(SCROLL_LEFT) : xy[0]);
 
             r = {
                 top: t + b,
@@ -155,24 +156,24 @@ YUI.add('dd-scroll', function (Y, NAME) {
             this._vpRegionCache = r;
             return r;
         },
-        initializer: function () {
+        initializer: function() {
             var h = this.get(HOST);
             h.after('drag:start', Y.bind(this.start, this));
             h.after('drag:end', Y.bind(this.end, this));
             h.on('drag:align', Y.bind(this.align, this));
 
             //TODO - This doesn't work yet??
-            Y.one('win').on('scroll', Y.bind(function () {
+            Y.one('win').on('scroll', Y.bind(function() {
                 this._vpRegionCache = null;
             }, this));
         },
         /**
-         * Check to see if we need to fire the scroll timer. If scroll timer is running this will scroll the window.
-         * @private
-         * @method _checkWinScroll
-         * @param {Boolean} move Should we move the window. From Y.later
-         */
-        _checkWinScroll: function (move) {
+        * Check to see if we need to fire the scroll timer. If scroll timer is running this will scroll the window.
+        * @private
+        * @method _checkWinScroll
+        * @param {Boolean} move Should we move the window. From Y.later
+        */
+        _checkWinScroll: function(move) {
             var r = this._getVPRegion(),
                 ho = this.get(HOST),
                 ws = this.get(WINDOW_SCROLL),
@@ -240,7 +241,7 @@ YUI.add('dd-scroll', function (Y, NAME) {
                 ho._alignNode([nl, nt], true); //We are srolling..
                 xy = ho.actXY;
                 ho.actXY = [nl, nt];
-                ho._moveNode({node: win, top: st, left: sl});
+                ho._moveNode({ node: win, top: st, left: sl});
                 if (!st && !sl) {
                     this._cancelScroll();
                 }
@@ -253,21 +254,21 @@ YUI.add('dd-scroll', function (Y, NAME) {
             }
         },
         /**
-         * Cancel a previous scroll timer and init a new one.
-         * @private
-         * @method _initScroll
-         */
-        _initScroll: function () {
+        * Cancel a previous scroll timer and init a new one.
+        * @private
+        * @method _initScroll
+        */
+        _initScroll: function() {
             this._cancelScroll();
             this._scrollTimer = Y.Lang.later(this.get('scrollDelay'), this, this._checkWinScroll, [true], true);
 
         },
         /**
-         * Cancel a currently running scroll timer.
-         * @private
-         * @method _cancelScroll
-         */
-        _cancelScroll: function () {
+        * Cancel a currently running scroll timer.
+        * @private
+        * @method _cancelScroll
+        */
+        _cancelScroll: function() {
             this._scrolling = false;
             if (this._scrollTimer) {
                 this._scrollTimer.cancel();
@@ -275,10 +276,10 @@ YUI.add('dd-scroll', function (Y, NAME) {
             }
         },
         /**
-         * Called from the drag:align event to determine if we need to scroll.
-         * @method align
-         */
-        align: function (e) {
+        * Called from the drag:align event to determine if we need to scroll.
+        * @method align
+        */
+        align: function(e) {
             if (this._scrolling) {
                 this._cancelScroll();
                 e.preventDefault();
@@ -288,11 +289,11 @@ YUI.add('dd-scroll', function (Y, NAME) {
             }
         },
         /**
-         * Set the cache of the dragNode dims.
-         * @private
-         * @method _setDimCache
-         */
-        _setDimCache: function () {
+        * Set the cache of the dragNode dims.
+        * @private
+        * @method _setDimCache
+        */
+        _setDimCache: function() {
             var node = this.get(HOST).get('dragNode');
             this._dimCache = {
                 h: node.get(OFFSET_HEIGHT),
@@ -300,23 +301,24 @@ YUI.add('dd-scroll', function (Y, NAME) {
             };
         },
         /**
-         * Called from the drag:start event
-         * @method start
-         */
-        start: function () {
+        * Called from the drag:start event
+        * @method start
+        */
+        start: function() {
             this._setDimCache();
         },
         /**
-         * Called from the drag:end event
-         * @method end
-         */
-        end: function () {
+        * Called from the drag:end event
+        * @method end
+        */
+        end: function() {
             this._dimCache = null;
             this._cancelScroll();
         }
     });
 
     Y.namespace('Plugin');
+
 
     /**
      * Extends the Scroll class to make the window scroll while dragging.
@@ -325,18 +327,18 @@ YUI.add('dd-scroll', function (Y, NAME) {
      * @namespace Plugin
      * @constructor
      */
-    WS = function () {
+    WS = function() {
         WS.superclass.constructor.apply(this, arguments);
     };
     WS.ATTRS = Y.merge(S.ATTRS, {
         /**
-         * Turn on window scroll support, default: true
-         * @attribute windowScroll
-         * @type Boolean
-         */
+        * Turn on window scroll support, default: true
+        * @attribute windowScroll
+        * @type Boolean
+        */
         windowScroll: {
             value: true,
-            setter: function (scroll) {
+            setter: function(scroll) {
                 if (scroll) {
                     this.set(PARENT_SCROLL, Y.one('win'));
                 }
@@ -346,21 +348,22 @@ YUI.add('dd-scroll', function (Y, NAME) {
     });
     Y.extend(WS, S, {
         //Shouldn't have to do this..
-        initializer: function () {
+        initializer: function() {
             this.set('windowScroll', this.get('windowScroll'));
         }
     });
     /**
-     * The Scroll instance will be placed on the Drag instance under the winscroll namespace.
-     * @property NS
-     * @default winscroll
-     * @readonly
-     * @protected
-     * @static
-     * @type {String}
-     */
+    * The Scroll instance will be placed on the Drag instance under the winscroll namespace.
+    * @property NS
+    * @default winscroll
+    * @readonly
+    * @protected
+    * @static
+    * @type {String}
+    */
     WS.NAME = WS.NS = 'winscroll';
     Y.Plugin.DDWinScroll = WS;
+
 
     /**
      * Extends the Scroll class to make a parent node scroll while dragging.
@@ -369,19 +372,19 @@ YUI.add('dd-scroll', function (Y, NAME) {
      * @namespace Plugin
      * @constructor
      */
-    NS = function () {
+    NS = function() {
         NS.superclass.constructor.apply(this, arguments);
 
     };
     NS.ATTRS = Y.merge(S.ATTRS, {
         /**
-         * The node we want to scroll. Used to set the internal parentScroll attribute.
-         * @attribute node
-         * @type Node
-         */
+        * The node we want to scroll. Used to set the internal parentScroll attribute.
+        * @attribute node
+        * @type Node
+        */
         node: {
             value: false,
-            setter: function (node) {
+            setter: function(node) {
                 var n = Y.one(node);
                 if (!n) {
                     if (node !== false) {
@@ -396,22 +399,25 @@ YUI.add('dd-scroll', function (Y, NAME) {
     });
     Y.extend(NS, S, {
         //Shouldn't have to do this..
-        initializer: function () {
+        initializer: function() {
             this.set('node', this.get('node'));
         }
     });
     /**
-     * The NodeScroll instance will be placed on the Drag instance under the nodescroll namespace.
-     * @property NS
-     * @default nodescroll
-     * @readonly
-     * @protected
-     * @static
-     * @type {String}
-     */
+    * The NodeScroll instance will be placed on the Drag instance under the nodescroll namespace.
+    * @property NS
+    * @default nodescroll
+    * @readonly
+    * @protected
+    * @static
+    * @type {String}
+    */
     NS.NAME = NS.NS = 'nodescroll';
     Y.Plugin.DDNodeScroll = NS;
 
     Y.DD.Scroll = S;
+
+
+
 
 }, 'patched-v3.18.1', {"requires": ["dd-drag"]});

@@ -17,14 +17,15 @@ YUI.add('file', function (Y, NAME) {
      * @class File
      */
 
-    var Win = Y.config.win;
+ var Win = Y.config.win;
 
-    if (Win && Win.File && Win.FormData && Win.XMLHttpRequest) {
-        Y.File = Y.FileHTML5;
-    }
+ if (Win && Win.File && Win.FormData && Win.XMLHttpRequest) {
+    Y.File = Y.FileHTML5;
+ }
 
-    else {
-        Y.File = Y.FileFlash;
-    }
+ else {
+    Y.File = Y.FileFlash;
+ }
+
 
 }, 'patched-v3.18.1', {"requires": ["file-flash", "file-html5"]});

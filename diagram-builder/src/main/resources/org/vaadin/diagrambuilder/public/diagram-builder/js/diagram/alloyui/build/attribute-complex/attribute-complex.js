@@ -11,8 +11,7 @@ YUI.add('attribute-complex', function (Y, NAME) {
 
     var Attribute = Y.Attribute;
 
-    Attribute.Complex = function () {
-    };
+    Attribute.Complex = function() {};
     Attribute.Complex.prototype = {
 
         /**
@@ -29,7 +28,7 @@ YUI.add('attribute-complex', function (Y, NAME) {
          *
          * @private
          */
-        _normAttrVals: Attribute.prototype._normAttrVals,
+        _normAttrVals : Attribute.prototype._normAttrVals,
 
         /**
          * Returns the initial value of the given attribute from
@@ -39,19 +38,19 @@ YUI.add('attribute-complex', function (Y, NAME) {
          *
          * @param {String} attr The name of the attribute
          * @param {Object} cfg The attribute configuration object
-         * @param {Object} initValues The object with simple and complex attribute name/value pairs returned from
-         *     _normAttrVals
+         * @param {Object} initValues The object with simple and complex attribute name/value pairs returned from _normAttrVals
          *
          * @return {Any} The initial value of the attribute.
          *
          * @method _getAttrInitVal
          * @private
          */
-        _getAttrInitVal: Attribute.prototype._getAttrInitVal
+        _getAttrInitVal : Attribute.prototype._getAttrInitVal
 
     };
 
     // Consistency with the rest of the Attribute addons for now.
     Y.AttributeComplex = Attribute.Complex;
+
 
 }, 'patched-v3.18.1', {"requires": ["attribute-base"]});

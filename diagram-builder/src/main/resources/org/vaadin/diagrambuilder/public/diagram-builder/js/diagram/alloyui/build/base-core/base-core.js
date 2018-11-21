@@ -3,8 +3,7 @@ YUI.add('base-core', function (Y, NAME) {
     /**
      * The base module provides the Base class, which objects requiring attribute and custom event support can extend.
      * The module also provides two ways to reuse code - It augments Base with the Plugin.Host interface which provides
-     * plugin support and also provides the BaseCore.build method which provides a way to build custom classes using
-     * extensions.
+     * plugin support and also provides the BaseCore.build method which provides a way to build custom classes using extensions.
      *
      * @module base
      */
@@ -33,10 +32,10 @@ YUI.add('base-core', function (Y, NAME) {
 
         AttributeCore = Y.AttributeCore,
 
-        _wlmix = function (r, s, wlhash) {
+        _wlmix = function(r, s, wlhash) {
             var p;
             for (p in s) {
-                if (wlhash[p]) {
+                if(wlhash[p]) {
                     r[p] = s[p];
                 }
             }
@@ -206,8 +205,8 @@ YUI.add('base-core', function (Y, NAME) {
          * @type boolean
          */
         initialized: {
-            readOnly: true,
-            value: false
+            readOnly:true,
+            value:false
         },
 
         /**
@@ -220,35 +219,35 @@ YUI.add('base-core', function (Y, NAME) {
          * @type boolean
          */
         destroyed: {
-            readOnly: true,
-            value: false
+            readOnly:true,
+            value:false
         }
     };
 
     /**
-     Provides a way to safely modify a `Y.BaseCore` subclass' static `ATTRS`
-     after the class has been defined or created.
+    Provides a way to safely modify a `Y.BaseCore` subclass' static `ATTRS`
+    after the class has been defined or created.
 
-     BaseCore-based classes cache information about the class hierarchy in order
-     to efficiently create instances. This cache includes includes the aggregated
-     `ATTRS` configs. If the static `ATTRS` configs need to be modified after the
-     class has been defined or create, then use this method which will make sure
-     to clear any cached data before making any modifications.
+    BaseCore-based classes cache information about the class hierarchy in order
+    to efficiently create instances. This cache includes includes the aggregated
+    `ATTRS` configs. If the static `ATTRS` configs need to be modified after the
+    class has been defined or create, then use this method which will make sure
+    to clear any cached data before making any modifications.
 
-     @method modifyAttrs
-     @param {Function} [ctor] The constructor function whose `ATTRS` should be
-     modified. If a `ctor` function is not specified, then `this` is assumed
-     to be the constructor which hosts the `ATTRS`.
-     @param {Object} configs The collection of `ATTRS` configs to mix with the
-     existing attribute configurations.
-     @static
-     @since 3.10.0
-     **/
+    @method modifyAttrs
+    @param {Function} [ctor] The constructor function whose `ATTRS` should be
+        modified. If a `ctor` function is not specified, then `this` is assumed
+        to be the constructor which hosts the `ATTRS`.
+    @param {Object} configs The collection of `ATTRS` configs to mix with the
+        existing attribute configurations.
+    @static
+    @since 3.10.0
+    **/
     BaseCore.modifyAttrs = function (ctor, configs) {
         // When called without a constructor, assume `this` is the constructor.
         if (typeof ctor !== 'function') {
             configs = ctor;
-            ctor = this;
+            ctor    = this;
         }
 
         var attrs, attr, name;
@@ -279,7 +278,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @param {Object} config The constructor configuration object
          * @private
          */
-        _initBase: function (config) {
+        _initBase : function(config) {
 
             Y.stamp(this);
 
@@ -292,9 +291,7 @@ YUI.add('base-core', function (Y, NAME) {
                 PluginHost.call(this);
             }
 
-            if (this._lazyAddAttrs !== false) {
-                this._lazyAddAttrs = true;
-            }
+            if (this._lazyAddAttrs !== false) { this._lazyAddAttrs = true; }
 
             /**
              * The string used to identify the class of this object.
@@ -314,7 +311,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method _initAttribute
          * @private
          */
-        _initAttribute: function () {
+        _initAttribute: function() {
             AttributeCore.call(this);
         },
 
@@ -327,7 +324,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @param {Object} cfg Object with configuration property name/value pairs
          * @return {BaseCore} A reference to this object
          */
-        init: function (cfg) {
+        init: function(cfg) {
 
             this._baseInit(cfg);
 
@@ -340,7 +337,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method _baseInit
          * @private
          */
-        _baseInit: function (cfg) {
+        _baseInit: function(cfg) {
             this._initHierarchy(cfg);
 
             if (this._initPlugins) {
@@ -357,7 +354,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @return {BaseCore} A reference to this object
          * @chainable
          */
-        destroy: function () {
+        destroy: function() {
             this._baseDestroy();
             return this;
         },
@@ -368,7 +365,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method _baseDestroy
          * @private
          */
-        _baseDestroy: function () {
+        _baseDestroy : function() {
             if (this._destroyPlugins) {
                 this._destroyPlugins();
             }
@@ -381,11 +378,11 @@ YUI.add('base-core', function (Y, NAME) {
          *
          * @method _getClasses
          * @protected
-         * @return {Function[]} An array of classes (constructor functions), making up the class hierarchy for this
-         *     object. This value is cached the first time the method, or _getAttrCfgs, is invoked. Subsequent
-         *     invocations return the cached value.
+         * @return {Function[]} An array of classes (constructor functions), making up the class hierarchy for this object.
+         * This value is cached the first time the method, or _getAttrCfgs, is invoked. Subsequent invocations return the
+         * cached value.
          */
-        _getClasses: function () {
+        _getClasses : function() {
             if (!this._classes) {
                 this._initHierarchyData();
             }
@@ -402,7 +399,7 @@ YUI.add('base-core', function (Y, NAME) {
          * This value is cached the first time the method, or _getClasses, is invoked. Subsequent invocations return
          * the cached value.
          */
-        _getAttrCfgs: function () {
+        _getAttrCfgs : function() {
             if (!this._attrs) {
                 this._initHierarchyData();
             }
@@ -423,7 +420,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @return {Object} The set of attributes to be added for this instance, suitable
          * for passing through to `addAttrs`.
          */
-        _getInstanceAttrCfgs: function (allCfgs) {
+        _getInstanceAttrCfgs : function(allCfgs) {
 
             var cfgs = {},
                 cfg,
@@ -479,7 +476,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @return {Object} The set of adhoc attributes passed in, in the form
          * of an object with attribute name/configuration pairs.
          */
-        _filterAdHocAttrs: function (allAttrs, userVals) {
+        _filterAdHocAttrs : function(allAttrs, userVals) {
             var adHocs,
                 nonAttrs = this._nonAttrs,
                 attr;
@@ -489,7 +486,7 @@ YUI.add('base-core', function (Y, NAME) {
                 for (attr in userVals) {
                     if (!allAttrs[attr] && !nonAttrs[attr] && userVals.hasOwnProperty(attr)) {
                         adHocs[attr] = {
-                            value: userVals[attr]
+                            value:userVals[attr]
                         };
                     }
                 }
@@ -506,7 +503,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method _initHierarchyData
          * @private
          */
-        _initHierarchyData: function () {
+        _initHierarchyData : function() {
 
             var ctor = this.constructor,
                 cachedClassData = ctor._CACHED_CLASS_DATA,
@@ -537,7 +534,7 @@ YUI.add('base-core', function (Y, NAME) {
 
                     // Aggregate ATTR cfg whitelist.
                     if (needsAttrCfgHash) {
-                        attrCfg = c._ATTR_CFG;
+                        attrCfg     = c._ATTR_CFG;
                         attrCfgHash = attrCfgHash || {};
 
                         if (attrCfg) {
@@ -550,12 +547,12 @@ YUI.add('base-core', function (Y, NAME) {
                     // Commenting out the if. We always aggregate, since we don't
                     // know if we'll be needing this on the instance or not.
                     // if (this._allowAdHocAttrs) {
-                    nonAttrsCfg = c._NON_ATTRS_CFG;
-                    if (nonAttrsCfg) {
-                        for (i = 0, l = nonAttrsCfg.length; i < l; i++) {
-                            nonAttrs[nonAttrsCfg[i]] = true;
+                        nonAttrsCfg = c._NON_ATTRS_CFG;
+                        if (nonAttrsCfg) {
+                            for (i = 0, l = nonAttrsCfg.length; i < l; i++) {
+                                nonAttrs[nonAttrsCfg[i]] = true;
+                            }
                         }
-                    }
                     //}
 
                     c = c.superclass ? c.superclass.constructor : null;
@@ -567,9 +564,9 @@ YUI.add('base-core', function (Y, NAME) {
                 }
 
                 cachedClassData = ctor._CACHED_CLASS_DATA = {
-                    classes: classes,
-                    nonAttrs: nonAttrs,
-                    attrs: this._aggregateAttrs(attrs)
+                    classes : classes,
+                    nonAttrs : nonAttrs,
+                    attrs : this._aggregateAttrs(attrs)
                 };
 
             }
@@ -586,7 +583,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method _attrCfgHash
          * @private
          */
-        _attrCfgHash: function () {
+        _attrCfgHash: function() {
             return this.constructor._ATTR_CFG_HASH;
         },
 
@@ -598,7 +595,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @param {Object} cfg
          * @private
          */
-        _cloneDefaultValue: function (attr, cfg) {
+        _cloneDefaultValue : function(attr, cfg) {
 
             var val = cfg.value,
                 clone = cfg.cloneDefaultValue;
@@ -628,7 +625,7 @@ YUI.add('base-core', function (Y, NAME) {
          * (subclass first, Base last)
          * @return {Object} The aggregate set of ATTRS definitions for the instance
          */
-        _aggregateAttrs: function (allAttrs) {
+        _aggregateAttrs : function(allAttrs) {
 
             var attr,
                 attrs,
@@ -641,7 +638,7 @@ YUI.add('base-core', function (Y, NAME) {
                 aggAttrs = {};
 
             if (allAttrs) {
-                for (i = allAttrs.length - 1; i >= 0; --i) {
+                for (i = allAttrs.length-1; i >= 0; --i) {
 
                     attrs = allAttrs[i];
 
@@ -674,7 +671,7 @@ YUI.add('base-core', function (Y, NAME) {
 
                                 subAttrsHash[attr][path.join(DOT)] = {
                                     value: cfg.value,
-                                    path: path
+                                    path : path
                                 };
 
                             } else if (!path) {
@@ -708,7 +705,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @param {Object} userVals Object with configuration property name/value pairs
          * @private
          */
-        _initHierarchy: function (userVals) {
+        _initHierarchy : function(userVals) {
 
             var lazy = this._lazyAddAttrs,
                 constr,
@@ -734,8 +731,8 @@ YUI.add('base-core', function (Y, NAME) {
                 constrProto = constr.prototype;
                 exts = constr._yuibuild && constr._yuibuild.exts;
 
-                // Using INITIALIZER in hasOwnProperty check, for performance reasons (helps IE6 avoid GC thresholds
-                // when referencing string literals). Not using it in apply, again, for performance "." is faster.
+                // Using INITIALIZER in hasOwnProperty check, for performance reasons (helps IE6 avoid GC thresholds when
+                // referencing string literals). Not using it in apply, again, for performance "." is faster.
 
                 if (constrProto.hasOwnProperty(INITIALIZER)) {
                     // Store initializer while we're here and looping
@@ -785,7 +782,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method _destroyHierarchy
          * @private
          */
-        _destroyHierarchy: function () {
+        _destroyHierarchy : function() {
             var constr,
                 constrProto,
                 ci, cl, ei, el, exts, extProto,
@@ -818,7 +815,7 @@ YUI.add('base-core', function (Y, NAME) {
          * @method toString
          * @return {String} String representation for this object
          */
-        toString: function () {
+        toString: function() {
             return this.name + "[" + Y.stamp(this, true) + "]";
         }
     };
@@ -830,5 +827,6 @@ YUI.add('base-core', function (Y, NAME) {
     BaseCore.prototype.constructor = BaseCore;
 
     Y.BaseCore = BaseCore;
+
 
 }, 'patched-v3.18.1', {"requires": ["attribute-core"]});

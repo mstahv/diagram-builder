@@ -1,16 +1,16 @@
 YUI.add('anim-base', function (Y, NAME) {
 
-    /**
-     * The Animation Utility provides an API for creating advanced transitions.
-     * @module anim
-     */
+/**
+* The Animation Utility provides an API for creating advanced transitions.
+* @module anim
+*/
 
-    /**
-     * Provides the base Anim class, for animating numeric properties.
-     *
-     * @module anim
-     * @submodule anim-base
-     */
+/**
+* Provides the base Anim class, for animating numeric properties.
+*
+* @module anim
+* @submodule anim-base
+*/
 
     /**
      * A class for constructing animation instances.
@@ -24,28 +24,28 @@ YUI.add('anim-base', function (Y, NAME) {
         START_TIME = 'startTime',
         ELAPSED_TIME = 'elapsedTime',
         /**
-         * @for Anim
-         * @event start
-         * @description fires when an animation begins.
-         * @param {Event} ev The start event.
-         * @type Event.Custom
-         */
+        * @for Anim
+        * @event start
+        * @description fires when an animation begins.
+        * @param {Event} ev The start event.
+        * @type Event.Custom
+        */
         START = 'start',
 
         /**
-         * @event tween
-         * @description fires every frame of the animation.
-         * @param {Event} ev The tween event.
-         * @type Event.Custom
-         */
+        * @event tween
+        * @description fires every frame of the animation.
+        * @param {Event} ev The tween event.
+        * @type Event.Custom
+        */
         TWEEN = 'tween',
 
         /**
-         * @event end
-         * @description fires after the animation completes.
-         * @param {Event} ev The end event.
-         * @type Event.Custom
-         */
+        * @event end
+        * @description fires after the animation completes.
+        * @param {Event} ev The end event.
+        * @type Event.Custom
+        */
         END = 'end',
         NODE = 'node',
         PAUSED = 'paused',
@@ -57,7 +57,7 @@ YUI.add('anim-base', function (Y, NAME) {
     var _running = {},
         _timer;
 
-    Y.Anim = function () {
+    Y.Anim = function() {
         Y.Anim.superclass.constructor.apply(this, arguments);
         Y.Anim._instances[Y.stamp(this)] = this;
     };
@@ -103,7 +103,7 @@ YUI.add('anim-base', function (Y, NAME) {
      */
     Y.Anim.behaviors = {
         left: {
-            get: function (anim, attr) {
+            get: function(anim, attr) {
                 return anim._getOffset(attr);
             }
         }
@@ -117,7 +117,7 @@ YUI.add('anim-base', function (Y, NAME) {
      * @property DEFAULT_SETTER
      * @static
      */
-    Y.Anim.DEFAULT_SETTER = function (anim, att, from, to, elapsed, duration, fn, unit) {
+    Y.Anim.DEFAULT_SETTER = function(anim, att, from, to, elapsed, duration, fn, unit) {
         var node = anim._node,
             domNode = node._node,
             val = fn(elapsed, NUM(from), NUM(to) - NUM(from), duration);
@@ -144,7 +144,7 @@ YUI.add('anim-base', function (Y, NAME) {
      * @property DEFAULT_GETTER
      * @static
      */
-    Y.Anim.DEFAULT_GETTER = function (anim, att) {
+    Y.Anim.DEFAULT_GETTER = function(anim, att) {
         var node = anim._node,
             domNode = node._node,
             val = '';
@@ -173,7 +173,7 @@ YUI.add('anim-base', function (Y, NAME) {
          * @type Node
          */
         node: {
-            setter: function (node) {
+            setter: function(node) {
                 if (node) {
                     if (typeof node === 'string' || node.nodeType) {
                         node = Y.one(node);
@@ -206,7 +206,7 @@ YUI.add('anim-base', function (Y, NAME) {
         easing: {
             value: Y.Anim.DEFAULT_EASING,
 
-            setter: function (val) {
+            setter: function(val) {
                 if (typeof val === 'string' && Y.Easing) {
                     return Y.Easing[val];
                 }
@@ -279,7 +279,7 @@ YUI.add('anim-base', function (Y, NAME) {
          * @readOnly
          */
         running: {
-            getter: function () {
+            getter: function() {
                 return !!_running[Y.stamp(this)];
             },
             value: false,
@@ -345,6 +345,7 @@ YUI.add('anim-base', function (Y, NAME) {
             value: false
         }
 
+
     };
 
     /**
@@ -352,7 +353,7 @@ YUI.add('anim-base', function (Y, NAME) {
      * @method run
      * @static
      */
-    Y.Anim.run = function () {
+    Y.Anim.run = function() {
         var instances = Y.Anim._instances,
             i;
         for (i in instances) {
@@ -367,7 +368,7 @@ YUI.add('anim-base', function (Y, NAME) {
      * @method pause
      * @static
      */
-    Y.Anim.pause = function () {
+    Y.Anim.pause = function() {
         for (var i in _running) { // stop timer if nothing running
             if (_running[i].pause) {
                 _running[i].pause();
@@ -382,7 +383,7 @@ YUI.add('anim-base', function (Y, NAME) {
      * @method stop
      * @static
      */
-    Y.Anim.stop = function () {
+    Y.Anim.stop = function() {
         for (var i in _running) { // stop timer if nothing running
             if (_running[i].stop) {
                 _running[i].stop();
@@ -391,13 +392,13 @@ YUI.add('anim-base', function (Y, NAME) {
         Y.Anim._stopTimer();
     };
 
-    Y.Anim._startTimer = function () {
+    Y.Anim._startTimer = function() {
         if (!_timer) {
             _timer = setInterval(Y.Anim._runFrame, Y.Anim._intervalTime);
         }
     };
 
-    Y.Anim._stopTimer = function () {
+    Y.Anim._stopTimer = function() {
         clearInterval(_timer);
         _timer = 0;
     };
@@ -408,7 +409,7 @@ YUI.add('anim-base', function (Y, NAME) {
      * @private
      * @static
      */
-    Y.Anim._runFrame = function () {
+    Y.Anim._runFrame = function() {
         var done = true,
             anim;
         for (anim in _running) {
@@ -431,7 +432,7 @@ YUI.add('anim-base', function (Y, NAME) {
          * @method run
          * @chainable
          */
-        run: function () {
+        run: function() {
             if (this.get(PAUSED)) {
                 this._resume();
             } else if (!this.get(RUNNING)) {
@@ -447,7 +448,7 @@ YUI.add('anim-base', function (Y, NAME) {
          * @method pause
          * @chainable
          */
-        pause: function () {
+        pause: function() {
             if (this.get(RUNNING)) {
                 this._pause();
             }
@@ -460,7 +461,7 @@ YUI.add('anim-base', function (Y, NAME) {
          * @param {Boolean} finish If true, the animation will move to the last frame
          * @chainable
          */
-        stop: function (finish) {
+        stop: function(finish) {
             if (this.get(RUNNING) || this.get(PAUSED)) {
                 this._end(finish);
             }
@@ -469,7 +470,7 @@ YUI.add('anim-base', function (Y, NAME) {
 
         _added: false,
 
-        _start: function () {
+        _start: function() {
             this._set(START_TIME, new Date() - this.get(ELAPSED_TIME));
             this._actualFrames = 0;
             if (!this.get(PAUSED)) {
@@ -481,36 +482,36 @@ YUI.add('anim-base', function (Y, NAME) {
             this.fire(START);
         },
 
-        _pause: function () {
+        _pause: function() {
             this._set(START_TIME, null);
             this._set(PAUSED, true);
             delete _running[Y.stamp(this)];
 
             /**
-             * @event pause
-             * @description fires when an animation is paused.
-             * @param {Event} ev The pause event.
-             * @type Event.Custom
-             */
+            * @event pause
+            * @description fires when an animation is paused.
+            * @param {Event} ev The pause event.
+            * @type Event.Custom
+            */
             this.fire('pause');
         },
 
-        _resume: function () {
+        _resume: function() {
             this._set(PAUSED, false);
             _running[Y.stamp(this)] = this;
             this._set(START_TIME, new Date() - this.get(ELAPSED_TIME));
             Y.Anim._startTimer();
 
             /**
-             * @event resume
-             * @description fires when an animation is resumed (run from pause).
-             * @param {Event} ev The pause event.
-             * @type Event.Custom
-             */
+            * @event resume
+            * @description fires when an animation is resumed (run from pause).
+            * @param {Event} ev The pause event.
+            * @type Event.Custom
+            */
             this.fire('resume');
         },
 
-        _end: function (finish) {
+        _end: function(finish) {
             var duration = this.get('duration') * 1000;
             if (finish) { // jump to last frame
                 this._runAttrs(duration, duration, this.get(REVERSE));
@@ -524,7 +525,7 @@ YUI.add('anim-base', function (Y, NAME) {
             this.fire(END, {elapsed: this.get(ELAPSED_TIME)});
         },
 
-        _runFrame: function () {
+        _runFrame: function() {
             var d = this._runtimeAttr.duration,
                 t = new Date() - this.get(START_TIME),
                 reverse = this.get(REVERSE),
@@ -540,7 +541,7 @@ YUI.add('anim-base', function (Y, NAME) {
             }
         },
 
-        _runAttrs: function (t, d, reverse) {
+        _runAttrs: function(t, d, reverse) {
             var attr = this._runtimeAttr,
                 customAttr = Y.Anim.behaviors,
                 easing = attr.easing,
@@ -563,7 +564,7 @@ YUI.add('anim-base', function (Y, NAME) {
                 if (attr[i].to) {
                     attribute = attr[i];
                     setter = (i in customAttr && 'set' in customAttr[i]) ?
-                             customAttr[i].set : Y.Anim.DEFAULT_SETTER;
+                            customAttr[i].set : Y.Anim.DEFAULT_SETTER;
 
                     if (!done) {
                         setter(this, i, attribute.from, attribute.to, t, d, easing, attribute.unit);
@@ -573,9 +574,10 @@ YUI.add('anim-base', function (Y, NAME) {
                 }
             }
 
+
         },
 
-        _lastFrame: function () {
+        _lastFrame: function() {
             var iter = this.get('iterations'),
                 iterCount = this.get(ITERATION_COUNT);
 
@@ -585,11 +587,11 @@ YUI.add('anim-base', function (Y, NAME) {
                     this.set(REVERSE, !this.get(REVERSE)); // flip it
                 }
                 /**
-                 * @event iteration
-                 * @description fires when an animation begins an iteration.
-                 * @param {Event} ev The iteration event.
-                 * @type Event.Custom
-                 */
+                * @event iteration
+                * @description fires when an animation begins an iteration.
+                * @param {Event} ev The iteration event.
+                * @type Event.Custom
+                */
                 this.fire('iteration');
             } else {
                 iterCount = 0;
@@ -600,7 +602,7 @@ YUI.add('anim-base', function (Y, NAME) {
             this._set(ITERATION_COUNT, iterCount);
         },
 
-        _initAnimAttr: function () {
+        _initAnimAttr: function() {
             var from = this.get('from') || {},
                 to = this.get('to') || {},
                 attr = {
@@ -611,14 +613,14 @@ YUI.add('anim-base', function (Y, NAME) {
                 node = this.get(NODE), // implicit attr init
                 unit, begin, end;
 
-            Y.each(to, function (val, name) {
+            Y.each(to, function(val, name) {
                 if (typeof val === 'function') {
                     val = val.call(this, node);
                 }
 
                 begin = from[name];
                 if (begin === undefined) {
-                    begin = (name in customAttr && 'get' in customAttr[name]) ?
+                    begin = (name in customAttr && 'get' in customAttr[name])  ?
                             customAttr[name].get(this, name) : Y.Anim.DEFAULT_GETTER(this, name);
                 } else if (typeof begin === 'function') {
                     begin = begin.call(this, node);
@@ -629,7 +631,7 @@ YUI.add('anim-base', function (Y, NAME) {
 
                 begin = mFrom ? mFrom[1] : begin;
                 end = mTo ? mTo[1] : val;
-                unit = mTo ? mTo[2] : mFrom ? mFrom[2] : ''; // one might be zero TODO: mixed units
+                unit = mTo ? mTo[2] : mFrom ?  mFrom[2] : ''; // one might be zero TODO: mixed units
 
                 if (!unit && Y.Anim.RE_DEFAULT_UNIT.test(name)) {
                     unit = Y.Anim.DEFAULT_UNIT;
@@ -651,12 +653,13 @@ YUI.add('anim-base', function (Y, NAME) {
             this._runtimeAttr = attr;
         },
 
+
         // TODO: move to computedStyle? (browsers dont agree on default computed offsets)
-        _getOffset: function (attr) {
+        _getOffset: function(attr) {
             var node = this._node,
                 val = node.getComputedStyle(attr),
-                get = (attr === 'left') ? 'getX' : 'getY',
-                set = (attr === 'left') ? 'setX' : 'setY',
+                get = (attr === 'left') ? 'getX': 'getY',
+                set = (attr === 'left') ? 'setX': 'setY',
                 position;
 
             if (val === 'auto') {
@@ -672,11 +675,12 @@ YUI.add('anim-base', function (Y, NAME) {
             return val;
         },
 
-        destructor: function () {
+        destructor: function() {
             delete Y.Anim._instances[Y.stamp(this)];
         }
     };
 
     Y.extend(Y.Anim, Y.Base, proto);
+
 
 }, 'patched-v3.18.1', {"requires": ["base-base", "node-style", "color-base"]});

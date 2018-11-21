@@ -3,8 +3,8 @@
 .yui3-skin-sam .yui3-menu-content,
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-content {
 
-    font-size: 93%; /* 12px */
-    line-height: 1.5; /* 18px */
+    font-size: 93%;  /* 12px */
+    line-height: 1.5;  /* 18px */
     *line-height: 1.45; /* For IE */
     border: solid 1px #808080;
     background: #fff;
@@ -14,26 +14,28 @@
 
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-content {
 
-    font-size: 100%;
+	font-size: 100%;
 
 }
+
 
 /* Horizontal menus */
 
 .yui3-skin-sam .yui3-menu-horizontal .yui3-menu-content {
 
-    line-height: 2; /* ~24px */
+    line-height: 2;  /* ~24px */
     *line-height: 1.9; /* For IE */
     background: url(../../../../assets/skins/sam/sprite.png) repeat-x 0 0;
     padding: 0;
 
 }
 
+
 .yui3-skin-sam .yui3-menu ul,
 .yui3-skin-sam .yui3-menu ul ul {
 
-    margin-top: 3px;
-    padding-top: 3px;
+	margin-top: 3px;
+	padding-top: 3px;
     border-top: solid 1px #ccc;
 
 }
@@ -41,18 +43,19 @@
 .yui3-skin-sam .yui3-menu ul.first-of-type {
 
     border: 0;
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 
 }
 
 .yui3-skin-sam .yui3-menu-horizontal ul {
 
-    padding: 0;
-    margin: 0;
-    border: 0;
+	padding: 0;
+	margin: 0;
+	border: 0;
 
 }
+
 
 .yui3-skin-sam .yui3-menu li,
 .yui3-skin-sam .yui3-menu .yui3-menu li {
@@ -70,7 +73,7 @@
 
 .yui3-skin-sam .yui3-menu-horizontal li {
 
-    _border-bottom: 0;
+	_border-bottom: 0;
 
 }
 
@@ -89,11 +92,13 @@
 .yui3-skin-sam .yui3-menubuttonnav li li,
 .yui3-skin-sam .yui3-splitbuttonnav li li {
 
-    border-right: 0;
+	border-right: 0;
 
 }
 
+
 /* Menuitems and menu labels */
+
 
 .yui3-skin-sam .yui3-menu-label,
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-label,
@@ -106,14 +111,14 @@
     text-decoration: none;
     cursor: default;
 
-    /*
-        Necessary specify values for border, position and margin to override
-        values specified in the selectors that follow.
-    */
+	/*
+		Necessary specify values for border, position and margin to override
+		values specified in the selectors that follow.
+	*/
 
-    float: none;
-    border: 0;
-    margin: 0;
+	float: none;
+	border: 0;
+	margin: 0;
 
 }
 
@@ -126,10 +131,9 @@
     border-width: 1px 0;
     margin: -1px 0;
 
-    float: left;
-    /*	Ensures that menu labels clear floated descendents.
-                       Also gets negative margins working in IE 7
-                       (Strict Mode). */
+    float: left; 	/*	Ensures that menu labels clear floated descendents.
+    					Also gets negative margins working in IE 7
+						(Strict Mode). */
     width: auto;
 
 }
@@ -137,7 +141,7 @@
 .yui3-skin-sam .yui3-menu-label,
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-label {
 
-    background: url(vertical-menu-submenu-indicator.png) right center no-repeat;
+	background: url(vertical-menu-submenu-indicator.png) right center no-repeat;
 
 }
 
@@ -150,7 +154,7 @@
 .yui3-skin-sam .yui3-menubuttonnav .yui3-menu-label,
 .yui3-skin-sam .yui3-splitbuttonnav .yui3-menu-label {
 
-    background-image: none;
+	background-image: none;
 
 }
 
@@ -162,40 +166,42 @@
 
 .yui3-skin-sam .yui3-menubuttonnav .yui3-menu-label em {
 
-    font-style: normal;
-    padding-right: 20px;
+	font-style: normal;
+	padding-right: 20px;
     display: block;
     background: url(horizontal-menu-submenu-indicator.png) right center no-repeat;
 
 }
 
+
 .yui3-skin-sam .yui3-splitbuttonnav .yui3-menu-label {
 
-    padding: 0;
+	padding: 0;
 
 }
 
 .yui3-skin-sam .yui3-splitbuttonnav .yui3-menu-label a {
 
-    float: left;
-    width: auto;
+	float: left;
+	width: auto;
     color: #000;
     text-decoration: none;
     cursor: default;
-    padding: 0 5px 0 10px;
+	padding: 0 5px 0 10px;
 
 }
 
 .yui3-skin-sam .yui3-splitbuttonnav .yui3-menu-label .yui3-menu-toggle {
 
-    padding: 0; /* Overide padding applied by the preceeding rule. */
-    border-left: solid 1px #ccc;
-    width: 15px;
-    overflow: hidden;
-    text-indent: -1000px;
+	padding: 0;	/* Overide padding applied by the preceeding rule. */
+	border-left: solid 1px #ccc;
+	width: 15px;
+	overflow: hidden;
+	text-indent: -1000px;
     background: url(horizontal-menu-submenu-indicator.png) 3px center no-repeat;
 
 }
+
 
 /* Selected menuitem */
 
@@ -204,14 +210,14 @@
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-label-active,
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menu-label-menuvisible {
 
-    background-color: #B3D4FF;
+	background-color: #B3D4FF;
 
 }
 
 .yui3-skin-sam .yui3-menuitem-active .yui3-menuitem-content,
 .yui3-skin-sam .yui3-menu .yui3-menu .yui3-menuitem-active .yui3-menuitem-content {
 
-    background-image: none;
+	background-image: none;
     background-color: #B3D4FF;
 
     /*
@@ -219,7 +225,7 @@
     	menu has a class of "yui-menubuttonnav" or "yui-splitbuttonnav" applied.
     */
 
-    border-left-width: 0;
+	border-left-width: 0;
     margin-left: 0;
 
 }

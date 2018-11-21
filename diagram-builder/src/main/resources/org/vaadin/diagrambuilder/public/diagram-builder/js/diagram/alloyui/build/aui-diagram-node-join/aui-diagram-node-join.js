@@ -85,4 +85,4 @@ var DiagramNodeJoin = A.Component.create({
 A.DiagramNodeJoin = DiagramNodeJoin;
 
 
-}, '3.4.0', {"requires": ["aui-diagram-node-state"]});
+}, '4.1.0', {"requires": ["aui-diagram-node-state"]});

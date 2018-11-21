@@ -1,14 +1,14 @@
 .yui3-scrollview {
-    position: relative;
+	position: relative;
     overflow: hidden;
     -webkit-user-select: none;
     -moz-user-select: none;
 }
 
 .yui3-scrollview-hidden {
-    display: none;
+    display:none;
 }
 
 .yui3-scrollview-content {
-    position: relative;
+    position:relative;
 }

@@ -133,20 +133,6 @@ DiagramNode = A.Component.create({
         },
 
         /**
-         * Function in string that is called when mouse is moved
-         * The specific event (leave, enter) must be specified as parameter 'event'
-         *
-         * @attribute onMouseOut
-         * @default '(function() {})'
-         * @type String
-         */
-        onMouseMove: {
-            value: "(function() {})",
-            validator: A.Lang.isString
-        },
-
-
-        /**
          * Stores an instance of `A.PropertyBuilder`.
          *
          * @attribute builder
@@ -1694,4 +1680,4 @@ DiagramNode = A.Component.create({
 A.DiagramNode = DiagramNode;
 
 
-}, '4.0.0', {"requires": ["aui-aria", "aui-diagram-node-manager-base", "escape", "overlay"]});
+}, '4.1.0', {"requires": ["aui-aria", "aui-diagram-node-manager-base", "escape", "overlay"]});

@@ -1,15 +1,15 @@
 YUI.add('node-flick', function (Y, NAME) {
 
-    /**
-     * Provide a simple Flick plugin, which can be used along with the "flick" gesture event, to
-     * animate the motion of the host node in response to a (mouse or touch) flick gesture.
-     *
-     * <p>The current implementation is designed to move the node, relative to the bounds of a parent node and is
-     * suitable for scroll/carousel type implementations. Future versions will remove that constraint, to allow open
-     * ended movement within the document.</p>
-     *
-     * @module node-flick
-     */
+/**
+ * Provide a simple Flick plugin, which can be used along with the "flick" gesture event, to
+ * animate the motion of the host node in response to a (mouse or touch) flick gesture.
+ *
+ * <p>The current implementation is designed to move the node, relative to the bounds of a parent node and is suitable
+ * for scroll/carousel type implementations. Future versions will remove that constraint, to allow open ended movement within
+ * the document.</p>
+ *
+ * @module node-flick
+ */
 
     var HOST = "host",
         PARENT_NODE = "parentNode",
@@ -50,7 +50,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @attribute deceleration
          * @default 0.98
          */
-        deceleration: {
+        deceleration : {
             value: 0.98
         },
 
@@ -63,7 +63,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Number
          * @default 0.7
          */
-        bounce: {
+        bounce : {
             value: 0.7
         },
 
@@ -74,7 +74,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Number
          * @default 150
          */
-        bounceDistance: {
+        bounceDistance : {
             value: 150
         },
 
@@ -85,7 +85,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Number
          * @default 0
          */
-        minVelocity: {
+        minVelocity : {
             value: 0
         },
 
@@ -96,7 +96,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Number
          * @default 10
          */
-        minDistance: {
+        minDistance : {
             value: 10
         },
 
@@ -107,8 +107,8 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Node
          * @default parentNode
          */
-        boundingBox: {
-            valueFn: function () {
+        boundingBox : {
+            valueFn : function() {
                 return this.get(HOST).get(PARENT_NODE);
             }
         },
@@ -120,8 +120,8 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Number
          * @default 10
          */
-        step: {
-            value: 10
+        step : {
+            value:10
         },
 
         /**
@@ -132,8 +132,8 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type Number
          * @default null
          */
-        duration: {
-            value: null
+        duration : {
+            value:null
         },
 
         /**
@@ -145,8 +145,8 @@ YUI.add('node-flick', function (Y, NAME) {
          * @type String
          * @default null
          */
-        easing: {
-            value: null
+        easing : {
+            value:null
         }
     };
 
@@ -180,15 +180,15 @@ YUI.add('node-flick', function (Y, NAME) {
          * @method initializer
          * @param {Object} config The user configuration for the plugin
          */
-        initializer: function (config) {
+        initializer : function(config) {
             this._node = this.get(HOST);
 
             this._renderClasses();
             this.setBounds();
 
             this._node.on(FLICK, Y.bind(this._onFlick, this), {
-                minDistance: this.get(MIN_DISTANCE),
-                minVelocity: this.get(MIN_VELOCITY)
+                minDistance : this.get(MIN_DISTANCE),
+                minVelocity : this.get(MIN_VELOCITY)
             });
         },
 
@@ -198,7 +198,7 @@ YUI.add('node-flick', function (Y, NAME) {
          *
          * @method setBounds
          */
-        setBounds: function () {
+        setBounds : function () {
             var box = this.get(BOUNDING_BOX),
                 node = this._node,
 
@@ -233,7 +233,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @method _renderClasses
          * @protected
          */
-        _renderClasses: function () {
+        _renderClasses : function() {
             this.get(BOUNDING_BOX).addClass(Flick.CLASS_NAMES.box);
             this._node.addClass(Flick.CLASS_NAMES.content);
         },
@@ -245,7 +245,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @param e {EventFacade} The flick event facade, containing e.flick.distance, e.flick.velocity etc.
          * @protected
          */
-        _onFlick: function (e) {
+        _onFlick: function(e) {
             this._v = e.flick.velocity;
             this._flick = true;
             this._flickAnim();
@@ -257,7 +257,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @method _flickFrame
          * @protected
          */
-        _flickAnim: function () {
+        _flickAnim: function() {
 
             var y = this._y,
                 x = this._x,
@@ -341,7 +341,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @param {Number} val
          * @private
          */
-        _setX: function (val) {
+        _setX : function(val) {
             this._move(val, null, this.get(DURATION), this.get(EASING));
         },
 
@@ -352,7 +352,7 @@ YUI.add('node-flick', function (Y, NAME) {
          * @param {Number} val
          * @private
          */
-        _setY: function (val) {
+        _setY : function(val) {
             this._move(null, val, this.get(DURATION), this.get(EASING));
         },
 
@@ -368,7 +368,7 @@ YUI.add('node-flick', function (Y, NAME) {
          *
          * @private
          */
-        _move: function (x, y, duration, easing) {
+        _move: function(x, y, duration, easing) {
 
             if (x !== null) {
                 x = this._bounce(x);
@@ -402,19 +402,19 @@ YUI.add('node-flick', function (Y, NAME) {
          *
          * @private
          */
-        _anim: function (x, y, duration, easing) {
+        _anim : function(x, y, duration, easing) {
             var xn = x * -1,
                 yn = y * -1,
 
                 transition = {
-                    duration: duration / 1000,
-                    easing: easing
+                    duration : duration / 1000,
+                    easing : easing
                 };
 
             Y.log("Transition: duration, easing:" + transition.duration, transition.easing, "node-flick");
 
             if (Y.Transition.useNative) {
-                transition.transform = 'translate(' + (xn) + 'px,' + (yn) + 'px)';
+                transition.transform = 'translate('+ (xn) + 'px,' + (yn) +'px)';
             } else {
                 transition.left = xn + 'px';
                 transition.top = yn + 'px';
@@ -433,17 +433,17 @@ YUI.add('node-flick', function (Y, NAME) {
          *
          * @private
          */
-        _bounce: function (val, max) {
+        _bounce : function(val, max) {
             var bounce = this.get(BOUNCE),
                 dist = this.get(BOUNCE_DISTANCE),
                 min = bounce ? -dist : 0;
 
             max = bounce ? max + dist : max;
 
-            if (!bounce) {
-                if (val < min) {
+            if(!bounce) {
+                if(val < min) {
                     val = min;
-                } else if (val > max) {
+                } else if(val > max) {
                     val = max;
                 }
             }
@@ -456,68 +456,69 @@ YUI.add('node-flick', function (Y, NAME) {
          * @method _killTimer
          * @private
          */
-        _killTimer: function () {
-            if (this._flickTimer) {
+        _killTimer: function() {
+            if(this._flickTimer) {
                 this._flickTimer.cancel();
             }
         }
 
     }, {
 
-                 /**
-                  * The threshold used to determine when the decelerated velocity of the node
-                  * is practically 0.
-                  *
-                  * @property VELOCITY_THRESHOLD
-                  * @static
-                  * @type Number
-                  * @default 0.015
-                  */
-                 VELOCITY_THRESHOLD: 0.015,
+        /**
+         * The threshold used to determine when the decelerated velocity of the node
+         * is practically 0.
+         *
+         * @property VELOCITY_THRESHOLD
+         * @static
+         * @type Number
+         * @default 0.015
+         */
+        VELOCITY_THRESHOLD : 0.015,
 
-                 /**
-                  * The duration to use for the bounce snap-back transition
-                  *
-                  * @property SNAP_DURATION
-                  * @static
-                  * @type Number
-                  * @default 400
-                  */
-                 SNAP_DURATION: 400,
+        /**
+         * The duration to use for the bounce snap-back transition
+         *
+         * @property SNAP_DURATION
+         * @static
+         * @type Number
+         * @default 400
+         */
+         SNAP_DURATION : 400,
 
-                 /**
-                  * The default easing to use for the main flick movement transition
-                  *
-                  * @property EASING
-                  * @static
-                  * @type String
-                  * @default 'cubic-bezier(0, 0.1, 0, 1.0)'
-                  */
-                 EASING: 'cubic-bezier(0, 0.1, 0, 1.0)',
+        /**
+         * The default easing to use for the main flick movement transition
+         *
+         * @property EASING
+         * @static
+         * @type String
+         * @default 'cubic-bezier(0, 0.1, 0, 1.0)'
+         */
+        EASING : 'cubic-bezier(0, 0.1, 0, 1.0)',
 
-                 /**
-                  * The default easing to use for the bounce snap-back transition
-                  *
-                  * @property SNAP_EASING
-                  * @static
-                  * @type String
-                  * @default 'ease-out'
-                  */
-                 SNAP_EASING: 'ease-out',
+        /**
+         * The default easing to use for the bounce snap-back transition
+         *
+         * @property SNAP_EASING
+         * @static
+         * @type String
+         * @default 'ease-out'
+         */
+        SNAP_EASING : 'ease-out',
 
-                 /**
-                  * The default CSS class names used by the plugin
-                  *
-                  * @property CLASS_NAMES
-                  * @static
-                  * @type Object
-                  */
-                 CLASS_NAMES: {
-                     box: getClassName(Flick.NS),
-                     content: getClassName(Flick.NS, "content")
-                 }
-             });
+        /**
+         * The default CSS class names used by the plugin
+         *
+         * @property CLASS_NAMES
+         * @static
+         * @type Object
+         */
+        CLASS_NAMES : {
+            box: getClassName(Flick.NS),
+            content: getClassName(Flick.NS, "content")
+        }
+    });
 
     Y.Plugin.Flick = Flick;
+
 
 }, 'patched-v3.18.1', {"requires": ["classnamemanager", "transition", "event-flick", "plugin"], "skinnable": true});

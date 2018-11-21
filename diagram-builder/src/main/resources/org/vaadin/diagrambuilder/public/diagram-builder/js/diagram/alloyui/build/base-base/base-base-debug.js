@@ -3,8 +3,7 @@ YUI.add('base-base', function (Y, NAME) {
     /**
      * The base module provides the Base class, which objects requiring attribute and custom event support can extend.
      * The module also provides two ways to reuse code - It augments Base with the Plugin.Host interface which provides
-     * plugin support and also provides the BaseCore.build method which provides a way to build custom classes using
-     * extensions.
+     * plugin support and also provides the BaseCore.build method which provides a way to build custom classes using extensions.
      *
      * @module base
      */
@@ -17,10 +16,10 @@ YUI.add('base-base', function (Y, NAME) {
      * @submodule base-base
      */
 
-    var AttributeCore = Y.AttributeCore,
+    var AttributeCore   = Y.AttributeCore,
         AttributeExtras = Y.AttributeExtras,
-        BaseCore = Y.BaseCore,
-        BaseObservable = Y.BaseObservable;
+        BaseCore        = Y.BaseCore,
+        BaseObservable  = Y.BaseObservable;
 
     /**
      * <p>
@@ -77,12 +76,10 @@ YUI.add('base-base', function (Y, NAME) {
      *       A constructor convenience property for the <a href="Base.html#method_after">after</a> method.</dd>
      *   <dt>bubbleTargets</dt>
      *   <dd>An object, or array of objects, to register as bubble targets for bubbled events fired by this instance.
-     *       A constructor convenience property for the <a href="EventTarget.html#method_addTarget">addTarget</a>
-     *     method.</dd>
+     *       A constructor convenience property for the <a href="EventTarget.html#method_addTarget">addTarget</a> method.</dd>
      *   <dt>plugins</dt>
-     *   <dd>A plugin, or array of plugins to be plugged into the instance (see PluginHost's plug method for signature
-     *     details). A constructor convenience property for the <a href="Plugin.Host.html#method_plug">plug</a>
-     *     method.</dd>
+     *   <dd>A plugin, or array of plugins to be plugged into the instance (see PluginHost's plug method for signature details).
+     *       A constructor convenience property for the <a href="Plugin.Host.html#method_plug">plug</a> method.</dd>
      * </dl>
      */
     function Base() {
@@ -152,24 +149,24 @@ YUI.add('base-base', function (Y, NAME) {
     Base.ATTRS = AttributeCore.protectAttrs(BaseCore.ATTRS);
 
     /**
-     Provides a way to safely modify a `Y.Base` subclass' static `ATTRS` after
-     the class has been defined or created.
+    Provides a way to safely modify a `Y.Base` subclass' static `ATTRS` after
+    the class has been defined or created.
 
-     Base-based classes cache information about the class hierarchy in order to
-     efficiently create instances. This cache includes includes the aggregated
-     `ATTRS` configs. If the static `ATTRS` configs need to be modified after the
-     class has been defined or create, then use this method which will make sure
-     to clear any cached data before making any modifications.
+    Base-based classes cache information about the class hierarchy in order to
+    efficiently create instances. This cache includes includes the aggregated
+    `ATTRS` configs. If the static `ATTRS` configs need to be modified after the
+    class has been defined or create, then use this method which will make sure
+    to clear any cached data before making any modifications.
 
-     @method modifyAttrs
-     @param {Function} [ctor] The constructor function whose `ATTRS` should be
-     modified. If a `ctor` function is not specified, then `this` is assumed
-     to be the constructor which hosts the `ATTRS`.
-     @param {Object} configs The collection of `ATTRS` configs to mix with the
-     existing attribute configurations.
-     @static
-     @since 3.10.0
-     **/
+    @method modifyAttrs
+    @param {Function} [ctor] The constructor function whose `ATTRS` should be
+        modified. If a `ctor` function is not specified, then `this` is assumed
+        to be the constructor which hosts the `ATTRS`.
+    @param {Object} configs The collection of `ATTRS` configs to mix with the
+        existing attribute configurations.
+    @static
+    @since 3.10.0
+    **/
     Base.modifyAttrs = BaseCore.modifyAttrs;
 
     Y.mix(Base, BaseCore, false, null, 1);
@@ -182,5 +179,6 @@ YUI.add('base-base', function (Y, NAME) {
     Base.prototype.constructor = Base;
 
     Y.Base = Base;
+
 
 }, 'patched-v3.18.1', {"requires": ["attribute-base", "base-core", "base-observable"]});

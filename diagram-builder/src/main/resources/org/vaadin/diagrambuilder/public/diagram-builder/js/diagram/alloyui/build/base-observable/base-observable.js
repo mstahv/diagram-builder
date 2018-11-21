@@ -1,12 +1,12 @@
 YUI.add('base-observable', function (Y, NAME) {
 
     /**
-     The `base-observable` submodule adds observability to Base's lifecycle and
-     attributes, and also make it an `EventTarget`.
+    The `base-observable` submodule adds observability to Base's lifecycle and
+    attributes, and also make it an `EventTarget`.
 
-     @module base
-     @submodule base-observable
-     **/
+    @module base
+    @submodule base-observable
+    **/
     var L = Y.Lang,
 
         DESTROY = "destroy",
@@ -16,22 +16,21 @@ YUI.add('base-observable', function (Y, NAME) {
         _BUBBLETARGETS = "_bubbleTargets",
 
         AttributeObservable = Y.AttributeObservable,
-        BaseCore = Y.BaseCore;
+        BaseCore            = Y.BaseCore;
 
     /**
-     Provides an augmentable implementation of lifecycle and attribute events for
-     `BaseCore`.
+    Provides an augmentable implementation of lifecycle and attribute events for
+    `BaseCore`.
 
-     @class BaseObservable
-     @extensionfor BaseCore
-     @uses AttributeObservable
-     @uses EventTarget
-     @since 3.8.0
-     **/
-    function BaseObservable() {
-    }
+    @class BaseObservable
+    @extensionfor BaseCore
+    @uses AttributeObservable
+    @uses EventTarget
+    @since 3.8.0
+    **/
+    function BaseObservable() {}
 
-    BaseObservable._ATTR_CFG = AttributeObservable._ATTR_CFG.concat();
+    BaseObservable._ATTR_CFG      = AttributeObservable._ATTR_CFG.concat();
     BaseObservable._NON_ATTRS_CFG = ["on", "after", "bubbleTargets"];
 
     BaseObservable.prototype = {
@@ -42,7 +41,7 @@ YUI.add('base-observable', function (Y, NAME) {
          * @method _initAttribute
          * @private
          */
-        _initAttribute: function () {
+        _initAttribute: function() {
             BaseCore.prototype._initAttribute.apply(this, arguments);
             AttributeObservable.call(this);
 
@@ -60,7 +59,7 @@ YUI.add('base-observable', function (Y, NAME) {
          * @param {Object} config Object with configuration property name/value pairs
          * @return {Base} A reference to this object
          */
-        init: function (config) {
+        init: function(config) {
 
             /**
              * <p>
@@ -80,8 +79,8 @@ YUI.add('base-observable', function (Y, NAME) {
              * refers to the configuration object passed to the constructor.
              */
 
-                // PERF: Using lower level _publish() for
-                // critical path performance
+            // PERF: Using lower level _publish() for
+            // critical path performance
 
             var type = this._getFullType(INIT),
                 e = this._publish(type);
@@ -104,7 +103,7 @@ YUI.add('base-observable', function (Y, NAME) {
                 // bypassing the event stack the first time, we need to tell the published
                 // event that it's been "fired". Could extract it into a CE method?
                 e.fired = true;
-                e.firedWith = [{cfg: config}];
+                e.firedWith = [{cfg:config}];
             }
 
             return this;
@@ -119,7 +118,7 @@ YUI.add('base-observable', function (Y, NAME) {
          * @method _preInitEventCfg
          * @param {Object} config The user configuration object
          */
-        _preInitEventCfg: function (config) {
+        _preInitEventCfg : function(config) {
             if (config) {
                 if (config.on) {
                     this.on(config.on);
@@ -160,7 +159,7 @@ YUI.add('base-observable', function (Y, NAME) {
          * @return {Base} A reference to this object
          * @chainable
          */
-        destroy: function () {
+        destroy: function() {
 
             /**
              * <p>
@@ -179,8 +178,8 @@ YUI.add('base-observable', function (Y, NAME) {
              * @param {EventFacade} e Event object
              */
             this.publish(DESTROY, {
-                fireOnce: true,
-                defaultTargetOnly: true,
+                fireOnce:true,
+                defaultTargetOnly:true,
                 defaultFn: this._defDestroyFn
             });
             this.fire(DESTROY);
@@ -197,7 +196,7 @@ YUI.add('base-observable', function (Y, NAME) {
          * refers to the configuration object passed to the constructor.
          * @protected
          */
-        _defInitFn: function (e) {
+        _defInitFn : function(e) {
             this._baseInit(e.cfg);
         },
 
@@ -208,7 +207,7 @@ YUI.add('base-observable', function (Y, NAME) {
          * @param {EventFacade} e Event object
          * @protected
          */
-        _defDestroyFn: function (e) {
+        _defDestroyFn : function(e) {
             this._baseDestroy(e.cfg);
         }
     };
@@ -216,5 +215,6 @@ YUI.add('base-observable', function (Y, NAME) {
     Y.mix(BaseObservable, AttributeObservable, false, null, 1);
 
     Y.BaseObservable = BaseObservable;
+
 
 }, 'patched-v3.18.1', {"requires": ["attribute-observable", "base-core"]});

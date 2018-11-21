@@ -1,0 +1,18 @@
+{
+  "name": "diagram-builder",
+  "homepage": "https://github.com/continuumsecurity/diagram-builder",
+  "authors": [
+    "Jorge Landa <jlanda@continuumsecurity.net>"
+  ],
+  "description": "diagram-builder",
+  "keywords": [
+    "alloy",
+    "alloyui",
+    "diagram-builder"
+  ],
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "alloy-ui": "continuum-alloy-ui#^4.1.0"
+  }
+}

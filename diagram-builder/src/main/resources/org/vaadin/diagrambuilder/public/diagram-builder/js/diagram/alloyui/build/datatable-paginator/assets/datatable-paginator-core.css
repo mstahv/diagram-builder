@@ -2,32 +2,25 @@
     border: none;
     padding: 0;
 }
-
 .yui3-datatable-paginator {
     padding: 3px;
     white-space: nowrap;
 }
-
 .yui3-datatable-paginator .yui3-paginator-content {
     position: relative;
 }
-
 .yui3-datatable-paginator .yui3-paginator-page-select {
     position: absolute;
     right: 0;
     top: 0;
 }
-
 .yui3-datatable-paginator .yui3-datatable-paginator-group {
     display: inline-block;
-    zoom: 1;
-    *display: inline;
+    zoom: 1; *display: inline;
 }
-
 .yui3-datatable-paginator .yui3-datatable-paginator-control {
     display: inline-block;
-    zoom: 1;
-    *display: inline;
+    zoom: 1; *display: inline;
     margin: 0 3px;
     padding: 0 0.2em;
     text-align: center;
@@ -37,25 +30,20 @@
     border-radius: 3px;
     background: transparent;
 }
-
 .yui3-datatable-paginator .yui3-datatable-paginator-control-disabled,
 .yui3-datatable-paginator .yui3-datatable-paginator-control-disabled:hover {
     cursor: default;
 }
-
 .yui3-datatable-paginator .yui3-datatable-paginator-group input {
     width: 3em;
 }
-
 .yui3-datatable-paginator form {
     text-align: center;
     margin: 0 2em;
 }
-
 .yui3-datatable-paginator .yui3-datatable-paginator-per-page {
     text-align: right;
 }
-
 /* FOR USE WHEN DISPLAYING ICONS
 .yui3-datatable-paginator .control-first,
 .yui3-datatable-paginator .control-last,

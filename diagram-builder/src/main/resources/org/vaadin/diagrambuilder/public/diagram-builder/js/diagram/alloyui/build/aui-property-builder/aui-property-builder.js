@@ -1,498 +1,481 @@
 YUI.add('aui-property-builder', function (A, NAME) {
 
+/**
+ * The Property Builder
+ *
+ * @module aui-property-builder
+ */
+
+var Lang = A.Lang,
+    isArray = Lang.isArray,
+    isNumber = Lang.isNumber,
+    isObject = Lang.isObject,
+
+    isAvailableField = function(val) {
+        return A.instanceOf(val, A.PropertyBuilderAvailableField);
+    },
+
+    AArray = A.Array,
+
+    aGetClassName = A.getClassName,
+
+    CSS_CLEARFIX = aGetClassName('clearfix'),
+    CSS_PROPERTY_BUILDER_CANVAS = aGetClassName('property', 'builder', 'canvas'),
+    CSS_PROPERTY_BUILDER_CONTENT_CONTAINER = aGetClassName('property', 'builder', 'content', 'container'),
+    CSS_PROPERTY_BUILDER_DROP_CONTAINER = aGetClassName('property', 'builder', 'drop', 'container'),
+    CSS_PROPERTY_BUILDER_FIELD_DRAGGABLE = A.getClassName('property', 'builder', 'field', 'draggable'),
+    CSS_PROPERTY_BUILDER_FIELDS_CONTAINER = aGetClassName('property', 'builder', 'fields', 'container'),
+    CSS_LAYOUT = aGetClassName('layout');
+
+/**
+ * A base class for PropertyBuilder.
+ *
+ * @class A.PropertyBuilder
+ * @extends A.Component
+ * @uses A.PropertyBuilderFieldSupport
+ * @param {Object} config Object literal specifying widget configuration
+ *     properties.
+ * @constructor
+ */
+var PropertyBuilder = A.Component.create({
     /**
-     * The Property Builder
+     * Static property provides a string to identify the class.
      *
-     * @module aui-property-builder
+     * @property NAME
+     * @type String
+     * @static
      */
+    NAME: 'property-builder',
 
-    var Lang = A.Lang,
-        isArray = Lang.isArray,
-        isNumber = Lang.isNumber,
-        isObject = Lang.isObject,
+    /**
+     * Static property used to define the default attribute
+     * configuration for the `A.PropertyBuilder`.
+     *
+     * @property ATTRS
+     * @type Object
+     * @static
+     */
+    ATTRS: {
 
-        isAvailableField = function (val) {
-            return A.instanceOf(val, A.PropertyBuilderAvailableField);
+        /**
+         * List of available fields.
+         *
+         * @attribute availableFields
+         * @type Array
+         */
+        availableFields: {
+            setter: '_setAvailableFields',
+            validator: isArray
         },
 
-        AArray = A.Array,
+        /**
+         * The configuration object for draggable available fields.
+         *
+         * @attribute availableFieldsDragConfig
+         * @default null
+         * @type Object
+         */
+        availableFieldsDragConfig: {
+            value: null,
+            setter: '_setAvailableFieldsDragConfig',
+            validator: isObject
+        },
 
-        aGetClassName = A.getClassName,
+        /**
+         * A node created using the `CANVAS_TEMPLATE` template.
+         *
+         * @attribute canvas
+         */
+        canvas: {
+            valueFn: function() {
+                return A.Node.create(this.CANVAS_TEMPLATE);
+            }
+        },
 
-        CSS_CLEARFIX = aGetClassName('clearfix'),
-        CSS_PROPERTY_BUILDER_CANVAS = aGetClassName('property', 'builder', 'canvas'),
-        CSS_PROPERTY_BUILDER_CONTENT_CONTAINER = aGetClassName('property', 'builder', 'content', 'container'),
-        CSS_PROPERTY_BUILDER_DROP_CONTAINER = aGetClassName('property', 'builder', 'drop', 'container'),
-        CSS_PROPERTY_BUILDER_FIELD_DRAGGABLE = A.getClassName('property', 'builder', 'field', 'draggable'),
-        CSS_PROPERTY_BUILDER_FIELDS_CONTAINER = aGetClassName('property', 'builder', 'fields', 'container'),
-        CSS_LAYOUT = aGetClassName('layout');
+        /**
+         * The configuration object for drop container node.
+         *
+         * @attribute dropConfig
+         * @default null
+         * @type Object
+         */
+        dropConfig: {
+            value: null,
+            setter: '_setDropConfig',
+            validator: isObject
+        },
+
+        /**
+         * Host node for content created using the `CONTENT_CONTAINER_TEMPLATE`
+         * template.
+         *
+         * @attribute contentContainer
+         */
+        contentContainer: {
+            valueFn: function() {
+                return A.Node.create(this.CONTENT_CONTAINER_TEMPLATE);
+            }
+        },
+
+        /**
+         * Host node for drop created using the `DROP_CONTAINER_TEMPLATE`
+         * template.
+         *
+         * @attribute dropContainer
+         */
+        dropContainer: {
+            valueFn: function() {
+                return A.Node.create(this.DROP_CONTAINER_TEMPLATE);
+            }
+        },
+
+        /**
+         * Host node for fields created using the `FIELDS_CONTAINER_TEMPLATE`
+         * template.
+         *
+         * @attribute fieldsContainer
+         */
+        fieldsContainer: {
+            valueFn: function() {
+                return A.Node.create(this.FIELDS_CONTAINER_TEMPLATE);
+            }
+        }
+    },
 
     /**
-     * A base class for PropertyBuilder.
+     * Object hash, defining how attribute values have to be parsed from markup.
      *
-     * @class A.PropertyBuilder
-     * @extends A.Component
-     * @uses A.PropertyBuilderFieldSupport
-     * @param {Object} config Object literal specifying widget configuration
-     *     properties.
-     * @constructor
+     * @property HTML_PARSER
+     * @type Object
+     * @static
      */
-    var PropertyBuilder = A.Component.create({
-                                                 /**
-                                                  * Static property provides a string to identify the class.
-                                                  *
-                                                  * @property NAME
-                                                  * @type String
-                                                  * @static
-                                                  */
-                                                 NAME: 'property-builder',
+    HTML_PARSER: {
+        contentContainer: '.' + CSS_PROPERTY_BUILDER_CONTENT_CONTAINER,
+        dropContainer: '.' + CSS_PROPERTY_BUILDER_DROP_CONTAINER,
+        fieldsContainer: '.' + CSS_PROPERTY_BUILDER_FIELDS_CONTAINER,
+        canvas: '.' + CSS_PROPERTY_BUILDER_CANVAS
+    },
 
-                                                 /**
-                                                  * Static property used to define the default attribute
-                                                  * configuration for the `A.PropertyBuilder`.
-                                                  *
-                                                  * @property ATTRS
-                                                  * @type Object
-                                                  * @static
-                                                  */
-                                                 ATTRS: {
+    /**
+     * Static property used to define the UI attributes.
+     *
+     * @property UI_ATTRS
+     * @type Array
+     * @static
+     */
+    UI_ATTRS: ['availableFields', 'fields'],
 
-                                                     /**
-                                                      * List of available fields.
-                                                      *
-                                                      * @attribute availableFields
-                                                      * @type Array
-                                                      */
-                                                     availableFields: {
-                                                         setter: '_setAvailableFields',
-                                                         validator: isArray
-                                                     },
+    /**
+     * Static property used to define the augmented classes.
+     *
+     * @property AUGMENTS
+     * @type Array
+     * @static
+     */
+    AUGMENTS: [A.PropertyBuilderFieldSupport, A.PropertyBuilderSettings],
 
-                                                     /**
-                                                      * The configuration object for draggable available fields.
-                                                      *
-                                                      * @attribute availableFieldsDragConfig
-                                                      * @default null
-                                                      * @type Object
-                                                      */
-                                                     availableFieldsDragConfig: {
-                                                         value: null,
-                                                         setter: '_setAvailableFieldsDragConfig',
-                                                         validator: isObject
-                                                     },
+    prototype: {
+        CANVAS_TEMPLATE: '<div tabindex="1" class="' + CSS_PROPERTY_BUILDER_CANVAS + '"></div>',
+        CONTENT_CONTAINER_TEMPLATE: '<div class="' + CSS_PROPERTY_BUILDER_CONTENT_CONTAINER + '"></div>',
+        DROP_CONTAINER_TEMPLATE: '<div class="' + CSS_PROPERTY_BUILDER_DROP_CONTAINER + '"></div>',
+        FIELDS_CONTAINER_TEMPLATE: '<ul class="' + [CSS_PROPERTY_BUILDER_FIELDS_CONTAINER, CSS_CLEARFIX].join(' ') +
+            '"></ul>',
 
-                                                     /**
-                                                      * A node created using the `CANVAS_TEMPLATE` template.
-                                                      *
-                                                      * @attribute canvas
-                                                      */
-                                                     canvas: {
-                                                         valueFn: function () {
-                                                             return A.Node.create(this.CANVAS_TEMPLATE);
-                                                         }
-                                                     },
+        fieldsNode: null,
+        settingsNode: null,
 
-                                                     /**
-                                                      * The configuration object for drop container node.
-                                                      *
-                                                      * @attribute dropConfig
-                                                      * @default null
-                                                      * @type Object
-                                                      */
-                                                     dropConfig: {
-                                                         value: null,
-                                                         setter: '_setDropConfig',
-                                                         validator: isObject
-                                                     },
+        /**
+         * Construction logic executed during `A.PropertyBuilder`
+         * instantiation. Lifecycle.
+         *
+         * @method initializer
+         * @protected
+         */
+        initializer: function() {
+            var instance = this;
 
-                                                     /**
-                                                      * Host node for content created using the
-                                                      * `CONTENT_CONTAINER_TEMPLATE` template.
-                                                      *
-                                                      * @attribute contentContainer
-                                                      */
-                                                     contentContainer: {
-                                                         valueFn: function () {
-                                                             return A.Node.create(this.CONTENT_CONTAINER_TEMPLATE);
-                                                         }
-                                                     },
+            this.publish('render');
 
-                                                     /**
-                                                      * Host node for drop created using the `DROP_CONTAINER_TEMPLATE`
-                                                      * template.
-                                                      *
-                                                      * @attribute dropContainer
-                                                      */
-                                                     dropContainer: {
-                                                         valueFn: function () {
-                                                             return A.Node.create(this.DROP_CONTAINER_TEMPLATE);
-                                                         }
-                                                     },
+            instance.after({
+                render: instance._afterRender,
+                'model:change': instance._afterModelChange
+            });
 
-                                                     /**
-                                                      * Host node for fields created using the
-                                                      * `FIELDS_CONTAINER_TEMPLATE` template.
-                                                      *
-                                                      * @attribute fieldsContainer
-                                                      */
-                                                     fieldsContainer: {
-                                                         valueFn: function () {
-                                                             return A.Node.create(this.FIELDS_CONTAINER_TEMPLATE);
-                                                         }
-                                                     }
-                                                 },
+            instance.after(instance._afterUiSetHeight, instance, '_uiSetHeight');
 
-                                                 /**
-                                                  * Object hash, defining how attribute values have to be parsed from
-                                                  * markup.
-                                                  *
-                                                  * @property HTML_PARSER
-                                                  * @type Object
-                                                  * @static
-                                                  */
-                                                 HTML_PARSER: {
-                                                     contentContainer: '.' + CSS_PROPERTY_BUILDER_CONTENT_CONTAINER,
-                                                     dropContainer: '.' + CSS_PROPERTY_BUILDER_DROP_CONTAINER,
-                                                     fieldsContainer: '.' + CSS_PROPERTY_BUILDER_FIELDS_CONTAINER,
-                                                     canvas: '.' + CSS_PROPERTY_BUILDER_CANVAS
-                                                 },
+            instance.canvas = instance.get('canvas');
+            instance.contentContainer = instance.get('contentContainer');
+            instance.dropContainer = instance.get('dropContainer');
+            instance.fieldsContainer = instance.get('fieldsContainer');
+        },
 
-                                                 /**
-                                                  * Static property used to define the UI attributes.
-                                                  *
-                                                  * @property UI_ATTRS
-                                                  * @type Array
-                                                  * @static
-                                                  */
-                                                 UI_ATTRS: ['availableFields', 'fields'],
+        /**
+         * Checks if the `availableFields` are draggable.
+         *
+         * @method isAvailableFieldsDrag
+         * @param drag
+         * @return {Boolean}
+         */
+        isAvailableFieldsDrag: function(drag) {
+            var instance = this;
+            var availableFieldsDrag = instance.availableFieldsDrag;
 
-                                                 /**
-                                                  * Static property used to define the augmented classes.
-                                                  *
-                                                  * @property AUGMENTS
-                                                  * @type Array
-                                                  * @static
-                                                  */
-                                                 AUGMENTS: [A.PropertyBuilderFieldSupport, A.PropertyBuilderSettings],
+            return (drag === availableFieldsDrag.dd);
+        },
 
-                                                 prototype: {
-                                                     CANVAS_TEMPLATE: '<div tabindex="1" class="'
-                                                                      + CSS_PROPERTY_BUILDER_CANVAS + '"></div>',
-                                                     CONTENT_CONTAINER_TEMPLATE: '<div class="'
-                                                                                 + CSS_PROPERTY_BUILDER_CONTENT_CONTAINER
-                                                                                 + '"></div>',
-                                                     DROP_CONTAINER_TEMPLATE: '<div class="'
-                                                                              + CSS_PROPERTY_BUILDER_DROP_CONTAINER
-                                                                              + '"></div>',
-                                                     FIELDS_CONTAINER_TEMPLATE: '<ul class="'
-                                                                                + [CSS_PROPERTY_BUILDER_FIELDS_CONTAINER,
-                                                                                   CSS_CLEARFIX].join(' ') +
-                                                                                '"></ul>',
+        /**
+         * Plots a collection of fields.
+         *
+         * @method plotFields
+         */
+        plotFields: function() {
+            var instance = this;
+            var fields = instance.get('fields');
 
-                                                     fieldsNode: null,
-                                                     settingsNode: null,
+            fields.each(function(field) {
+                instance.plotField(field);
+            });
+        },
 
-                                                     /**
-                                                      * Construction logic executed during `A.PropertyBuilder`
-                                                      * instantiation. Lifecycle.
-                                                      *
-                                                      * @method initializer
-                                                      * @protected
-                                                      */
-                                                     initializer: function () {
-                                                         var instance = this;
+        /**
+         * Render the `A.PropertyBuilder` component instance. Lifecycle.
+         *
+         * @method renderUI
+         * @protected
+         */
+        renderUI: function() {
+            var instance = this;
 
-                                                         this.publish('render');
+            instance.fire('render');
 
-                                                         instance.after({
-                                                                            render: instance._afterRender,
-                                                                            'model:change': instance._afterModelChange
-                                                                        });
+            instance._renderCanvas();
 
-                                                         instance.after(instance._afterUiSetHeight, instance,
-                                                                        '_uiSetHeight');
+            instance._uiSetAvailableFields(
+                instance.get('availableFields')
+            );
+        },
 
-                                                         instance.canvas = instance.get('canvas');
-                                                         instance.contentContainer = instance.get('contentContainer');
-                                                         instance.dropContainer = instance.get('dropContainer');
-                                                         instance.fieldsContainer = instance.get('fieldsContainer');
-                                                     },
+        /**
+         * Sync the `A.PropertyBuilder` UI. Lifecycle.
+         *
+         * @method syncUI
+         * @protected
+         */
+        syncUI: function() {
+            var instance = this;
+            var contentBox = instance.get('contentBox');
 
-                                                     /**
-                                                      * Checks if the `availableFields` are draggable.
-                                                      *
-                                                      * @method isAvailableFieldsDrag
-                                                      * @param drag
-                                                      * @return {Boolean}
-                                                      */
-                                                     isAvailableFieldsDrag: function (drag) {
-                                                         var instance = this;
-                                                         var availableFieldsDrag = instance.availableFieldsDrag;
+            instance._setupDrop();
+            instance._setupAvailableFieldsDrag();
 
-                                                         return (drag === availableFieldsDrag.dd);
-                                                     },
+            contentBox.addClass(CSS_LAYOUT);
+        },
 
-                                                     /**
-                                                      * Plots a collection of fields.
-                                                      *
-                                                      * @method plotFields
-                                                      */
-                                                     plotFields: function () {
-                                                         var instance = this;
-                                                         var fields = instance.get('fields');
+        /**
+         * Fires after `A.PropertyBuilder` instance is rendered.
+         *
+         * @method _afterRender
+         * @param event
+         * @protected
+         */
+        _afterRender: function() {
+            var instance = this;
 
-                                                         fields.each(function (field) {
-                                                             instance.plotField(field);
-                                                         });
-                                                     },
+            instance.plotFields();
+        },
 
-                                                     /**
-                                                      * Render the `A.PropertyBuilder` component instance. Lifecycle.
-                                                      *
-                                                      * @method renderUI
-                                                      * @protected
-                                                      */
-                                                     renderUI: function () {
-                                                         var instance = this;
+        /**
+         * Fires after setting height in the UI.
+         *
+         * @method _afterUiSetHeight
+         * @param val
+         * @protected
+         */
+        _afterUiSetHeight: function(val) {
+            var instance = this;
 
-                                                         instance.fire('render');
+            instance.contentContainer.setStyle('height', isNumber(val) ? val + instance.DEF_UNIT : val);
+            instance.dropContainer.setStyle('height', isNumber(val) ? val + instance.DEF_UNIT : val);
+        },
 
-                                                         instance._renderCanvas();
+        /**
+         * Renders the `canvas` attribute.
+         *
+         * @method _renderCanvas
+         * @protected
+         */
+        _renderCanvas: function() {
+            var instance = this;
+            var contentBox = instance.get('contentBox');
+            var canvas = instance.canvas;
+            var contentContainer = instance.contentContainer;
+            var dropContainer = instance.dropContainer;
 
-                                                         instance._uiSetAvailableFields(
-                                                             instance.get('availableFields')
-                                                         );
-                                                     },
+            if (!canvas.inDoc()) {
+                contentContainer.appendChild(canvas);
+            }
 
-                                                     /**
-                                                      * Sync the `A.PropertyBuilder` UI. Lifecycle.
-                                                      *
-                                                      * @method syncUI
-                                                      * @protected
-                                                      */
-                                                     syncUI: function () {
-                                                         var instance = this;
-                                                         var contentBox = instance.get('contentBox');
+            if (!dropContainer.inDoc()) {
+                canvas.appendChild(dropContainer);
+            }
 
-                                                         instance._setupDrop();
-                                                         instance._setupAvailableFieldsDrag();
+            if (contentContainer.inDoc()) {
+                contentContainer.get('parentNode').append(contentContainer);
+            }
+            else {
+                contentBox.appendChild(contentContainer);
+            }
+        },
 
-                                                         contentBox.addClass(CSS_LAYOUT);
-                                                     },
+        /**
+         * Creates a new instance of `A.DD.Drop` in `drop` attribute.
+         *
+         * @method _setupDrop
+         * @protected
+         */
+        _setupDrop: function() {
+            var instance = this;
 
-                                                     /**
-                                                      * Fires after `A.PropertyBuilder` instance is rendered.
-                                                      *
-                                                      * @method _afterRender
-                                                      * @param event
-                                                      * @protected
-                                                      */
-                                                     _afterRender: function () {
-                                                         var instance = this;
+            instance.drop = new A.DD.Drop(
+                instance.get('dropConfig')
+            );
+        },
 
-                                                         instance.plotFields();
-                                                     },
+        /**
+         * Creates a new instance of `A.DD.Delegate` in `availableFieldsDrag`
+         * attribute.
+         *
+         * @method _setupAvailableFieldsDrag
+         * @protected
+         */
+        _setupAvailableFieldsDrag: function() {
+            var instance = this;
 
-                                                     /**
-                                                      * Fires after setting height in the UI.
-                                                      *
-                                                      * @method _afterUiSetHeight
-                                                      * @param val
-                                                      * @protected
-                                                      */
-                                                     _afterUiSetHeight: function (val) {
-                                                         var instance = this;
+            instance.availableFieldsDrag = new A.DD.Delegate(
+                instance.get('availableFieldsDragConfig')
+            );
+        },
 
-                                                         instance.contentContainer.setStyle('height',
-                                                                                            isNumber(val) ? val
-                                                                                                            + instance.DEF_UNIT
-                                                                                                          : val);
-                                                         instance.dropContainer.setStyle('height', isNumber(val) ? val
-                                                                                                                   + instance.DEF_UNIT
-                                                                                                                 : val);
-                                                     },
+        /**
+         * Sets the `availableFields` attribute.
+         *
+         * @method _setAvailableFields
+         * @param val
+         * @protected
+         */
+        _setAvailableFields: function(val) {
+            var fields = [];
 
-                                                     /**
-                                                      * Renders the `canvas` attribute.
-                                                      *
-                                                      * @method _renderCanvas
-                                                      * @protected
-                                                      */
-                                                     _renderCanvas: function () {
-                                                         var instance = this;
-                                                         var contentBox = instance.get('contentBox');
-                                                         var canvas = instance.canvas;
-                                                         var contentContainer = instance.contentContainer;
-                                                         var dropContainer = instance.dropContainer;
+            AArray.each(val, function(field) {
+                fields.push(
+                    isAvailableField(field) ? field : new A.PropertyBuilderAvailableField(field)
+                );
+            });
 
-                                                         if (!canvas.inDoc()) {
-                                                             contentContainer.appendChild(canvas);
-                                                         }
+            return fields;
+        },
 
-                                                         if (!dropContainer.inDoc()) {
-                                                             canvas.appendChild(dropContainer);
-                                                         }
+        /**
+         * Set the `dropConfig` attribute.
+         *
+         * @method _setDropConfig
+         * @param val
+         * @protected
+         */
+        _setDropConfig: function(val) {
+            var instance = this;
 
-                                                         if (contentContainer.inDoc()) {
-                                                             contentContainer.get('parentNode')
-                                                                 .append(contentContainer);
-                                                         }
-                                                         else {
-                                                             contentBox.appendChild(contentContainer);
-                                                         }
-                                                     },
+            return A.merge({
+                    bubbleTargets: instance,
+                    groups: ['availableFields'],
+                    node: instance.dropContainer
+                },
+                val || {}
+            );
+        },
 
-                                                     /**
-                                                      * Creates a new instance of `A.DD.Drop` in `drop` attribute.
-                                                      *
-                                                      * @method _setupDrop
-                                                      * @protected
-                                                      */
-                                                     _setupDrop: function () {
-                                                         var instance = this;
+        /**
+         * Set the `availableFieldsDragConfig` attribute.
+         *
+         * @method _setAvailableFieldsDragConfig
+         * @param val
+         * @protected
+         */
+        _setAvailableFieldsDragConfig: function(val) {
+            var instance = this;
 
-                                                         instance.drop = new A.DD.Drop(
-                                                             instance.get('dropConfig')
-                                                         );
-                                                     },
+            return A.merge({
+                    bubbleTargets: instance,
+                    container: instance.get('boundingBox'),
+                    dragConfig: {
+                        groups: ['availableFields'],
+                        plugins: [
+                            {
+                                cfg: {
+                                    moveOnEnd: false
+                                },
+                                fn: A.Plugin.DDProxy
+                            }
+                        ]
+                    },
+                    nodes: '.' + CSS_PROPERTY_BUILDER_FIELD_DRAGGABLE
+                },
+                val || {}
+            );
+        },
 
-                                                     /**
-                                                      * Creates a new instance of `A.DD.Delegate` in
-                                                      * `availableFieldsDrag` attribute.
-                                                      *
-                                                      * @method _setupAvailableFieldsDrag
-                                                      * @protected
-                                                      */
-                                                     _setupAvailableFieldsDrag: function () {
-                                                         var instance = this;
+        /**
+         * Sets the `availableFields` attribute in the UI.
+         *
+         * @method _uiSetAvailableFields
+         * @param val
+         * @protected
+         */
+        _uiSetAvailableFields: function(val) {
+            var instance = this;
+            var fieldsNode = instance.fieldsNode;
 
-                                                         instance.availableFieldsDrag = new A.DD.Delegate(
-                                                             instance.get('availableFieldsDragConfig')
-                                                         );
-                                                     },
+            if (fieldsNode) {
+                var docFrag = A.getDoc().invoke('createDocumentFragment');
 
-                                                     /**
-                                                      * Sets the `availableFields` attribute.
-                                                      *
-                                                      * @method _setAvailableFields
-                                                      * @param val
-                                                      * @protected
-                                                      */
-                                                     _setAvailableFields: function (val) {
-                                                         var fields = [];
+                AArray.each(val, function(field) {
+                    docFrag.appendChild(field.get('node'));
+                });
 
-                                                         AArray.each(val, function (field) {
-                                                             fields.push(
-                                                                 isAvailableField(field) ? field
-                                                                                         : new A.PropertyBuilderAvailableField(
-                                                                     field)
-                                                             );
-                                                         });
+                fieldsNode.setContent(
+                    instance.fieldsContainer.setContent(docFrag)
+                );
+            }
+        },
 
-                                                         return fields;
-                                                     },
+        /**
+         * Sets the `fields` attribute in the UI.
+         *
+         * @method _uiSetFields
+         * @param event
+         * @protected
+         */
+        _uiSetFields: function() {
+            var instance = this;
 
-                                                     /**
-                                                      * Set the `dropConfig` attribute.
-                                                      *
-                                                      * @method _setDropConfig
-                                                      * @param val
-                                                      * @protected
-                                                      */
-                                                     _setDropConfig: function (val) {
-                                                         var instance = this;
+            if (instance.get('rendered')) {
+                instance.plotFields();
+            }
+        }
+    }
+});
 
-                                                         return A.merge({
-                                                                            bubbleTargets: instance,
-                                                                            groups: ['availableFields'],
-                                                                            node: instance.dropContainer
-                                                                        },
-                                                             val || {}
-                                                         );
-                                                     },
+A.PropertyBuilder = PropertyBuilder;
 
-                                                     /**
-                                                      * Set the `availableFieldsDragConfig` attribute.
-                                                      *
-                                                      * @method _setAvailableFieldsDragConfig
-                                                      * @param val
-                                                      * @protected
-                                                      */
-                                                     _setAvailableFieldsDragConfig: function (val) {
-                                                         var instance = this;
 
-                                                         return A.merge({
-                                                                            bubbleTargets: instance,
-                                                                            container: instance.get('boundingBox'),
-                                                                            dragConfig: {
-                                                                                groups: ['availableFields'],
-                                                                                plugins: [
-                                                                                    {
-                                                                                        cfg: {
-                                                                                            moveOnEnd: false
-                                                                                        },
-                                                                                        fn: A.Plugin.DDProxy
-                                                                                    }
-                                                                                ]
-                                                                            },
-                                                                            nodes: '.'
-                                                                                   + CSS_PROPERTY_BUILDER_FIELD_DRAGGABLE
-                                                                        },
-                                                             val || {}
-                                                         );
-                                                     },
-
-                                                     /**
-                                                      * Sets the `availableFields` attribute in the UI.
-                                                      *
-                                                      * @method _uiSetAvailableFields
-                                                      * @param val
-                                                      * @protected
-                                                      */
-                                                     _uiSetAvailableFields: function (val) {
-                                                         var instance = this;
-                                                         var fieldsNode = instance.fieldsNode;
-
-                                                         if (fieldsNode) {
-                                                             var docFrag = A.getDoc().invoke('createDocumentFragment');
-
-                                                             AArray.each(val, function (field) {
-                                                                 docFrag.appendChild(field.get('node'));
-                                                             });
-
-                                                             fieldsNode.setContent(
-                                                                 instance.fieldsContainer.setContent(docFrag)
-                                                             );
-                                                         }
-                                                     },
-
-                                                     /**
-                                                      * Sets the `fields` attribute in the UI.
-                                                      *
-                                                      * @method _uiSetFields
-                                                      * @param event
-                                                      * @protected
-                                                      */
-                                                     _uiSetFields: function () {
-                                                         var instance = this;
-
-                                                         if (instance.get('rendered')) {
-                                                             instance.plotFields();
-                                                         }
-                                                     }
-                                                 }
-                                             });
-
-    A.PropertyBuilder = PropertyBuilder;
-
-}, '3.1.0', {
-            "requires": [
-                "dd",
-                "collection",
-                "aui-property-builder-available-field",
-                "aui-property-builder-field-support",
-                "aui-property-builder-settings",
-                "aui-tabview"
-            ],
-            "skinnable": true
-        });
+}, '4.1.0', {
+    "requires": [
+        "dd",
+        "collection",
+        "aui-property-builder-available-field",
+        "aui-property-builder-field-support",
+        "aui-property-builder-settings",
+        "aui-tabview"
+    ],
+    "skinnable": true
+});

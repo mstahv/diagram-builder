@@ -1,5 +1,7 @@
 YUI.add('editor-br', function (Y, NAME) {
 
+
+
     /**
      * Plugin for Editor to normalize BR's.
      * @class Plugin.EditorBR
@@ -10,17 +12,18 @@ YUI.add('editor-br', function (Y, NAME) {
      */
 
 
-    var EditorBR = function () {
+    var EditorBR = function() {
         EditorBR.superclass.constructor.apply(this, arguments);
     }, HOST = 'host', LI = 'li';
 
+
     Y.extend(EditorBR, Y.Base, {
         /**
-         * Frame keyDown handler that normalizes BR's when pressing ENTER.
-         * @private
-         * @method _onKeyDown
-         */
-        _onKeyDown: function (e) {
+        * Frame keyDown handler that normalizes BR's when pressing ENTER.
+        * @private
+        * @method _onKeyDown
+        */
+        _onKeyDown: function(e) {
             if (e.stopped) {
                 e.halt();
                 return;
@@ -46,18 +49,17 @@ YUI.add('editor-br', function (Y, NAME) {
             }
         },
         /**
-         * Adds listeners for keydown in IE and Webkit. Also fires insertbeonreturn for supporting browsers.
-         * @private
-         * @method _afterEditorReady
-         */
-        _afterEditorReady: function () {
+        * Adds listeners for keydown in IE and Webkit. Also fires insertbeonreturn for supporting browsers.
+        * @private
+        * @method _afterEditorReady
+        */
+        _afterEditorReady: function() {
             var inst = this.get(HOST).getInstance(),
                 container;
 
             try {
                 inst.config.doc.execCommand('insertbronreturn', null, true);
-            } catch (bre) {
-            }
+            } catch (bre) {}
 
             if (Y.UA.ie || Y.UA.webkit) {
                 container = inst.EditorSelection.ROOT;
@@ -70,13 +72,13 @@ YUI.add('editor-br', function (Y, NAME) {
             }
         },
         /**
-         * Adds a nodeChange listener only for FF, in the event of a backspace or delete, it creates an empy textNode
-         * inserts it into the DOM after the e.changedNode, then removes it. Causing FF to redraw the content.
-         * @private
-         * @method _onNodeChange
-         * @param {Event} e The nodeChange event.
-         */
-        _onNodeChange: function (e) {
+        * Adds a nodeChange listener only for FF, in the event of a backspace or delete, it creates an empy textNode
+        * inserts it into the DOM after the e.changedNode, then removes it. Causing FF to redraw the content.
+        * @private
+        * @method _onNodeChange
+        * @param {Event} e The nodeChange event.
+        */
+        _onNodeChange: function(e) {
             switch (e.changedType) {
                 case 'backspace-up':
                 case 'backspace-down':
@@ -95,7 +97,7 @@ YUI.add('editor-br', function (Y, NAME) {
                     break;
             }
         },
-        initializer: function () {
+        initializer: function() {
             var host = this.get(HOST);
             if (host.editorPara) {
                 Y.error('Can not plug EditorBR and EditorPara at the same time.');
@@ -107,27 +109,29 @@ YUI.add('editor-br', function (Y, NAME) {
             }
         }
     }, {
-                 /**
-                  * editorBR
-                  * @static
-                  * @property NAME
-                  */
-                 NAME: 'editorBR',
-                 /**
-                  * editorBR
-                  * @static
-                  * @property NS
-                  */
-                 NS: 'editorBR',
-                 ATTRS: {
-                     host: {
-                         value: false
-                     }
-                 }
-             });
+        /**
+        * editorBR
+        * @static
+        * @property NAME
+        */
+        NAME: 'editorBR',
+        /**
+        * editorBR
+        * @static
+        * @property NS
+        */
+        NS: 'editorBR',
+        ATTRS: {
+            host: {
+                value: false
+            }
+        }
+    });
 
     Y.namespace('Plugin');
 
     Y.Plugin.EditorBR = EditorBR;
+
+
 
 }, 'patched-v3.18.1', {"requires": ["editor-base"]});

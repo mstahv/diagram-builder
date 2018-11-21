@@ -20,7 +20,7 @@ YUI.add('pluginhost-config', function (Y, NAME) {
      * @protected
      * @for Plugin.Host
      */
-    PluginHost.prototype._initConfigPlugins = function (config) {
+    PluginHost.prototype._initConfigPlugins = function(config) {
 
         // Class Configuration
         var classes = (this._getClasses) ? this._getClasses() : [this.constructor],
@@ -67,12 +67,11 @@ YUI.add('pluginhost-config', function (Y, NAME) {
      * @static
      *
      * @param {Function} hostClass The host class on which to register the plugins
-     * @param {Function | Array} plugin Either the plugin class, an array of plugin classes or an array of objects
-     *     (with fn and cfg properties defined)
+     * @param {Function | Array} plugin Either the plugin class, an array of plugin classes or an array of objects (with fn and cfg properties defined)
      * @param {Object} config (Optional) If plugin is the plugin class, the configuration for the plugin
      * @for Plugin.Host
      */
-    PluginHost.plug = function (hostClass, plugin, config) {
+    PluginHost.plug = function(hostClass, plugin, config) {
         // Cannot plug into Base, since Plugins derive from Base [ will cause infinite recurrsion ]
         var p, i, l, name;
 
@@ -81,12 +80,12 @@ YUI.add('pluginhost-config', function (Y, NAME) {
 
             if (!L.isArray(plugin)) {
                 if (config) {
-                    plugin = {fn: plugin, cfg: config};
+                    plugin = {fn:plugin, cfg:config};
                 }
                 plugin = [plugin];
             }
 
-            for (i = 0, l = plugin.length; i < l; i++) {
+            for (i = 0, l = plugin.length; i < l;i++) {
                 p = plugin[i];
                 name = p.NAME || p.fn.NAME;
                 hostClass._PLUG[name] = p;
@@ -105,7 +104,7 @@ YUI.add('pluginhost-config', function (Y, NAME) {
      * @param {Function | Array} plugin The plugin class, or an array of plugin classes
      * @for Plugin.Host
      */
-    PluginHost.unplug = function (hostClass, plugin) {
+    PluginHost.unplug = function(hostClass, plugin) {
         var p, i, l, name;
 
         if (hostClass !== Y.Base) {
@@ -126,5 +125,6 @@ YUI.add('pluginhost-config', function (Y, NAME) {
             }
         }
     };
+
 
 }, 'patched-v3.18.1', {"requires": ["pluginhost-base"]});

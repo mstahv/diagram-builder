@@ -14,7 +14,7 @@ YUI.add('plugin', function (Y, NAME) {
      * @param {Object} config Configuration object with property name/value pairs.
      */
     function Plugin(config) {
-        if (!(this.hasImpl && this.hasImpl(Y.Plugin.Base))) {
+        if (! (this.hasImpl && this.hasImpl(Y.Plugin.Base)) ) {
             Plugin.superclass.constructor.apply(this, arguments);
         } else {
             Plugin.prototype.initializer.apply(this, arguments);
@@ -37,7 +37,7 @@ YUI.add('plugin', function (Y, NAME) {
          * @writeonce
          * @type Plugin.Host
          */
-        host: {
+        host : {
             writeOnce: true
         }
     };
@@ -82,10 +82,8 @@ YUI.add('plugin', function (Y, NAME) {
          * @method initializer
          * @param {Object} config Configuration object with property name/value pairs.
          */
-        initializer: function (config) {
-            if (!this.get("host")) {
-                Y.log('No host defined for plugin ' + this, 'warn', 'Plugin');
-            }
+        initializer : function(config) {
+            if (!this.get("host")) { Y.log('No host defined for plugin ' + this, 'warn', 'Plugin');}
             this._handles = [];
             Y.log('Initializing: ' + this.constructor.NAME, 'info', 'Plugin');
         },
@@ -97,11 +95,11 @@ YUI.add('plugin', function (Y, NAME) {
          *
          * @method destructor
          */
-        destructor: function () {
+        destructor: function() {
             // remove all handles
             if (this._handles) {
                 for (var i = 0, l = this._handles.length; i < l; i++) {
-                    this._handles[i].detach();
+                   this._handles[i].detach();
                 }
             }
         },
@@ -113,13 +111,11 @@ YUI.add('plugin', function (Y, NAME) {
          * @method doBefore
          *
          * @param strMethod {String} The event to listen for, or method to inject logic before.
-         * @param fn {Function} The handler function. For events, the "on" moment listener. For methods, the function
-         *     to execute before the given method is executed.
-         * @param context {Object} An optional context to call the handler with. The default context is the plugin
-         *     instance.
+         * @param fn {Function} The handler function. For events, the "on" moment listener. For methods, the function to execute before the given method is executed.
+         * @param context {Object} An optional context to call the handler with. The default context is the plugin instance.
          * @return handle {EventHandle} The detach handle for the handler.
          */
-        doBefore: function (strMethod, fn, context) {
+        doBefore: function(strMethod, fn, context) {
             var host = this.get("host"), handle;
 
             if (strMethod in host) { // method
@@ -138,13 +134,11 @@ YUI.add('plugin', function (Y, NAME) {
          * @method doAfter
          *
          * @param strMethod {String} The event to listen for, or method to inject logic after.
-         * @param fn {Function} The handler function. For events, the "after" moment listener. For methods, the
-         *     function to execute after the given method is executed.
-         * @param context {Object} An optional context to call the handler with. The default context is the plugin
-         *     instance.
+         * @param fn {Function} The handler function. For events, the "after" moment listener. For methods, the function to execute after the given method is executed.
+         * @param context {Object} An optional context to call the handler with. The default context is the plugin instance.
          * @return handle {EventHandle} The detach handle for the listener.
          */
-        doAfter: function (strMethod, fn, context) {
+        doAfter: function(strMethod, fn, context) {
             var host = this.get("host"), handle;
 
             if (strMethod in host) { // method
@@ -167,7 +161,7 @@ YUI.add('plugin', function (Y, NAME) {
          * @param {Object} context The execution context. Defaults to the plugin instance.
          * @return handle {EventHandle} The detach handle for the listener.
          */
-        onHostEvent: function (type, fn, context) {
+        onHostEvent : function(type, fn, context) {
             var handle = this.get("host").on(type, fn, context || this);
             this._handles.push(handle);
             return handle;
@@ -185,7 +179,7 @@ YUI.add('plugin', function (Y, NAME) {
          * @param {Object} context The execution context. Defaults to the plugin instance.
          * @return handle {EventHandle} The detach handle for the listener.
          */
-        onceHostEvent: function (type, fn, context) {
+        onceHostEvent : function(type, fn, context) {
             var handle = this.get("host").once(type, fn, context || this);
             this._handles.push(handle);
             return handle;
@@ -202,7 +196,7 @@ YUI.add('plugin', function (Y, NAME) {
          * @param {Object} context The execution context. Defaults to the plugin instance.
          * @return handle {EventHandle} The detach handle for the listener.
          */
-        afterHostEvent: function (type, fn, context) {
+        afterHostEvent : function(type, fn, context) {
             var handle = this.get("host").after(type, fn, context || this);
             this._handles.push(handle);
             return handle;
@@ -220,7 +214,7 @@ YUI.add('plugin', function (Y, NAME) {
          * @param {Object} context The execution context. Defaults to the plugin instance.
          * @return handle {EventHandle} The detach handle for the listener.
          */
-        onceAfterHostEvent: function (type, fn, context) {
+        onceAfterHostEvent : function(type, fn, context) {
             var handle = this.get("host").onceAfter(type, fn, context || this);
             this._handles.push(handle);
             return handle;
@@ -237,7 +231,7 @@ YUI.add('plugin', function (Y, NAME) {
          * @param {Object} context The execution context. Defaults to the plugin instance.
          * @return handle {EventHandle} The detach handle for the injected function.
          */
-        beforeHostMethod: function (strMethod, fn, context) {
+        beforeHostMethod : function(strMethod, fn, context) {
             var handle = Y.Do.before(fn, this.get("host"), strMethod, context || this);
             this._handles.push(handle);
             return handle;
@@ -254,17 +248,18 @@ YUI.add('plugin', function (Y, NAME) {
          * @param {Object} context The execution context. Defaults to the plugin instance.
          * @return handle {EventHandle} The detach handle for the injected function.
          */
-        afterHostMethod: function (strMethod, fn, context) {
+        afterHostMethod : function(strMethod, fn, context) {
             var handle = Y.Do.after(fn, this.get("host"), strMethod, context || this);
             this._handles.push(handle);
             return handle;
         },
 
-        toString: function () {
+        toString: function() {
             return this.constructor.NAME + '[' + this.constructor.NS + ']';
         }
     });
 
     Y.namespace("Plugin").Base = Plugin;
+
 
 }, 'patched-v3.18.1', {"requires": ["base-base"]});

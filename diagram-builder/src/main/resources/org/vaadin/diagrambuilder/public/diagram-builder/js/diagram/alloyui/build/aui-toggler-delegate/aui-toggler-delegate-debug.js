@@ -1,406 +1,392 @@
 YUI.add('aui-toggler-delegate', function (A, NAME) {
 
+/**
+ * The Toggler Component
+ *
+ * @module aui-toggler
+ */
+
+var Lang = A.Lang,
+    isBoolean = Lang.isBoolean,
+    isObject = Lang.isObject,
+    isString = Lang.isString,
+
+    AArray = A.Array,
+
+    DOC = A.config.doc,
+
+    Toggler = A.Toggler,
+    CUBIC_BEZIER = 'cubic-bezier(0, 0.1, 0, 1.0)',
+
+    getCN = A.getClassName,
+
+    CSS_TOGGLER_CONTENT_WRAPPER = getCN('toggler', 'content', 'wrapper'),
+    CSS_TOGGLER_HEADER_COLLAPSED = getCN('toggler', 'header', 'collapsed'),
+    CSS_TOGGLER_HEADER_EXPANDED = getCN('toggler', 'header', 'expanded');
+
+/**
+ * A base class for Toggler Delegate.
+ *
+ * Check the [live demo](http://alloyui.com/examples/toggler/).
+ *
+ * @class A.TogglerDelegate
+ * @extends Base
+ * @param {Object} config Object literal specifying widget configuration
+ *     properties.
+ * @constructor
+ */
+var TogglerDelegate = A.Component.create({
+
     /**
-     * The Toggler Component
+     * Static property provides a string to identify the class.
      *
-     * @module aui-toggler
+     * @property NAME
+     * @type String
+     * @static
      */
-
-    var Lang = A.Lang,
-        isBoolean = Lang.isBoolean,
-        isObject = Lang.isObject,
-        isString = Lang.isString,
-
-        AArray = A.Array,
-
-        DOC = A.config.doc,
-
-        Toggler = A.Toggler,
-        CUBIC_BEZIER = 'cubic-bezier(0, 0.1, 0, 1.0)',
-
-        getCN = A.getClassName,
-
-        CSS_TOGGLER_CONTENT_WRAPPER = getCN('toggler', 'content', 'wrapper'),
-        CSS_TOGGLER_HEADER_COLLAPSED = getCN('toggler', 'header', 'collapsed'),
-        CSS_TOGGLER_HEADER_EXPANDED = getCN('toggler', 'header', 'expanded');
+    NAME: 'toggler-delegate',
 
     /**
-     * A base class for Toggler Delegate.
+     * Static property used to define the default attribute
+     * configuration for the `A.TogglerDelegate`.
      *
-     * Check the [live demo](http://alloyui.com/examples/toggler/).
-     *
-     * @class A.TogglerDelegate
-     * @extends Base
-     * @param {Object} config Object literal specifying widget configuration
-     *     properties.
-     * @constructor
+     * @property ATTRS
+     * @type Object
+     * @static
      */
-    var TogglerDelegate = A.Component.create({
+    ATTRS: {
 
-                                                 /**
-                                                  * Static property provides a string to identify the class.
-                                                  *
-                                                  * @property NAME
-                                                  * @type String
-                                                  * @static
-                                                  */
-                                                 NAME: 'toggler-delegate',
+        /**
+         * Determine if the `A.TogglerDelegate` transitions will animate.
+         *
+         * @attribute animated
+         * @default false
+         * @type Boolean
+         * @writeOnce
+         */
+        animated: {
+            validator: isBoolean,
+            value: false,
+            writeOnce: true
+        },
 
-                                                 /**
-                                                  * Static property used to define the default attribute
-                                                  * configuration for the `A.TogglerDelegate`.
-                                                  *
-                                                  * @property ATTRS
-                                                  * @type Object
-                                                  * @static
-                                                  */
-                                                 ATTRS: {
+        /**
+         * Determine if the `A.TogglerDelegate` switches
+         * will be set to off when one switch is toggled on.
+         *
+         * @attribute closeAllOnExpand
+         * @default false
+         * @type Boolean
+         */
+        closeAllOnExpand: {
+            validator: isBoolean,
+            value: false
+        },
 
-                                                     /**
-                                                      * Determine if the `A.TogglerDelegate` transitions will animate.
-                                                      *
-                                                      * @attribute animated
-                                                      * @default false
-                                                      * @type Boolean
-                                                      * @writeOnce
-                                                      */
-                                                     animated: {
-                                                         validator: isBoolean,
-                                                         value: false,
-                                                         writeOnce: true
-                                                     },
+        /**
+         * The container of `A.TogglerDelegate` instance.
+         *
+         * @attribute container
+         */
+        container: {
+            setter: A.one,
+            value: DOC
+        },
 
-                                                     /**
-                                                      * Determine if the `A.TogglerDelegate` switches
-                                                      * will be set to off when one switch is toggled on.
-                                                      *
-                                                      * @attribute closeAllOnExpand
-                                                      * @default false
-                                                      * @type Boolean
-                                                      */
-                                                     closeAllOnExpand: {
-                                                         validator: isBoolean,
-                                                         value: false
-                                                     },
+        /**
+         * The content of a Toogler Delegate instance.
+         *
+         * @attribute content
+         * @type String
+         */
+        content: {
+            validator: isString
+        },
 
-                                                     /**
-                                                      * The container of `A.TogglerDelegate` instance.
-                                                      *
-                                                      * @attribute container
-                                                      */
-                                                     container: {
-                                                         setter: A.one,
-                                                         value: DOC
-                                                     },
+        /**
+         * Determine if the content starts as toggled on/off on page load.
+         *
+         * @attribute expanded
+         * @default true
+         * @type Boolean
+         */
+        expanded: {
+            validator: isBoolean,
+            value: true
+        },
 
-                                                     /**
-                                                      * The content of a Toogler Delegate instance.
-                                                      *
-                                                      * @attribute content
-                                                      * @type String
-                                                      */
-                                                     content: {
-                                                         validator: isString
-                                                     },
+        /**
+         * The header of a Toogler Delegate instance.
+         *
+         * @attribute header
+         * @type String
+         */
+        header: {
+            validator: isString
+        },
 
-                                                     /**
-                                                      * Determine if the content starts as toggled on/off on page load.
-                                                      *
-                                                      * @attribute expanded
-                                                      * @default true
-                                                      * @type Boolean
-                                                      */
-                                                     expanded: {
-                                                         validator: isBoolean,
-                                                         value: true
-                                                     },
+        /**
+         * User interaction that triggers the Toggler instance.
+         *
+         * @attribute toggleEvent
+         * @type String
+         * @writeOnce
+         */
+        toggleEvent: {
+            validator: isString,
+            value: 'tap',
+            writeOnce: true
+        },
 
-                                                     /**
-                                                      * The header of a Toogler Delegate instance.
-                                                      *
-                                                      * @attribute header
-                                                      * @type String
-                                                      */
-                                                     header: {
-                                                         validator: isString
-                                                     },
+        /**
+         * Transition definitions such as duration and type of easing effect.
+         *
+         * @attribute transition
+         * @type Object
+         */
+        transition: {
+            validator: isObject,
+            value: {
+                duration: 0.4,
+                easing: CUBIC_BEZIER
+            }
+        }
 
-                                                     /**
-                                                      * User interaction that triggers the Toggler instance.
-                                                      *
-                                                      * @attribute toggleEvent
-                                                      * @type String
-                                                      * @writeOnce
-                                                      */
-                                                     toggleEvent: {
-                                                         validator: isString,
-                                                         value: 'tap',
-                                                         writeOnce: true
-                                                     },
+    },
 
-                                                     /**
-                                                      * Transition definitions such as duration and type of easing
-                                                      * effect.
-                                                      *
-                                                      * @attribute transition
-                                                      * @type Object
-                                                      */
-                                                     transition: {
-                                                         validator: isObject,
-                                                         value: {
-                                                             duration: 0.4,
-                                                             easing: CUBIC_BEZIER
-                                                         }
-                                                     }
+    /**
+     * Static property used to define which component it extends.
+     *
+     * @property EXTENDS
+     * @type Object
+     * @static
+     */
+    EXTENDS: A.Base,
 
-                                                 },
+    prototype: {
 
-                                                 /**
-                                                  * Static property used to define which component it extends.
-                                                  *
-                                                  * @property EXTENDS
-                                                  * @type Object
-                                                  * @static
-                                                  */
-                                                 EXTENDS: A.Base,
+        items: null,
 
-                                                 prototype: {
+        /**
+         * Construction logic executed during TogglerDelegate instantiation.
+         * Lifecycle.
+         *
+         * @method initializer
+         * @protected
+         */
+        initializer: function() {
+            var instance = this;
 
-                                                     items: null,
+            instance.items = [];
 
-                                                     /**
-                                                      * Construction logic executed during TogglerDelegate
-                                                      * instantiation. Lifecycle.
-                                                      *
-                                                      * @method initializer
-                                                      * @protected
-                                                      */
-                                                     initializer: function () {
-                                                         var instance = this;
+            instance.bindUI();
+            instance.renderUI();
+        },
 
-                                                         instance.items = [];
+        /**
+         * Render the TogglerDelegate component instance. Lifecycle.
+         *
+         * @method renderUI
+         * @protected
+         */
+        renderUI: function() {
+            var instance = this;
 
-                                                         instance.bindUI();
-                                                         instance.renderUI();
-                                                     },
+            if (instance.get('closeAllOnExpand')) {
+                instance.createAll();
+            }
+        },
 
-                                                     /**
-                                                      * Render the TogglerDelegate component instance. Lifecycle.
-                                                      *
-                                                      * @method renderUI
-                                                      * @protected
-                                                      */
-                                                     renderUI: function () {
-                                                         var instance = this;
+        /**
+         * Bind the events on the TogglerDelegate UI. Lifecycle.
+         *
+         * @method bindUI
+         * @protected
+         */
+        bindUI: function() {
+            var instance = this;
+            var container = instance.get('container');
+            var header = instance.get('header');
 
-                                                         if (instance.get('closeAllOnExpand')) {
-                                                             instance.createAll();
-                                                         }
-                                                     },
+            instance._eventHandles = [
+                container.delegate([instance.get('toggleEvent'), 'keydown'], A.bind('headerEventHandler', instance), header),
+                instance.on('toggler:animatingChange', A.bind('_onAnimatingChange', instance))
+            ];
+        },
 
-                                                     /**
-                                                      * Bind the events on the TogglerDelegate UI. Lifecycle.
-                                                      *
-                                                      * @method bindUI
-                                                      * @protected
-                                                      */
-                                                     bindUI: function () {
-                                                         var instance = this;
-                                                         var container = instance.get('container');
-                                                         var header = instance.get('header');
+        /**
+         * Destructor lifecycle implementation for the `TogglerDelegate` class.
+         *
+         * @method destructor
+         * @protected
+         */
+        destructor: function() {
+            var instance = this;
 
-                                                         instance._eventHandles = [
-                                                             container.delegate(
-                                                                 [instance.get('toggleEvent'), 'keydown'],
-                                                                 A.bind('headerEventHandler', instance), header),
-                                                             instance.on('toggler:animatingChange',
-                                                                         A.bind('_onAnimatingChange', instance))
-                                                         ];
-                                                     },
+            AArray.each(instance.items, function(item) {
+                item.destroy();
+            });
 
-                                                     /**
-                                                      * Destructor lifecycle implementation for the `TogglerDelegate`
-                                                      * class.
-                                                      *
-                                                      * @method destructor
-                                                      * @protected
-                                                      */
-                                                     destructor: function () {
-                                                         var instance = this;
+            instance.items = null;
 
-                                                         AArray.each(instance.items, function (item) {
-                                                             item.destroy();
-                                                         });
+            (new A.EventHandle(instance._eventHandles)).detach();
+        },
 
-                                                         instance.items = null;
+        /**
+         * Collapse all items.
+         *
+         * @method collapseAll
+         */
+        collapseAll: function(payload) {
+            var instance = this;
 
-                                                         (new A.EventHandle(instance._eventHandles)).detach();
-                                                     },
+            instance.createAll();
 
-                                                     /**
-                                                      * Collapse all items.
-                                                      *
-                                                      * @method collapseAll
-                                                      */
-                                                     collapseAll: function (payload) {
-                                                         var instance = this;
+            A.Array.invoke(instance.items, 'collapse', payload);
+        },
 
-                                                         instance.createAll();
+        /**
+         * Forces toggler creation on delegated header elements.
+         *
+         * @method createAll
+         */
+        createAll: function() {
+            var instance = this;
 
-                                                         A.Array.invoke(instance.items, 'collapse', payload);
-                                                     },
+            instance.get('container').all(instance.get('header')).each(function(header) {
+                if (!header.getData('toggler')) {
+                    instance._create(header);
+                }
+            });
+        },
 
-                                                     /**
-                                                      * Forces toggler creation on delegated header elements.
-                                                      *
-                                                      * @method createAll
-                                                      */
-                                                     createAll: function () {
-                                                         var instance = this;
+        /**
+         * Expand all items.
+         *
+         * @method expandAll
+         */
+        expandAll: function(payload) {
+            var instance = this;
 
-                                                         instance.get('container').all(instance.get('header'))
-                                                             .each(function (header) {
-                                                                 if (!header.getData('toggler')) {
-                                                                     instance._create(header);
-                                                                 }
-                                                             });
-                                                     },
+            instance.createAll();
 
-                                                     /**
-                                                      * Expand all items.
-                                                      *
-                                                      * @method expandAll
-                                                      */
-                                                     expandAll: function (payload) {
-                                                         var instance = this;
+            A.Array.invoke(instance.items, 'expand', payload);
+        },
 
-                                                         instance.createAll();
+        /**
+         * Return the content node.
+         *
+         * @method findContentNode
+         * @param header
+         */
+        findContentNode: function(header) {
+            var instance = this;
+            var content = instance.get('content');
 
-                                                         A.Array.invoke(instance.items, 'expand', payload);
-                                                     },
+            var contentNode = header.next(content) || header.one(content);
 
-                                                     /**
-                                                      * Return the content node.
-                                                      *
-                                                      * @method findContentNode
-                                                      * @param header
-                                                      */
-                                                     findContentNode: function (header) {
-                                                         var instance = this;
-                                                         var content = instance.get('content');
+            if (!contentNode) {
+                var wrapper = header.next('.' + CSS_TOGGLER_CONTENT_WRAPPER);
 
-                                                         var contentNode = header.next(content) || header.one(content);
+                if (wrapper) {
+                    contentNode = wrapper.get('firstChild');
+                }
+            }
 
-                                                         if (!contentNode) {
-                                                             var wrapper = header.next('.'
-                                                                                       + CSS_TOGGLER_CONTENT_WRAPPER);
+            return contentNode;
+        },
 
-                                                             if (wrapper) {
-                                                                 contentNode = wrapper.get('firstChild');
-                                                             }
-                                                         }
+        /**
+         * Handle header events.
+         *
+         * @method headerEventHandler
+         * @param event
+         */
+        headerEventHandler: function(event) {
+            var instance = this;
 
-                                                         return contentNode;
-                                                     },
+            if (instance.animating) {
+                return false;
+            }
 
-                                                     /**
-                                                      * Handle header events.
-                                                      *
-                                                      * @method headerEventHandler
-                                                      * @param event
-                                                      */
-                                                     headerEventHandler: function (event) {
-                                                         var instance = this;
+            var target = event.currentTarget;
+            var toggler = target.getData('toggler') || instance._create(target);
 
-                                                         if (instance.animating) {
-                                                             return false;
-                                                         }
+            if (Toggler.headerEventHandler(event, toggler) && instance.get('closeAllOnExpand')) {
+                var wrappingContent = toggler.get('content').ancestor(instance.get('content'));
 
-                                                         var target = event.currentTarget;
-                                                         var toggler = target.getData('toggler') || instance._create(
-                                                             target);
+                AArray.each(instance.items, function(item) {
+                    if ((item !== toggler) && item.get('expanded')) {
 
-                                                         if (Toggler.headerEventHandler(event, toggler) && instance.get(
-                                                             'closeAllOnExpand')) {
-                                                             var wrappingContent = toggler.get('content')
-                                                                 .ancestor(instance.get('content'));
+                        if (wrappingContent) {
+                            var itemContent = item.get('content');
 
-                                                             AArray.each(instance.items, function (item) {
-                                                                 if ((item !== toggler) && item.get('expanded')) {
+                            if ((itemContent !== wrappingContent) && wrappingContent.contains(itemContent)) {
+                                item.collapse();
+                            }
+                        }
+                        else {
+                            item.collapse();
+                        }
 
-                                                                     if (wrappingContent) {
-                                                                         var itemContent = item.get('content');
+                    }
+                });
+            }
+        },
 
-                                                                         if ((itemContent !== wrappingContent)
-                                                                             && wrappingContent.contains(itemContent)) {
-                                                                             item.collapse();
-                                                                         }
-                                                                     }
-                                                                     else {
-                                                                         item.collapse();
-                                                                     }
+        /**
+         * Create a Toggler instance.
+         *
+         * @method _create
+         * @param header
+         * @protected
+         */
+        _create: function(header) {
+            var instance = this,
+                expanded = instance.get('expanded');
 
-                                                                 }
-                                                             });
-                                                         }
-                                                     },
+            // Prioritize markup information to decide whether it's expanded or
+            // not
+            if (header.hasClass(CSS_TOGGLER_HEADER_EXPANDED)) {
+                expanded = true;
+            }
+            else if (header.hasClass(CSS_TOGGLER_HEADER_COLLAPSED)) {
+                expanded = false;
+            }
 
-                                                     /**
-                                                      * Create a Toggler instance.
-                                                      *
-                                                      * @method _create
-                                                      * @param header
-                                                      * @protected
-                                                      */
-                                                     _create: function (header) {
-                                                         var instance = this,
-                                                             expanded = instance.get('expanded');
+            var toggler = new Toggler({
+                animated: instance.get('animated'),
+                bindDOMEvents: false,
+                bubbleTargets: [instance],
+                content: instance.findContentNode(header),
+                expanded: expanded,
+                header: header,
+                toggleEvent: instance.get('toggleEvent'),
+                transition: instance.get('transition')
+            });
 
-                                                         // Prioritize markup information to decide whether it's
-                                                         // expanded or not
-                                                         if (header.hasClass(CSS_TOGGLER_HEADER_EXPANDED)) {
-                                                             expanded = true;
-                                                         }
-                                                         else if (header.hasClass(CSS_TOGGLER_HEADER_COLLAPSED)) {
-                                                             expanded = false;
-                                                         }
+            instance.items.push(toggler);
 
-                                                         var toggler = new Toggler({
-                                                                                       animated: instance.get(
-                                                                                           'animated'),
-                                                                                       bindDOMEvents: false,
-                                                                                       bubbleTargets: [instance],
-                                                                                       content: instance.findContentNode(
-                                                                                           header),
-                                                                                       expanded: expanded,
-                                                                                       header: header,
-                                                                                       toggleEvent: instance.get(
-                                                                                           'toggleEvent'),
-                                                                                       transition: instance.get(
-                                                                                           'transition')
-                                                                                   });
+            return toggler;
+        },
 
-                                                         instance.items.push(toggler);
+        /**
+         * Trigger when the `animating` attribute change its value.
+         *
+         * @method _onAnimatingChange
+         * @param event
+         * @protected
+         */
+        _onAnimatingChange: function(event) {
+            var instance = this;
 
-                                                         return toggler;
-                                                     },
+            instance.animating = event.newVal;
+        }
 
-                                                     /**
-                                                      * Trigger when the `animating` attribute change its value.
-                                                      *
-                                                      * @method _onAnimatingChange
-                                                      * @param event
-                                                      * @protected
-                                                      */
-                                                     _onAnimatingChange: function (event) {
-                                                         var instance = this;
+    }
+});
 
-                                                         instance.animating = event.newVal;
-                                                     }
+A.TogglerDelegate = TogglerDelegate;
 
-                                                 }
-                                             });
 
-    A.TogglerDelegate = TogglerDelegate;
-
-}, '3.1.0', {"requires": ["array-invoke", "node-event-delegate", "aui-toggler-base"]});
+}, '4.1.0', {"requires": ["array-invoke", "node-event-delegate", "aui-toggler-base"]});
