@@ -1,47 +1,49 @@
 YUI.add('series-line-stacked', function (Y, NAME) {
 
+/**
+ * Provides functionality for creatiing a stacked line series.
+ *
+ * @module charts
+ * @submodule series-line-stacked
+ */
+/**
+ * StackedLineSeries creates line graphs in which the different series are stacked along a value axis
+ * to indicate their contribution to a cumulative total.
+ *
+ * @class StackedLineSeries
+ * @constructor
+ * @extends  LineSeries
+ * @uses StackingUtil
+ * @param {Object} config (optional) Configuration parameters.
+ * @submodule series-line-stacked
+ */
+Y.StackedLineSeries = Y.Base.create("stackedLineSeries", Y.LineSeries, [Y.StackingUtil], {
     /**
-     * Provides functionality for creatiing a stacked line series.
+     * @protected
      *
-     * @module charts
-     * @submodule series-line-stacked
-     */
-    /**
-     * StackedLineSeries creates line graphs in which the different series are stacked along a value axis
-     * to indicate their contribution to a cumulative total.
+     * Calculates the coordinates for the series. Overrides base implementation.
      *
-     * @class StackedLineSeries
-     * @constructor
-     * @extends  LineSeries
-     * @uses StackingUtil
-     * @param {Object} config (optional) Configuration parameters.
-     * @submodule series-line-stacked
+     * @method setAreaData
      */
-    Y.StackedLineSeries = Y.Base.create("stackedLineSeries", Y.LineSeries, [Y.StackingUtil], {
+    setAreaData: function()
+    {
+        Y.StackedLineSeries.superclass.setAreaData.apply(this);
+        this._stackCoordinates.apply(this);
+    }
+}, {
+    ATTRS: {
         /**
-         * @protected
+         * Read-only attribute indicating the type of series.
          *
-         * Calculates the coordinates for the series. Overrides base implementation.
-         *
-         * @method setAreaData
+         * @attribute type
+         * @type String
+         * @default stackedLine
          */
-        setAreaData: function () {
-            Y.StackedLineSeries.superclass.setAreaData.apply(this);
-            this._stackCoordinates.apply(this);
+        type: {
+            value:"stackedLine"
         }
-    }, {
-                                            ATTRS: {
-                                                /**
-                                                 * Read-only attribute indicating the type of series.
-                                                 *
-                                                 * @attribute type
-                                                 * @type String
-                                                 * @default stackedLine
-                                                 */
-                                                type: {
-                                                    value: "stackedLine"
-                                                }
-                                            }
-                                        });
+    }
+});
+
 
 }, 'patched-v3.18.1', {"requires": ["series-stacked", "series-line"]});

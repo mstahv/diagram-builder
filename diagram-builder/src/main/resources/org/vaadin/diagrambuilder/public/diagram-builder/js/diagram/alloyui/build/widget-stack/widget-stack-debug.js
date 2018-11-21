@@ -1,10 +1,10 @@
 YUI.add('widget-stack', function (Y, NAME) {
 
-    /**
-     * Provides stackable (z-index) support for Widgets through an extension.
-     *
-     * @module widget-stack
-     */
+/**
+ * Provides stackable (z-index) support for Widgets through an extension.
+ *
+ * @module widget-stack
+ */
     var L = Y.Lang,
         UA = Y.UA,
         Node = Y.Node,
@@ -53,8 +53,7 @@ YUI.add('widget-stack', function (Y, NAME) {
      * @class WidgetStack
      * @param {Object} User configuration object
      */
-    function Stack(config) {
-    }
+    function Stack(config) {}
 
     // Static Properties
     /**
@@ -86,7 +85,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * zIndex will be converted to 0
          */
         zIndex: {
-            value: 0,
+            value : 0,
             setter: '_setZIndex'
         }
     };
@@ -131,13 +130,11 @@ YUI.add('widget-stack', function (Y, NAME) {
      * @type String
      * @static
      */
-    Stack.SHIM_TEMPLATE =
-        '<iframe class="' + Stack.SHIM_CLASS_NAME
-        + '" frameborder="0" title="Widget Stacking Shim" src="javascript:false" tabindex="-1" role="presentation"></iframe>';
+    Stack.SHIM_TEMPLATE = '<iframe class="' + Stack.SHIM_CLASS_NAME + '" frameborder="0" title="Widget Stacking Shim" src="javascript:false" tabindex="-1" role="presentation"></iframe>';
 
     Stack.prototype = {
 
-        initializer: function () {
+        initializer : function() {
             this._stackNode = this.get(BOUNDING_BOX);
             this._stackHandles = {};
 
@@ -154,7 +151,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _syncUIStack
          * @protected
          */
-        _syncUIStack: function () {
+        _syncUIStack: function() {
             this._uiSetShim(this.get(SHIM));
             this._uiSetZIndex(this.get(ZINDEX));
         },
@@ -169,7 +166,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _bindUIStack
          * @protected
          */
-        _bindUIStack: function () {
+        _bindUIStack: function() {
             this.after(ShimChange, this._afterShimChange);
             this.after(ZIndexChange, this._afterZIndexChange);
         },
@@ -183,18 +180,18 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _renderUIStack
          * @protected
          */
-        _renderUIStack: function () {
+        _renderUIStack: function() {
             this._stackNode.addClass(Stack.STACKED_CLASS_NAME);
         },
 
         /**
-         Parses a `zIndex` attribute value from this widget's `srcNode`.
+        Parses a `zIndex` attribute value from this widget's `srcNode`.
 
-         @method _parseZIndex
-         @param {Node} srcNode The node to parse a `zIndex` value from.
-         @return {Mixed} The parsed `zIndex` value.
-         @protected
-         **/
+        @method _parseZIndex
+        @param {Node} srcNode The node to parse a `zIndex` value from.
+        @return {Mixed} The parsed `zIndex` value.
+        @protected
+        **/
         _parseZIndex: function (srcNode) {
             var zIndex;
 
@@ -231,7 +228,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @param {String | Number} zIndex
          * @return {Number} Normalized zIndex
          */
-        _setZIndex: function (zIndex) {
+        _setZIndex: function(zIndex) {
             if (L.isString(zIndex)) {
                 zIndex = parseInt(zIndex, 10);
             }
@@ -249,7 +246,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @protected
          * @param {EventFacade} e The event facade for the attribute change
          */
-        _afterShimChange: function (e) {
+        _afterShimChange : function(e) {
             this._uiSetShim(e.newVal);
         },
 
@@ -261,7 +258,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @protected
          * @param {EventFacade} e The event facade for the attribute change
          */
-        _afterZIndexChange: function (e) {
+        _afterZIndexChange : function(e) {
             this._uiSetZIndex(e.newVal);
         },
 
@@ -312,12 +309,12 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _renderShimDeferred
          * @private
          */
-        _renderShimDeferred: function () {
+        _renderShimDeferred : function() {
 
             this._stackHandles[SHIM_DEFERRED] = this._stackHandles[SHIM_DEFERRED] || [];
 
             var handles = this._stackHandles[SHIM_DEFERRED],
-                createBeforeVisible = function (e) {
+                createBeforeVisible = function(e) {
                     if (e.newVal) {
                         this._renderShim();
                     }
@@ -341,7 +338,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _addShimResizeHandlers
          * @private
          */
-        _addShimResizeHandlers: function () {
+        _addShimResizeHandlers : function() {
 
             this._stackHandles[SHIM_RESIZE] = this._stackHandles[SHIM_RESIZE] || [];
 
@@ -361,12 +358,12 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @param String handleKey The key defining the group of handles which should be detached
          * @private
          */
-        _detachStackHandles: function (handleKey) {
+        _detachStackHandles : function(handleKey) {
             var handles = this._stackHandles[handleKey],
                 handle;
 
             if (handles && handles.length > 0) {
-                while ((handle = handles.pop())) {
+                while((handle = handles.pop())) {
                     handle.detach();
                 }
             }
@@ -378,7 +375,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _renderShim
          * @private
          */
-        _renderShim: function () {
+        _renderShim : function() {
             var shimEl = this._shimNode,
                 stackEl = this._stackNode;
 
@@ -398,7 +395,7 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @method _destroyShim
          * @private
          */
-        _destroyShim: function () {
+        _destroyShim : function() {
             if (this._shimNode) {
                 this._shimNode.get(PARENT_NODE).removeChild(this._shimNode);
                 this._shimNode = null;
@@ -432,11 +429,12 @@ YUI.add('widget-stack', function (Y, NAME) {
          * @private
          * @return {Node} node A new shim Node instance.
          */
-        _getShimTemplate: function () {
+        _getShimTemplate : function() {
             return Node.create(Stack.SHIM_TEMPLATE, this._stackNode.get(OWNER_DOCUMENT));
         }
     };
 
     Y.WidgetStack = Stack;
+
 
 }, 'patched-v3.18.1', {"requires": ["base-build", "widget"], "skinnable": true});

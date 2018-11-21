@@ -12355,23 +12355,14 @@ YUI.add('aui-base-core', function (A, NAME) {
 var Y = A;
 YUI.Env.aliases = YUI.Env.aliases || {};
 Y.mix(YUI.Env.aliases, {
-    "aui-autosize": ["aui-autosize-iframe"],
     "aui-base": ["oop","yui-throttle","aui-classnamemanager","aui-debounce","aui-base-core","aui-base-lang","aui-node-base"],
     "aui-button": ["aui-button-core"],
     "aui-collection": ["aui-map","aui-set","aui-linkedset"],
     "aui-datatable": ["aui-datatable-edit","aui-datatable-highlight","aui-datatable-selection","aui-datatable-property-list"],
     "aui-datatable-edit": ["datatable-base","calendar","overlay","sortable","aui-datatype","aui-toolbar","aui-form-validator","aui-datatable-base-cell-editor","aui-datatable-base-options-cell-editor","aui-datatable-cell-editor-support","aui-datatable-core","aui-datatable-checkbox-cell-editor","aui-datatable-date-cell-editor","aui-datatable-dropdown-cell-editor","aui-datatable-radio-cell-editor","aui-datatable-text-cell-editor","aui-datatable-text-area-cell-editor"],
     "aui-event": ["aui-event-base"],
-    "aui-io": ["aui-io-request"],
     "aui-node": ["aui-node-base"],
-    "aui-rating": ["aui-rating-base","aui-rating-thumb"],
-    "aui-scheduler": ["event-gestures","aui-scheduler-base","aui-scheduler-event-recorder","aui-scheduler-view-agenda","aui-scheduler-view-day","aui-scheduler-view-month","aui-scheduler-view-table-dd","aui-scheduler-view-table","aui-scheduler-view-week","aui-viewport"],
-    "aui-search": ["aui-search-tst"],
-    "aui-sortable": ["aui-sortable-layout","aui-sortable-list"],
-    "aui-surface": ["aui-surface-app","aui-surface-screen"],
     "aui-toggler": ["aui-toggler-base","aui-toggler-delegate"],
-    "aui-tooltip": ["aui-tooltip-base","aui-tooltip-delegate"],
-    "aui-tree": ["aui-tree-data","aui-tree-io","aui-tree-node","aui-tree-paginator","aui-tree-view"],
     "aui-widget": ["aui-widget-cssclass","aui-widget-toolbars"],
     "aui-widget-core": ["aui-widget-cssclass"]
 });
@@ -12386,65 +12377,6 @@ Y.mix(YUI.Env.aliases, {
  */
 YUI.Env[Y.version].modules = YUI.Env[Y.version].modules || {};
 Y.mix(YUI.Env[Y.version].modules, {
-    "aui-ace-autocomplete-base": {
-        "requires": [
-            "aui-ace-editor"
-        ]
-    },
-    "aui-ace-autocomplete-freemarker": {
-        "requires": [
-            "aui-ace-autocomplete-templateprocessor"
-        ]
-    },
-    "aui-ace-autocomplete-list": {
-        "requires": [
-            "aui-ace-autocomplete-base",
-            "overlay",
-            "widget-autohide"
-        ],
-        "skinnable": true
-    },
-    "aui-ace-autocomplete-plugin": {
-        "requires": [
-            "aui-ace-autocomplete-list",
-            "plugin"
-        ]
-    },
-    "aui-ace-autocomplete-templateprocessor": {
-        "requires": [
-            "aui-ace-autocomplete-base"
-        ]
-    },
-    "aui-ace-autocomplete-velocity": {
-        "requires": [
-            "aui-ace-autocomplete-templateprocessor"
-        ]
-    },
-    "aui-ace-editor": {
-        "requires": [
-            "aui-node",
-            "aui-component"
-        ]
-    },
-    "aui-affix": {
-        "requires": [
-            "base",
-            "node-screen",
-            "aui-node"
-        ]
-    },
-    "aui-alert": {
-        "requires": [
-            "aui-aria",
-            "aui-classnamemanager",
-            "aui-widget-cssclass",
-            "aui-widget-transition",
-            "timers",
-            "widget",
-            "widget-stdmod"
-        ],
-        "skinnable": true
-    },
     "aui-aria": {
         "requires": [
             "plugin",
@@ -12454,34 +12386,6 @@ Y.mix(YUI.Env[Y.version].modules, {
     "aui-aria-table-sortable": {
         "requires": [
             "aui-aria"
-        ]
-    },
-    "aui-arraysort": {
-        "requires": [
-            "arraysort"
-        ]
-    },
-    "aui-audio": {
-        "requires": [
-            "aui-aria",
-            "aui-node",
-            "aui-component",
-            "node-event-html5",
-            "querystring-stringify-simple"
-        ],
-        "skinnable": true
-    },
-    "aui-autosize": {
-        "use": [
-            "aui-autosize-iframe"
-        ]
-    },
-    "aui-autosize-iframe": {
-        "requires": [
-            "plugin",
-            "aui-component",
-            "aui-timer",
-            "aui-node-base"
         ]
     },
     "aui-base": {
@@ -12504,12 +12408,6 @@ Y.mix(YUI.Env[Y.version].modules, {
         }
     },
     "aui-base-lang": {},
-    "aui-boolean-data-editor": {
-        "requires": [
-            "aui-button-switch",
-            "aui-data-editor"
-        ]
-    },
     "aui-button": {
         "use": [
             "aui-button-core"
@@ -12551,51 +12449,6 @@ Y.mix(YUI.Env[Y.version].modules, {
         ],
         "skinnable": true
     },
-    "aui-carousel": {
-        "requires": [
-            "anim",
-            "aui-event",
-            "aui-image-viewer-base",
-            "aui-image-viewer-slideshow",
-            "node-event-delegate",
-            "node-focusmanager"
-        ],
-        "skinnable": true
-    },
-    "aui-carousel-mobile-touch": {
-        "condition": {
-            "name": "aui-carousel-mobile-touch",
-            "test": function(A) {
-    return A.UA.mobile && A.UA.touchEnabled;
-},
-            "trigger": "aui-carousel"
-        },
-        "requires": [
-            "base-build",
-            "aui-carousel"
-        ]
-    },
-    "aui-carousel-swipe": {
-        "condition": {
-            "name": "aui-carousel-swipe",
-            "trigger": "aui-carousel",
-            "ua": "touchEnabled"
-        },
-        "requires": [
-            "aui-carousel",
-            "aui-widget-swipe",
-            "base-build"
-        ],
-        "skinnable": true
-    },
-    "aui-char-counter": {
-        "requires": [
-            "aui-aria",
-            "aui-node",
-            "aui-event-input",
-            "aui-component"
-        ]
-    },
     "aui-classnamemanager": {
         "requires": [
             "classnamemanager"
@@ -12608,34 +12461,6 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-linkedset"
         ]
     },
-    "aui-color-palette": {
-        "requires": [
-            "array-extras",
-            "aui-palette",
-            "color-base",
-            "node-core",
-            "aui-widget-cssclass",
-            "aui-widget-toggle"
-        ],
-        "skinnable": true
-    },
-    "aui-color-picker-base": {
-        "requires": [
-            "aui-color-palette",
-            "aui-hsva-palette-modal",
-            "event-outside"
-        ],
-        "skinnable": true
-    },
-    "aui-color-picker-popover": {
-        "requires": [
-            "aui-color-picker-base",
-            "aui-popover",
-            "aui-widget-cssclass",
-            "aui-widget-toggle"
-        ],
-        "skinnable": true
-    },
     "aui-component": {
         "requires": [
             "aui-classnamemanager",
@@ -12647,14 +12472,6 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-css": {
         "type": "css"
-    },
-    "aui-data-editor": {
-        "requires": [
-            "aui-classnamemanager",
-            "base-build",
-            "node-base"
-        ],
-        "skinnable": true
     },
     "aui-datatable": {
         "use": [
@@ -12790,40 +12607,6 @@ Y.mix(YUI.Env[Y.version].modules, {
             "intl"
         ]
     },
-    "aui-datepicker": {
-        "requires": [
-            "aui-aria",
-            "aui-datepicker-delegate",
-            "aui-datepicker-popover",
-            "base",
-            "base-build",
-            "calendar"
-        ],
-        "skinnable": true
-    },
-    "aui-datepicker-delegate": {
-        "requires": [
-            "aui-datatype-date-parse",
-            "aui-event-input",
-            "event-focus",
-            "node-event-delegate"
-        ]
-    },
-    "aui-datepicker-native": {
-        "requires": [
-            "aui-datepicker-delegate",
-            "aui-node-base",
-            "base",
-            "base-build"
-        ]
-    },
-    "aui-datepicker-popover": {
-        "requires": [
-            "aui-classnamemanager",
-            "aui-popover"
-        ]
-    },
-    "aui-debounce": {},
     "aui-diagram-builder": {
         "requires": [
             "aui-aria",
@@ -12906,22 +12689,6 @@ Y.mix(YUI.Env[Y.version].modules, {
         "requires": [
             "aui-diagram-node-state"
         ]
-    },
-    "aui-dropdown": {
-        "requires": [
-            "event-delegate",
-            "event-key",
-            "event-outside",
-            "node-focusmanager",
-            "widget",
-            "widget-stack",
-            "aui-classnamemanager",
-            "aui-node",
-            "aui-widget-cssclass",
-            "aui-widget-toggle",
-            "aui-widget-trigger"
-        ],
-        "skinnable": true
     },
     "aui-event": {
         "use": [
@@ -13137,219 +12904,6 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-event-input"
         ]
     },
-    "aui-hsv-palette": {
-        "requires": [
-            "aui-classnamemanager",
-            "aui-widget-cssclass",
-            "aui-widget-toggle",
-            "aui-event-input",
-            "base-build",
-            "clickable-rail",
-            "color-hsv",
-            "dd-constrain",
-            "slider",
-            "widget"
-        ],
-        "skinnable": true
-    },
-    "aui-hsva-palette": {
-        "requires": [
-            "aui-hsv-palette"
-        ],
-        "skinnable": true
-    },
-    "aui-hsva-palette-modal": {
-        "requires": [
-            "aui-hsva-palette",
-            "aui-modal"
-        ],
-        "skinnable": true
-    },
-    "aui-image-cropper": {
-        "requires": [
-            "resize-base",
-            "resize-constrain",
-            "dd-constrain",
-            "aui-node-base",
-            "aui-component"
-        ],
-        "skinnable": true
-    },
-    "aui-image-viewer": {
-        "requires": [
-            "widget",
-            "widget-modality",
-            "widget-position",
-            "widget-position-align",
-            "widget-position-constrain",
-            "widget-stack",
-            "widget-stdmod",
-            "aui-event",
-            "aui-image-viewer-base",
-            "aui-image-viewer-multiple",
-            "aui-image-viewer-slideshow",
-            "aui-node-base",
-            "aui-widget-cssclass",
-            "aui-widget-toggle"
-        ],
-        "skinnable": true
-    },
-    "aui-image-viewer-base": {
-        "requires": [
-            "anim",
-            "aui-aria",
-            "aui-classnamemanager",
-            "aui-node",
-            "aui-widget-responsive",
-            "base-build",
-            "imageloader",
-            "node-base",
-            "widget",
-            "widget-stack"
-        ],
-        "skinnable": true
-    },
-    "aui-image-viewer-media": {
-        "requires": [
-            "plugin",
-            "aui-component",
-            "aui-image-viewer"
-        ]
-    },
-    "aui-image-viewer-multiple": {
-        "requires": [
-            "base-build",
-            "node-base",
-            "aui-classnamemanager",
-            "aui-image-viewer-base"
-        ],
-        "skinnable": true
-    },
-    "aui-image-viewer-multiple-swipe": {
-        "condition": {
-            "name": "aui-image-viewer-multiple-swipe",
-            "trigger": "aui-image-viewer-multiple",
-            "ua": "touchEnabled"
-        },
-        "requires": [
-            "aui-image-viewer-multiple",
-            "aui-image-viewer-swipe"
-        ]
-    },
-    "aui-image-viewer-slideshow": {
-        "requires": [
-            "node",
-            "aui-classnamemanager"
-        ]
-    },
-    "aui-image-viewer-swipe": {
-        "condition": {
-            "name": "aui-image-viewer-swipe",
-            "trigger": "aui-image-viewer-base",
-            "ua": "touchEnabled"
-        },
-        "requires": [
-            "event-resize",
-            "aui-image-viewer-base",
-            "aui-widget-swipe"
-        ]
-    },
-    "aui-io": {
-        "use": [
-            "aui-io-request"
-        ]
-    },
-    "aui-io-request": {
-        "requires": [
-            "io-base",
-            "json",
-            "plugin",
-            "querystring-stringify",
-            "aui-component"
-        ]
-    },
-    "aui-layout": {
-        "requires": [
-            "aui-layout-col",
-            "aui-layout-row",
-            "aui-node-base",
-            "base-build",
-            "datatype-number-parse",
-            "event-resize"
-        ]
-    },
-    "aui-layout-builder": {
-        "requires": [
-            "aui-classnamemanager",
-            "aui-layout",
-            "aui-layout-builder-add-col",
-            "aui-layout-builder-add-row",
-            "aui-layout-builder-move",
-            "aui-layout-builder-remove-row",
-            "aui-layout-builder-resize-col",
-            "aui-node-base",
-            "base-build",
-            "node-event-delegate",
-            "node-screen",
-            "node-style"
-        ]
-    },
-    "aui-layout-builder-add-col": {
-        "requires": [
-            "event-key",
-            "node-base"
-        ],
-        "skinnable": true
-    },
-    "aui-layout-builder-add-row": {
-        "requires": [
-            "aui-node-base",
-            "base-build",
-            "node-scroll-info"
-        ],
-        "skinnable": true
-    },
-    "aui-layout-builder-move": {
-        "requires": [
-            "aui-node-base",
-            "base-build"
-        ],
-        "skinnable": true
-    },
-    "aui-layout-builder-remove-row": {
-        "requires": [
-            "aui-node-base",
-            "base-build"
-        ],
-        "skinnable": true
-    },
-    "aui-layout-builder-resize-col": {
-        "requires": [
-            "dd-constrain",
-            "dd-delegate",
-            "dd-drop-plugin",
-            "dd-proxy",
-            "event-mouseenter",
-            "node-base"
-        ],
-        "skinnable": true
-    },
-    "aui-layout-col": {
-        "requires": [
-            "aui-classnamemanager",
-            "aui-node-base",
-            "base-build"
-        ],
-        "skinnable": true
-    },
-    "aui-layout-row": {
-        "requires": [
-            "array-invoke",
-            "aui-node-base",
-            "base-build"
-        ],
-        "skinnable": true
-    },
     "aui-linkedset": {
         "requires": [
             "aui-set"
@@ -13358,72 +12912,6 @@ Y.mix(YUI.Env[Y.version].modules, {
     "aui-map": {
         "requires": [
             "base-build"
-        ]
-    },
-    "aui-menu": {
-        "requires": [
-            "base-build",
-            "event-mouseenter",
-            "event-resize",
-            "widget",
-            "widget-position",
-            "widget-position-align",
-            "widget-position-constrain",
-            "widget-stack",
-            "aui-classnamemanager",
-            "aui-debounce",
-            "aui-dropdown",
-            "aui-menu-item"
-        ],
-        "skinnable": true
-    },
-    "aui-menu-item": {
-        "requires": [
-            "base-build",
-            "node-base",
-            "aui-classnamemanager",
-            "aui-node",
-            "aui-widget-shortcut"
-        ]
-    },
-    "aui-messaging": {
-        "requires": [
-            "querystring",
-            "aui-timer"
-        ]
-    },
-    "aui-modal": {
-        "requires": [
-            "widget",
-            "widget-autohide",
-            "widget-buttons",
-            "widget-modality",
-            "widget-position",
-            "widget-position-align",
-            "widget-position-constrain",
-            "widget-stack",
-            "widget-stdmod",
-            "dd-plugin",
-            "dd-constrain",
-            "timers",
-            "aui-classnamemanager",
-            "aui-widget-cssclass",
-            "aui-widget-toggle",
-            "aui-widget-toolbars"
-        ],
-        "skinnable": true
-    },
-    "aui-modal-resize": {
-        "condition": {
-            "name": "aui-modal-resize",
-            "test": function(A) {
-    return !A.UA.mobile;
-},
-            "trigger": "aui-modal"
-        },
-        "requires": [
-            "aui-modal",
-            "resize-plugin"
         ]
     },
     "aui-node": {
@@ -13457,87 +12945,6 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-node-base"
         ]
     },
-    "aui-options-data-editor": {
-        "requires": [
-            "aui-data-editor",
-            "dd-constrain",
-            "dd-delegate",
-            "dd-drop-plugin",
-            "dd-proxy",
-            "event-valuechange",
-            "node-event-delegate"
-        ],
-        "skinnable": true
-    },
-    "aui-pagination": {
-        "requires": [
-            "node-event-delegate",
-            "aui-node",
-            "aui-component",
-            "widget-htmlparser"
-        ],
-        "skinnable": true
-    },
-    "aui-palette": {
-        "requires": [
-            "base-build",
-            "event-hover",
-            "widget",
-            "aui-classnamemanager",
-            "aui-base",
-            "aui-widget-cssclass",
-            "aui-widget-toggle"
-        ],
-        "skinnable": true
-    },
-    "aui-parse-content": {
-        "requires": [
-            "async-queue",
-            "plugin",
-            "io-base",
-            "aui-component",
-            "aui-node-base"
-        ]
-    },
-    "aui-popover": {
-        "requires": [
-            "event-resize",
-            "widget",
-            "widget-autohide",
-            "widget-buttons",
-            "widget-modality",
-            "widget-position",
-            "widget-position-align",
-            "widget-position-constrain",
-            "widget-stack",
-            "widget-stdmod",
-            "aui-classnamemanager",
-            "aui-widget-cssclass",
-            "aui-widget-toggle",
-            "aui-widget-toolbars",
-            "aui-widget-transition",
-            "aui-widget-trigger",
-            "aui-widget-position-align-suggestion",
-            "aui-component",
-            "aui-node-base"
-        ],
-        "skinnable": true
-    },
-    "aui-progressbar": {
-        "requires": [
-            "aui-node",
-            "aui-component",
-            "aui-aria"
-        ],
-        "skinnable": true
-    },
-    "aui-promise": {
-        "requires": [
-            "array-invoke",
-            "promise",
-            "oop"
-        ]
-    },
     "aui-property-builder": {
         "requires": [
             "dd",
@@ -13563,237 +12970,9 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-datatable-property-list"
         ]
     },
-    "aui-radio-group-data-editor": {
-        "requires": [
-            "aui-data-editor",
-            "node-event-delegate"
-        ],
-        "skinnable": true
-    },
-    "aui-rating": {
-        "use": [
-            "aui-rating-base",
-            "aui-rating-thumb"
-        ]
-    },
-    "aui-rating-base": {
-        "requires": [
-            "aui-component",
-            "aui-node-base",
-            "widget-htmlparser",
-            "widget-uievents"
-        ],
-        "skinnable": true
-    },
-    "aui-rating-thumb": {
-        "requires": [
-            "aui-rating-base"
-        ]
-    },
-    "aui-scale-data-editor": {
-        "requires": [
-            "aui-classnamemanager",
-            "aui-data-editor",
-            "event-valuechange"
-        ]
-    },
-    "aui-scheduler": {
-        "use": [
-            "event-gestures",
-            "aui-scheduler-base",
-            "aui-scheduler-event-recorder",
-            "aui-scheduler-view-agenda",
-            "aui-scheduler-view-day",
-            "aui-scheduler-view-month",
-            "aui-scheduler-view-table-dd",
-            "aui-scheduler-view-table",
-            "aui-scheduler-view-week",
-            "aui-viewport"
-        ]
-    },
-    "aui-scheduler-base": {
-        "requires": [
-            "model",
-            "model-list",
-            "widget-stdmod",
-            "color-hsl",
-            "aui-event-base",
-            "aui-node-base",
-            "aui-component",
-            "aui-datatype",
-            "aui-button",
-            "node-focusmanager"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-event-recorder": {
-        "requires": [
-            "querystring",
-            "io-form",
-            "overlay",
-            "aui-scheduler-base",
-            "aui-popover"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-touch": {
-        "condition": {
-            "name": "aui-scheduler-touch",
-            "trigger": "aui-scheduler",
-            "ua": "touchEnabled"
-        },
-        "requires": [
-            "base-build",
-            "aui-scheduler"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-view-agenda": {
-        "requires": [
-            "aui-scheduler-base"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-view-day": {
-        "requires": [
-            "dd-drag",
-            "dd-delegate",
-            "dd-drop",
-            "dd-constrain",
-            "aui-scheduler-view-table"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-view-month": {
-        "requires": [
-            "aui-scheduler-view-table"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-view-table": {
-        "requires": [
-            "overlay",
-            "aui-scheduler-base"
-        ],
-        "skinnable": true
-    },
-    "aui-scheduler-view-table-dd": {
-        "requires": [
-            "dd-drag",
-            "dd-delegate",
-            "dd-drop",
-            "aui-scheduler-view-table"
-        ]
-    },
-    "aui-scheduler-view-week": {
-        "requires": [
-            "aui-scheduler-view-day"
-        ],
-        "skinnable": true
-    },
-    "aui-scrollspy": {
-        "requires": [
-            "base-build",
-            "node-screen",
-            "aui-classnamemanager"
-        ]
-    },
-    "aui-search": {
-        "use": [
-            "aui-search-tst"
-        ]
-    },
-    "aui-search-tst": {
-        "requires": [
-            "aui-component"
-        ]
-    },
-    "aui-selector": {
-        "requires": [
-            "selector-css3",
-            "aui-classnamemanager"
-        ]
-    },
     "aui-set": {
         "requires": [
             "aui-map"
-        ]
-    },
-    "aui-sortable": {
-        "use": [
-            "aui-sortable-layout",
-            "aui-sortable-list"
-        ]
-    },
-    "aui-sortable-layout": {
-        "requires": [
-            "dd-delegate",
-            "dd-drag",
-            "dd-drop",
-            "dd-proxy",
-            "aui-node",
-            "aui-component"
-        ],
-        "skinnable": true
-    },
-    "aui-sortable-list": {
-        "requires": [
-            "dd-drag",
-            "dd-drop",
-            "dd-proxy",
-            "dd-scroll",
-            "aui-node",
-            "aui-component"
-        ]
-    },
-    "aui-surface": {
-        "use": [
-            "aui-surface-app",
-            "aui-surface-screen"
-        ]
-    },
-    "aui-surface-app": {
-        "requires": [
-            "event-delegate",
-            "node-event-html5",
-            "aui-surface-base",
-            "aui-surface-screen",
-            "aui-surface-screen-route"
-        ]
-    },
-    "aui-surface-base": {
-        "requires": [
-            "base-build",
-            "node-style",
-            "timers",
-            "aui-debounce",
-            "aui-promise",
-            "aui-parse-content"
-        ]
-    },
-    "aui-surface-screen": {
-        "requires": [
-            "base-build"
-        ]
-    },
-    "aui-surface-screen-html": {
-        "requires": [
-            "aui-base",
-            "aui-io-request",
-            "aui-promise",
-            "aui-surface-screen",
-            "aui-url"
-        ]
-    },
-    "aui-surface-screen-route": {
-        "requires": [
-            "base-build"
-        ]
-    },
-    "aui-tabs-data-editor": {
-        "requires": [
-            "aui-data-editor",
-            "aui-tabview"
         ]
     },
     "aui-tabview": {
@@ -13804,45 +12983,6 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-widget-css"
         ],
         "skinnable": true
-    },
-    "aui-text-data-editor": {
-        "requires": [
-            "aui-data-editor",
-            "event-valuechange"
-        ],
-        "skinnable": true
-    },
-    "aui-text-data-unicode": {
-        "requires": [
-            "text"
-        ]
-    },
-    "aui-text-unicode": {
-        "requires": [
-            "aui-text-data-unicode"
-        ]
-    },
-    "aui-timepicker": {
-        "requires": [
-            "autocomplete",
-            "aui-datepicker-delegate",
-            "aui-datepicker-popover"
-        ],
-        "skinnable": true
-    },
-    "aui-timepicker-native": {
-        "requires": [
-            "base",
-            "base-build",
-            "aui-node-base",
-            "aui-datepicker-delegate",
-            "aui-datepicker-native"
-        ]
-    },
-    "aui-timer": {
-        "requires": [
-            "oop"
-        ]
     },
     "aui-toggler": {
         "use": [
@@ -13879,127 +13019,6 @@ Y.mix(YUI.Env[Y.version].modules, {
             "arraylist-add",
             "aui-component",
             "aui-button-core"
-        ]
-    },
-    "aui-tooltip": {
-        "use": [
-            "aui-tooltip-base",
-            "aui-tooltip-delegate"
-        ]
-    },
-    "aui-tooltip-base": {
-        "requires": [
-            "aui-aria",
-            "aui-classnamemanager",
-            "aui-component",
-            "aui-debounce",
-            "aui-node-base",
-            "aui-widget-cssclass",
-            "aui-widget-toggle",
-            "aui-widget-transition",
-            "aui-widget-trigger",
-            "aui-widget-position-align-suggestion",
-            "event-hover",
-            "event-resize",
-            "escape",
-            "widget",
-            "widget-autohide",
-            "widget-position",
-            "widget-position-align",
-            "widget-position-constrain",
-            "widget-stack",
-            "widget-stdmod"
-        ],
-        "skinnable": true
-    },
-    "aui-tooltip-delegate": {
-        "requires": [
-            "aui-tooltip-base",
-            "node-event-delegate"
-        ]
-    },
-    "aui-tree": {
-        "use": [
-            "aui-tree-data",
-            "aui-tree-io",
-            "aui-tree-node",
-            "aui-tree-paginator",
-            "aui-tree-view"
-        ]
-    },
-    "aui-tree-data": {
-        "requires": [
-            "aui-base-core",
-            "aui-base-lang",
-            "aui-node-base",
-            "aui-timer",
-            "aui-component"
-        ]
-    },
-    "aui-tree-io": {
-        "requires": [
-            "aui-component",
-            "aui-io"
-        ]
-    },
-    "aui-tree-node": {
-        "requires": [
-            "json",
-            "querystring-stringify",
-            "aui-tree-data",
-            "aui-tree-io",
-            "aui-tree-paginator",
-            "event-key"
-        ]
-    },
-    "aui-tree-paginator": {
-        "requires": [
-            "yui-base"
-        ]
-    },
-    "aui-tree-view": {
-        "requires": [
-            "dd-delegate",
-            "dd-proxy",
-            "widget",
-            "aui-tree-node",
-            "aui-tree-paginator",
-            "aui-tree-io"
-        ],
-        "skinnable": true
-    },
-    "aui-undo-redo": {
-        "requires": [
-            "aui-base",
-            "base",
-            "base-build",
-            "event-key",
-            "promise"
-        ]
-    },
-    "aui-url": {
-        "requires": [
-            "oop",
-            "querystring-parse",
-            "querystring-stringify"
-        ]
-    },
-    "aui-video": {
-        "requires": [
-            "event-resize",
-            "node-event-html5",
-            "querystring-stringify-simple",
-            "aui-aria",
-            "aui-node",
-            "aui-component",
-            "aui-debounce"
-        ],
-        "skinnable": true
-    },
-    "aui-viewport": {
-        "requires": [
-            "aui-node",
-            "aui-component"
         ]
     },
     "aui-widget": {
@@ -14061,7 +13080,7 @@ Y.mix(YUI.Env[Y.version].modules, {
         ]
     }
 });
-YUI.Env[Y.version].md5 = '4db19860eda206fd24deca34eb45f0a4';
+YUI.Env[Y.version].md5 = '1d62d4c2795aab25e1361c26968f0c27';
 /*
  * Alloy JavaScript Library
  * http://alloy.liferay.com/
@@ -14129,6 +13148,6 @@ A.supportsDOMEvent = function(domNode, eventName) {
 }());
 
 
-}, '3.4.0');
-YUI.add('aui', function (A, NAME) {}, '3.4.0');
+}, '4.1.0');
+YUI.add('aui', function (A, NAME) {}, '4.1.0');
 YUI.Env.core.push.apply(YUI.Env.core, ["aui-base-core"]);

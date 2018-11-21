@@ -463,7 +463,7 @@ select {
 
 button,
 html input[type="button"],
-    /* 1 */
+/* 1 */
 input[type="reset"],
 input[type="submit"] {
     -webkit-appearance: button;
@@ -566,8 +566,5 @@ textarea {
 [hidden] {
     display: none !important;
 }
-
 /* YUI CSS Detection Stamp */
-#yui3-css-stamp.cssnormalize {
-    display: none;
-}
+#yui3-css-stamp.cssnormalize { display: none; }

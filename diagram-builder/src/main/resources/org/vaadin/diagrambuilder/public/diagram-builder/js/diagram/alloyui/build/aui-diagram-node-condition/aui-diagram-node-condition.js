@@ -101,4 +101,4 @@ var DiagramNodeCondition = A.Component.create({
 A.DiagramNodeCondition = DiagramNodeCondition;
 
 
-}, '3.4.0', {"requires": ["aui-diagram-node-state"]});
+}, '4.1.0', {"requires": ["aui-diagram-node-state"]});

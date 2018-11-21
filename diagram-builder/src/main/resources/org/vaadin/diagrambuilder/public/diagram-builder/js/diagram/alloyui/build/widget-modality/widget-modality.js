@@ -1,50 +1,50 @@
 YUI.add('widget-modality', function (Y, NAME) {
 
-    /**
-     * Provides modality support for Widgets, though an extension
-     *
-     * @module widget-modality
-     */
+/**
+ * Provides modality support for Widgets, though an extension
+ *
+ * @module widget-modality
+ */
 
-    var WIDGET = 'widget',
-        RENDER_UI = 'renderUI',
-        BIND_UI = 'bindUI',
-        SYNC_UI = 'syncUI',
-        BOUNDING_BOX = 'boundingBox',
-        VISIBLE = 'visible',
-        Z_INDEX = 'zIndex',
-        CHANGE = 'Change',
-        isBoolean = Y.Lang.isBoolean,
-        getCN = Y.ClassNameManager.getClassName,
-        MaskShow = "maskShow",
-        MaskHide = "maskHide",
-        ClickOutside = "clickoutside",
-        FocusOutside = "focusoutside",
+var WIDGET       = 'widget',
+    RENDER_UI    = 'renderUI',
+    BIND_UI      = 'bindUI',
+    SYNC_UI      = 'syncUI',
+    BOUNDING_BOX = 'boundingBox',
+    VISIBLE      = 'visible',
+    Z_INDEX      = 'zIndex',
+    CHANGE       = 'Change',
+    isBoolean    = Y.Lang.isBoolean,
+    getCN        = Y.ClassNameManager.getClassName,
+    MaskShow     = "maskShow",
+    MaskHide     = "maskHide",
+    ClickOutside = "clickoutside",
+    FocusOutside = "focusoutside",
 
-        supportsPosFixed = (function () {
+    supportsPosFixed = (function(){
 
-            /*! IS_POSITION_FIXED_SUPPORTED - Juriy Zaytsev (kangax) - http://yura.thinkweb2.com/cft/ */
+        /*! IS_POSITION_FIXED_SUPPORTED - Juriy Zaytsev (kangax) - http://yura.thinkweb2.com/cft/ */
 
-            var doc = Y.config.doc,
-                isSupported = null,
-                el, root;
+        var doc         = Y.config.doc,
+            isSupported = null,
+            el, root;
 
-            if (doc.createElement) {
-                el = doc.createElement('div');
-                if (el && el.style) {
-                    el.style.position = 'fixed';
-                    el.style.top = '10px';
-                    root = doc.body;
-                    if (root && root.appendChild && root.removeChild) {
-                        root.appendChild(el);
-                        isSupported = (el.offsetTop === 10);
-                        root.removeChild(el);
-                    }
+        if (doc.createElement) {
+            el = doc.createElement('div');
+            if (el && el.style) {
+                el.style.position = 'fixed';
+                el.style.top = '10px';
+                root = doc.body;
+                if (root && root.appendChild && root.removeChild) {
+                    root.appendChild(el);
+                    isSupported = (el.offsetTop === 10);
+                    root.removeChild(el);
                 }
             }
+        }
 
-            return isSupported;
-        }());
+        return isSupported;
+    }());
 
     /**
      * Widget extension, which can be used to add modality support to the base Widget class,
@@ -53,80 +53,80 @@ YUI.add('widget-modality', function (Y, NAME) {
      * @class WidgetModality
      * @param {Object} config User configuration object
      */
-    function WidgetModal(config) {
-    }
+    function WidgetModal(config) {}
 
-    var MODAL = 'modal',
-        MASK = 'mask',
-        MODAL_CLASSES = {
-            modal: getCN(WIDGET, MODAL),
-            mask: getCN(WIDGET, MASK)
+    var MODAL           = 'modal',
+        MASK            = 'mask',
+        MODAL_CLASSES   = {
+            modal   : getCN(WIDGET, MODAL),
+            mask    : getCN(WIDGET, MASK)
         };
 
     /**
-     * Static property used to define the default attribute
-     * configuration introduced by WidgetModality.
-     *
-     * @property ATTRS
-     * @static
-     * @type Object
-     */
+    * Static property used to define the default attribute
+    * configuration introduced by WidgetModality.
+    *
+    * @property ATTRS
+    * @static
+    * @type Object
+    */
     WidgetModal.ATTRS = {
-        /**
-         * @attribute maskNode
-         * @type Y.Node
-         *
-         * @description Returns a Y.Node instance of the node being used as the mask.
-         */
-        maskNode: {
-            getter: '_getMaskNode',
-            readOnly: true
-        },
-
-        /**
-         * @attribute modal
-         * @type boolean
-         *
-         * @description Whether the widget should be modal or not.
-         */
-        modal: {
-            value: false,
-            validator: isBoolean
-        },
-
-        /**
-         * @attribute focusOn
-         * @type array
-         *
-         * @description An array of objects corresponding to the nodes and events that will trigger a re-focus back on
-         *     the widget. The implementer can supply an array of objects, with each object having the following
-         *     properties:
-         * <p>eventName: (string, required): The eventName to listen to.</p>
-         * <p>node: (Y.Node, optional): The Y.Node that will fire the event (defaults to the boundingBox of the
-         *     widget)</p>
-         * <p>By default, this attribute consists of two objects which will cause the widget to re-focus if anything
-         * outside the widget is clicked on or focussed upon.</p>
-         */
-        focusOn: {
-            valueFn: function () {
-                return [
-                    {
-                        // node: this.get(BOUNDING_BOX),
-                        eventName: ClickOutside
-                    },
-                    {
-                        //node: this.get(BOUNDING_BOX),
-                        eventName: FocusOutside
-                    }
-                ];
+            /**
+             * @attribute maskNode
+             * @type Y.Node
+             *
+             * @description Returns a Y.Node instance of the node being used as the mask.
+             */
+            maskNode : {
+                getter      : '_getMaskNode',
+                readOnly    : true
             },
 
-            validator: Y.Lang.isArray
-        }
+
+            /**
+             * @attribute modal
+             * @type boolean
+             *
+             * @description Whether the widget should be modal or not.
+             */
+            modal: {
+                value:false,
+                validator: isBoolean
+            },
+
+            /**
+             * @attribute focusOn
+             * @type array
+             *
+             * @description An array of objects corresponding to the nodes and events that will trigger a re-focus back on the widget.
+             * The implementer can supply an array of objects, with each object having the following properties:
+             * <p>eventName: (string, required): The eventName to listen to.</p>
+             * <p>node: (Y.Node, optional): The Y.Node that will fire the event (defaults to the boundingBox of the widget)</p>
+             * <p>By default, this attribute consists of two objects which will cause the widget to re-focus if anything
+             * outside the widget is clicked on or focussed upon.</p>
+             */
+            focusOn: {
+                valueFn: function() {
+                    return [
+                        {
+                            // node: this.get(BOUNDING_BOX),
+                            eventName: ClickOutside
+                        },
+                        {
+                            //node: this.get(BOUNDING_BOX),
+                            eventName: FocusOutside
+                        }
+                    ];
+                },
+
+                validator: Y.Lang.isArray
+            }
 
     };
 
+
     WidgetModal.CLASSES = MODAL_CLASSES;
+
 
     WidgetModal._MASK = null;
     /**
@@ -138,10 +138,10 @@ YUI.add('widget-modality', function (Y, NAME) {
      * @method _GET_MASK
      * @static
      */
-    WidgetModal._GET_MASK = function () {
+    WidgetModal._GET_MASK = function() {
 
         var mask = WidgetModal._MASK,
-            win = Y.one('win');
+            win  = Y.one('win');
 
         if (mask && (mask.getDOMNode() !== null) && mask.inDoc()) {
             return mask;
@@ -152,22 +152,22 @@ YUI.add('widget-modality', function (Y, NAME) {
 
         if (supportsPosFixed) {
             mask.setStyles({
-                               position: 'fixed',
-                               width: '100%',
-                               height: '100%',
-                               top: '0',
-                               left: '0',
-                               display: 'block'
-                           });
+                position: 'fixed',
+                width   : '100%',
+                height  : '100%',
+                top     : '0',
+                left    : '0',
+                display : 'block'
+            });
         } else {
             mask.setStyles({
-                               position: 'absolute',
-                               width: win.get('winWidth') + 'px',
-                               height: win.get('winHeight') + 'px',
-                               top: '0',
-                               left: '0',
-                               display: 'block'
-                           });
+                position: 'absolute',
+                width   : win.get('winWidth') +'px',
+                height  : win.get('winHeight') + 'px',
+                top     : '0',
+                left    : '0',
+                display : 'block'
+            });
         }
 
         return mask;
@@ -178,6 +178,7 @@ YUI.add('widget-modality', function (Y, NAME) {
      * @property STACK
      */
     WidgetModal.STACK = [];
+
 
     WidgetModal.prototype = {
 
@@ -196,6 +197,7 @@ YUI.add('widget-modality', function (Y, NAME) {
 
         _uiHandlesModal: null,
 
+
         /**
          * Adds modal class to the bounding box of the widget
          * <p>
@@ -205,10 +207,10 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _renderUIModal
          * @protected
          */
-        _renderUIModal: function () {
+        _renderUIModal : function () {
 
             var bb = this.get(BOUNDING_BOX);
-            //cb = this.get(CONTENT_BOX);
+                //cb = this.get(CONTENT_BOX);
 
             //this makes the content box content appear over the mask
             // cb.setStyles({
@@ -220,6 +222,7 @@ YUI.add('widget-modality', function (Y, NAME) {
 
         },
 
+
         /**
          * Hooks up methods to be executed when the widget's visibility or z-index changes
          * <p>
@@ -229,10 +232,10 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _bindUIModal
          * @protected
          */
-        _bindUIModal: function () {
+        _bindUIModal : function () {
 
-            this.after(VISIBLE + CHANGE, this._afterHostVisibleChangeModal);
-            this.after(Z_INDEX + CHANGE, this._afterHostZIndexChangeModal);
+            this.after(VISIBLE+CHANGE, this._afterHostVisibleChangeModal);
+            this.after(Z_INDEX+CHANGE, this._afterHostZIndexChangeModal);
             this.after("focusOnChange", this._afterFocusOnChange);
 
             // Re-align the mask in the viewport if `position: fixed;` is not
@@ -241,8 +244,8 @@ YUI.add('widget-modality', function (Y, NAME) {
             // account for that. Ideally this should be replaced with a better
             // feature test.
             if (!supportsPosFixed ||
-                (Y.UA.ios && Y.UA.ios < 5) ||
-                (Y.UA.android && Y.UA.android < 3)) {
+                    (Y.UA.ios && Y.UA.ios < 5) ||
+                    (Y.UA.android && Y.UA.android < 3)) {
 
                 Y.one('win').on('scroll', this._resyncMask, this);
             }
@@ -257,7 +260,7 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _syncUIModal
          * @protected
          */
-        _syncUIModal: function () {
+        _syncUIModal : function () {
 
             //var host = this.get(HOST);
 
@@ -270,10 +273,10 @@ YUI.add('widget-modality', function (Y, NAME) {
          *
          * @method _focus
          */
-        _focus: function () {
+        _focus : function () {
 
             var bb = this.get(BOUNDING_BOX),
-                oldTI = bb.get('tabIndex');
+            oldTI = bb.get('tabIndex');
 
             bb.set('tabIndex', oldTI >= 0 ? oldTI : 0);
             this.focus();
@@ -283,7 +286,7 @@ YUI.add('widget-modality', function (Y, NAME) {
          *
          * @method _blur
          */
-        _blur: function () {
+        _blur : function () {
 
             this.blur();
         },
@@ -294,27 +297,26 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _getMaskNode
          * @return {Node} The Y.Node instance of the mask, as returned from WidgetModal._GET_MASK
          */
-        _getMaskNode: function () {
+        _getMaskNode : function () {
 
             return WidgetModal._GET_MASK();
         },
 
         /**
-         * Performs events attaching/detaching, stack shifting and mask repositioning based on the visibility of the
-         * widget
+         * Performs events attaching/detaching, stack shifting and mask repositioning based on the visibility of the widget
          *
          * @method _uiSetHostVisibleModal
          * @param {boolean} Whether the widget is visible or not
          */
-        _uiSetHostVisibleModal: function (visible) {
-            var stack = WidgetModal.STACK,
+        _uiSetHostVisibleModal : function (visible) {
+            var stack    = WidgetModal.STACK,
                 maskNode = this.get('maskNode'),
-                isModal = this.get('modal'),
+                isModal  = this.get('modal'),
                 topModal, index;
 
             if (visible) {
 
-                Y.Array.each(stack, function (modal) {
+                Y.Array.each(stack, function(modal){
                     modal._detachUIHandlesModal();
                     modal._blur();
                 });
@@ -375,10 +377,10 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _blockIFrameFocus
          * @protected
          */
-        _blockIFrameFocus: function () {
+        _blockIFrameFocus: function() {
             var bb = this.get(BOUNDING_BOX);
 
-            Y.all('iframe').each(function () {
+            Y.all('iframe').each(function() {
                 if (!bb.contains(this)) {
                     this.setAttribute('data-tabindex', this.get('tabIndex'));
                     this.set('tabIndex', -1);
@@ -393,8 +395,8 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _unblockIFrameFocus
          * @protected
          */
-        _unblockIFrameFocus: function () {
-            Y.all('iframe').each(function () {
+        _unblockIFrameFocus: function() {
+            Y.all('iframe').each(function() {
                 if (this.hasAttribute('data-tabindex')) {
                     this.set('tabIndex', this.getAttribute('data-tabindex'));
                     this.removeAttribute('data-tabindex');
@@ -408,7 +410,7 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _uiSetHostZIndexModal
          * @param {Number} Z-Index of the widget
          */
-        _uiSetHostZIndexModal: function (zIndex) {
+        _uiSetHostZIndexModal : function (zIndex) {
 
             if (this.get('modal')) {
                 this.get('maskNode').setStyle(Z_INDEX, zIndex || 0);
@@ -423,7 +425,7 @@ YUI.add('widget-modality', function (Y, NAME) {
          *
          * @method _attachUIHandlesModal
          */
-        _attachUIHandlesModal: function () {
+        _attachUIHandlesModal : function () {
 
             if (this._uiHandlesModal || WidgetModal.STACK[0] !== this) {
                 // Quit early if we have ui handles, or if we not at the top
@@ -431,11 +433,11 @@ YUI.add('widget-modality', function (Y, NAME) {
                 return;
             }
 
-            var bb = this.get(BOUNDING_BOX),
-                maskNode = this.get('maskNode'),
-                focusOn = this.get('focusOn'),
-                focus = Y.bind(this._focus, this),
-                uiHandles = [],
+            var bb          = this.get(BOUNDING_BOX),
+                maskNode    = this.get('maskNode'),
+                focusOn     = this.get('focusOn'),
+                focus       = Y.bind(this._focus, this),
+                uiHandles   = [],
                 i, len, o;
 
             for (i = 0, len = focusOn.length; i < len; i++) {
@@ -465,8 +467,8 @@ YUI.add('widget-modality', function (Y, NAME) {
 
             }
 
-            if (!supportsPosFixed) {
-                uiHandles.push(Y.one('win').on('scroll', Y.bind(function () {
+            if ( ! supportsPosFixed) {
+                uiHandles.push(Y.one('win').on('scroll', Y.bind(function(){
                     maskNode.setStyle('top', maskNode.get('docScrollY'));
                 }, this)));
             }
@@ -479,8 +481,8 @@ YUI.add('widget-modality', function (Y, NAME) {
          *
          * @method _detachUIHandlesModal
          */
-        _detachUIHandlesModal: function () {
-            Y.each(this._uiHandlesModal, function (h) {
+        _detachUIHandlesModal : function () {
+            Y.each(this._uiHandlesModal, function(h){
                 h.detach();
             });
             this._uiHandlesModal = null;
@@ -492,7 +494,7 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _afterHostVisibleChangeModal
          * @param {EventFacade} e The event facade of the change
          */
-        _afterHostVisibleChangeModal: function (e) {
+        _afterHostVisibleChangeModal : function (e) {
 
             this._uiSetHostVisibleModal(e.newVal);
         },
@@ -503,7 +505,7 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method _afterHostZIndexChangeModal
          * @param {EventFacade} e The event facade of the change
          */
-        _afterHostZIndexChangeModal: function (e) {
+        _afterHostZIndexChangeModal : function (e) {
 
             this._uiSetHostZIndexModal(e.newVal);
         },
@@ -515,9 +517,9 @@ YUI.add('widget-modality', function (Y, NAME) {
          * @method isNested
          * @public
          */
-        isNested: function () {
+        isNested: function() {
             var length = WidgetModal.STACK.length,
-                retval = (length > 1) ? true : false;
+            retval = (length > 1) ? true : false;
             return retval;
         },
 
@@ -525,14 +527,13 @@ YUI.add('widget-modality', function (Y, NAME) {
          * Repositions the mask in the DOM for nested modality cases.
          *
          * @method _repositionMask
-         * @param {Widget} nextElem The Y.Widget instance that will be visible in the stack once the current widget is
-         *     closed.
+         * @param {Widget} nextElem The Y.Widget instance that will be visible in the stack once the current widget is closed.
          */
-        _repositionMask: function (nextElem) {
+        _repositionMask: function(nextElem) {
 
             var currentModal = this.get('modal'),
-                nextModal = nextElem.get('modal'),
-                maskNode = this.get('maskNode'),
+                nextModal    = nextElem.get('modal'),
+                maskNode     = this.get('maskNode'),
                 bb, bbParent;
 
             //if this is modal and host is not modal
@@ -560,33 +561,31 @@ YUI.add('widget-modality', function (Y, NAME) {
          * Resyncs the mask in the viewport for browsers that don't support fixed positioning
          *
          * @method _resyncMask
-         * @param {Y.Widget} nextElem The Y.Widget instance that will be visible in the stack once the current widget
-         *     is closed.
+         * @param {Y.Widget} nextElem The Y.Widget instance that will be visible in the stack once the current widget is closed.
          * @private
          */
         _resyncMask: function (e) {
-            var o = e.currentTarget,
+            var o       = e.currentTarget,
                 offsetX = o.get('docScrollX'),
                 offsetY = o.get('docScrollY'),
-                w = o.get('innerWidth') || o.get('winWidth'),
-                h = o.get('innerHeight') || o.get('winHeight'),
-                mask = this.get('maskNode');
+                w       = o.get('innerWidth') || o.get('winWidth'),
+                h       = o.get('innerHeight') || o.get('winHeight'),
+                mask    = this.get('maskNode');
 
             mask.setStyles({
-                               "top": offsetY + "px",
-                               "left": offsetX + "px",
-                               "width": w + 'px',
-                               "height": h + 'px'
-                           });
+                "top": offsetY + "px",
+                "left": offsetX + "px",
+                "width": w + 'px',
+                "height": h + 'px'
+            });
         },
 
         /**
-         * Default function called when focusOn Attribute is changed. Remove existing listeners and create new
-         * listeners.
+         * Default function called when focusOn Attribute is changed. Remove existing listeners and create new listeners.
          *
          * @method _afterFocusOnChange
          */
-        _afterFocusOnChange: function () {
+        _afterFocusOnChange : function() {
             this._detachUIHandlesModal();
 
             if (this.get(VISIBLE)) {
@@ -596,5 +595,7 @@ YUI.add('widget-modality', function (Y, NAME) {
     };
 
     Y.WidgetModality = WidgetModal;
+
+
 
 }, 'patched-v3.18.1', {"requires": ["base-build", "event-outside", "widget"], "skinnable": true});

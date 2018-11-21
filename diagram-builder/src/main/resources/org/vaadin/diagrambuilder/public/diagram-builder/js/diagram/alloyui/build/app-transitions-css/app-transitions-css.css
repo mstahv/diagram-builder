@@ -6,7 +6,6 @@
     letter-spacing: -0.31em; /* webkit: collapse white-space between units */
     text-rendering: optimizespeed; /* Webkit: fixes text-rendering: optimizeLegibility */
 }
-
 /* Opera as of 12 on Windows needs word-spacing.
    The ".opera-only" selector is used to prevent actual prefocus styling
    and is not required in markup.
@@ -16,7 +15,6 @@
 .yui3-app-views.yui3-app-transitioning {
     word-spacing: -0.43em;
 }
-
 .yui3-app-transitioning .yui3-app-views > *,
 .yui3-app-views.yui3-app-transitioning > * {
     display: inline-block;
@@ -32,6 +30,4 @@
 }
 
 /* YUI CSS Detection Stamp */
-#yui3-css-stamp.app-transitions-css {
-    display: none;
-}
+#yui3-css-stamp.app-transitions-css { display: none; }

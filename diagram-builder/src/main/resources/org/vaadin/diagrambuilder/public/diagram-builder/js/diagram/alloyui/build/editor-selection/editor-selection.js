@@ -8,18 +8,19 @@ YUI.add('editor-selection', function (Y, NAME) {
      * @submodule selection
      */
 
-        //TODO This shouldn't be there, Y.Node doesn't normalize getting textnode content.
+    //TODO This shouldn't be there, Y.Node doesn't normalize getting textnode content.
     var textContent = 'textContent',
-        INNER_HTML = 'innerHTML',
-        FONT_FAMILY = 'fontFamily';
+    INNER_HTML = 'innerHTML',
+    FONT_FAMILY = 'fontFamily';
 
     if (Y.UA.ie && Y.UA.ie < 11) {
         textContent = 'nodeValue';
     }
 
-    Y.EditorSelection = function (domEvent) {
+    Y.EditorSelection = function(domEvent) {
         var sel, par, ieNode, nodes, rng, i,
             comp, moved = 0, n, id, root = Y.EditorSelection.ROOT;
+
 
         if (Y.config.win.getSelection && (!Y.UA.ie || Y.UA.ie < 9 || Y.UA.ie > 10)) {
             sel = Y.config.win.getSelection();
@@ -85,6 +86,7 @@ YUI.add('editor-selection', function (Y, NAME) {
                     this.anchorTextNode = this.focusTextNode = Y.one(ieNode);
                 }
 
+
             } else {
                 //This helps IE deal with a selection and nodeChange events
                 if (sel.htmlText && sel.htmlText !== '') {
@@ -123,11 +125,11 @@ YUI.add('editor-selection', function (Y, NAME) {
     };
 
     /**
-     * Utility method to remove dead font-family styles from an element.
-     * @static
-     * @method removeFontFamily
-     */
-    Y.EditorSelection.removeFontFamily = function (n) {
+    * Utility method to remove dead font-family styles from an element.
+    * @static
+    * @method removeFontFamily
+    */
+    Y.EditorSelection.removeFontFamily = function(n) {
         n.removeAttribute('face');
         var s = n.getAttribute('style').toLowerCase();
         if (s === '' || (s === 'font-family: ')) {
@@ -140,13 +142,13 @@ YUI.add('editor-selection', function (Y, NAME) {
     };
 
     /**
-     * Performs a prefilter on all nodes in the editor. Looks for nodes with a style: fontFamily or font face
-     * It then creates a dynamic class assigns it and removed the property. This is so that we don't lose
-     * the fontFamily when selecting nodes.
-     * @static
-     * @method filter
-     */
-    Y.EditorSelection.filter = function (blocks) {
+    * Performs a prefilter on all nodes in the editor. Looks for nodes with a style: fontFamily or font face
+    * It then creates a dynamic class assigns it and removed the property. This is so that we don't lose
+    * the fontFamily when selecting nodes.
+    * @static
+    * @method filter
+    */
+    Y.EditorSelection.filter = function(blocks) {
 
         var startTime = (new Date()).getTime(),
             editorSelection = Y.EditorSelection,
@@ -159,7 +161,7 @@ YUI.add('editor-selection', function (Y, NAME) {
             ls, startTime1 = (new Date()).getTime(),
             endTime1;
 
-        nodes.each(function (n) {
+        nodes.each(function(n) {
             var raw = Y.Node.getDOMNode(n);
             if (raw.style[FONT_FAMILY]) {
                 classNames['.' + n._yuid] = raw.style[FONT_FAMILY];
@@ -174,9 +176,9 @@ YUI.add('editor-selection', function (Y, NAME) {
 
         if (Y.UA.ie) {
             hrs = Y.Node.getDOMNode(root).getElementsByTagName('hr');
-            Y.each(hrs, function (hr) {
+            Y.each(hrs, function(hr) {
                 var el = doc.createElement('div'),
-                    s = el.style;
+                s = el.style;
 
                 el.className = 'hr yui-non yui-skip';
 
@@ -198,13 +200,15 @@ YUI.add('editor-selection', function (Y, NAME) {
             });
         }
 
-        Y.each(classNames, function (v, k) {
+
+        Y.each(classNames, function(v, k) {
             cssString += k + ' { font-family: ' + v.replace(/"/gi, '') + '; }';
         });
         Y.StyleSheet(cssString, 'editor');
 
+
         //Not sure about this one?
-        baseNodes.each(function (n, k) {
+        baseNodes.each(function(n, k) {
             var t = n.get('tagName').toLowerCase(),
                 newTag = 'i';
             if (t === 'strong') {
@@ -215,7 +219,7 @@ YUI.add('editor-selection', function (Y, NAME) {
 
         //Filter out all the empty UL/OL's
         ls = root.all('ol,ul');
-        ls.each(function (v) {
+        ls.each(function(v) {
             var lis = v.all('li');
             if (!lis.size()) {
                 v.remove();
@@ -229,12 +233,11 @@ YUI.add('editor-selection', function (Y, NAME) {
     };
 
     /**
-     * Method attempts to replace all "orphined" text nodes in the main body by wrapping them with a <p>. Called from
-     * filter.
-     * @static
-     * @method filterBlocks
-     */
-    Y.EditorSelection.filterBlocks = function () {
+    * Method attempts to replace all "orphined" text nodes in the main body by wrapping them with a <p>. Called from filter.
+    * @static
+    * @method filterBlocks
+    */
+    Y.EditorSelection.filterBlocks = function() {
         var startTime = (new Date()).getTime(), endTime,
             childs = Y.Node.getDOMNode(Y.EditorSelection.ROOT).childNodes, i, node, wrapped = false, doit = true,
             sel, single, br, c, s, html;
@@ -283,7 +286,7 @@ YUI.add('editor-selection', function (Y, NAME) {
                 }
             }
         } else {
-            single.each(function (p) {
+            single.each(function(p) {
                 var html = p.get('innerHTML');
                 if (html === '') {
                     p.remove();
@@ -295,43 +298,43 @@ YUI.add('editor-selection', function (Y, NAME) {
     };
 
     /**
-     * Regular Expression used to find dead font-family styles
-     * @static
-     * @property REG_FONTFAMILY
-     */
+    * Regular Expression used to find dead font-family styles
+    * @static
+    * @property REG_FONTFAMILY
+    */
     Y.EditorSelection.REG_FONTFAMILY = /font-family:\s*;/;
 
     /**
-     * Regular Expression to determine if a string has a character in it
-     * @static
-     * @property REG_CHAR
-     */
+    * Regular Expression to determine if a string has a character in it
+    * @static
+    * @property REG_CHAR
+    */
     Y.EditorSelection.REG_CHAR = /[a-zA-Z-0-9_!@#\$%\^&*\(\)-=_+\[\]\\{}|;':",.\/<>\?]/gi;
 
     /**
-     * Regular Expression to determine if a string has a non-character in it
-     * @static
-     * @property REG_NON
-     */
+    * Regular Expression to determine if a string has a non-character in it
+    * @static
+    * @property REG_NON
+    */
     Y.EditorSelection.REG_NON = /[\s|\n|\t]/gi;
 
     /**
-     * Regular Expression to remove all HTML from a string
-     * @static
-     * @property REG_NOHTML
-     */
+    * Regular Expression to remove all HTML from a string
+    * @static
+    * @property REG_NOHTML
+    */
     Y.EditorSelection.REG_NOHTML = /<\S[^><]*>/g;
 
+
     /**
-     * Wraps an array of elements in a Block level tag
-     * @static
-     * @private
-     * @method _wrapBlock
-     */
-    Y.EditorSelection._wrapBlock = function (wrapped) {
+    * Wraps an array of elements in a Block level tag
+    * @static
+    * @private
+    * @method _wrapBlock
+    */
+    Y.EditorSelection._wrapBlock = function(wrapped) {
         if (wrapped) {
-            var newChild = Y.Node.create('<' + Y.EditorSelection.DEFAULT_BLOCK_TAG + '></'
-                                         + Y.EditorSelection.DEFAULT_BLOCK_TAG + '>'),
+            var newChild = Y.Node.create('<' + Y.EditorSelection.DEFAULT_BLOCK_TAG + '></' + Y.EditorSelection.DEFAULT_BLOCK_TAG + '>'),
                 firstChild = Y.one(wrapped[0]), i;
 
             for (i = 1; i < wrapped.length; i++) {
@@ -344,18 +347,19 @@ YUI.add('editor-selection', function (Y, NAME) {
     };
 
     /**
-     * Undoes what filter does enough to return the HTML from the Editor, then re-applies the filter.
-     * @static
-     * @method unfilter
-     * @return {String} The filtered HTML
-     */
-    Y.EditorSelection.unfilter = function () {
+    * Undoes what filter does enough to return the HTML from the Editor, then re-applies the filter.
+    * @static
+    * @method unfilter
+    * @return {String} The filtered HTML
+    */
+    Y.EditorSelection.unfilter = function() {
         var root = Y.EditorSelection.ROOT,
             nodes = root.all('[class]'),
             html = '', nons, ids,
             body = root;
 
-        nodes.each(function (n) {
+
+        nodes.each(function(n) {
             if (n.hasClass(n._yuid)) {
                 //One of ours
                 n.setStyle(FONT_FAMILY, n.getStyle(FONT_FAMILY));
@@ -367,7 +371,7 @@ YUI.add('editor-selection', function (Y, NAME) {
         });
 
         nons = root.all('.yui-non');
-        nons.each(function (n) {
+        nons.each(function(n) {
             if (!n.hasClass('yui-skip') && n.get('innerHTML') === '') {
                 n.remove();
             } else {
@@ -376,7 +380,7 @@ YUI.add('editor-selection', function (Y, NAME) {
         });
 
         ids = root.all('[id]');
-        ids.each(function (n) {
+        ids.each(function(n) {
             if (n.get('id').indexOf('yui_3_') === 0) {
                 n.removeAttribute('id');
                 n.removeAttribute('_yuid');
@@ -402,13 +406,13 @@ YUI.add('editor-selection', function (Y, NAME) {
         return html;
     };
     /**
-     * Resolve a node from the selection object and return a Node instance
-     * @static
-     * @method resolve
-     * @param {HTMLElement} n The HTMLElement to resolve. Might be a TextNode, gives parentNode.
-     * @return {Node} The Resolved node
-     */
-    Y.EditorSelection.resolve = function (n) {
+    * Resolve a node from the selection object and return a Node instance
+    * @static
+    * @method resolve
+    * @param {HTMLElement} n The HTMLElement to resolve. Might be a TextNode, gives parentNode.
+    * @return {Node} The Resolved node
+    */
+    Y.EditorSelection.resolve = function(n) {
         if (!n) {
             return Y.EditorSelection.ROOT;
         }
@@ -427,13 +431,13 @@ YUI.add('editor-selection', function (Y, NAME) {
     };
 
     /**
-     * Returns the innerHTML of a node with all HTML tags removed.
-     * @static
-     * @method getText
-     * @param {Node} node The Node instance to remove the HTML from
-     * @return {String} The string of text
-     */
-    Y.EditorSelection.getText = function (node) {
+    * Returns the innerHTML of a node with all HTML tags removed.
+    * @static
+    * @method getText
+    * @param {Node} node The Node instance to remove the HTML from
+    * @return {String} The string of text
+    */
+    Y.EditorSelection.getText = function(node) {
         var txt = node.get('innerHTML').replace(Y.EditorSelection.REG_NOHTML, '');
         //Clean out the cursor subs to see if the Node is empty
         txt = txt.replace('<span><br></span>', '').replace('<br>', '');
@@ -444,74 +448,74 @@ YUI.add('editor-selection', function (Y, NAME) {
     Y.EditorSelection.DEFAULT_BLOCK_TAG = 'p';
 
     /**
-     * The selector to use when looking for Nodes to cache the value of: [style],font[face]
-     * @static
-     * @property ALL
-     */
+    * The selector to use when looking for Nodes to cache the value of: [style],font[face]
+    * @static
+    * @property ALL
+    */
     Y.EditorSelection.ALL = '[style],font[face]';
 
     /**
-     * The selector to use when looking for block level items.
-     * @static
-     * @property BLOCKS
-     */
+    * The selector to use when looking for block level items.
+    * @static
+    * @property BLOCKS
+    */
     Y.EditorSelection.BLOCKS = 'p,div,ul,ol,table,style';
     /**
-     * The temporary fontname applied to a selection to retrieve their values: yui-tmp
-     * @static
-     * @property TMP
-     */
+    * The temporary fontname applied to a selection to retrieve their values: yui-tmp
+    * @static
+    * @property TMP
+    */
     Y.EditorSelection.TMP = 'yui-tmp';
     /**
-     * The default tag to use when creating elements: span
-     * @static
-     * @property DEFAULT_TAG
-     */
+    * The default tag to use when creating elements: span
+    * @static
+    * @property DEFAULT_TAG
+    */
     Y.EditorSelection.DEFAULT_TAG = 'span';
 
     /**
-     * The id of the outer cursor wrapper
-     * @static
-     * @property CURID
-     */
+    * The id of the outer cursor wrapper
+    * @static
+    * @property CURID
+    */
     Y.EditorSelection.CURID = 'yui-cursor';
 
     /**
-     * The id used to wrap the inner space of the cursor position
-     * @static
-     * @property CUR_WRAPID
-     */
+    * The id used to wrap the inner space of the cursor position
+    * @static
+    * @property CUR_WRAPID
+    */
     Y.EditorSelection.CUR_WRAPID = 'yui-cursor-wrapper';
 
     /**
-     * The default HTML used to focus the cursor..
-     * @static
-     * @property CURSOR
-     */
+    * The default HTML used to focus the cursor..
+    * @static
+    * @property CURSOR
+    */
     Y.EditorSelection.CURSOR = '<span><br class="yui-cursor"></span>';
 
     /**
-     * The default HTML element from which data will be retrieved. Default: body
-     * @static
-     * @property ROOT
-     */
+    * The default HTML element from which data will be retrieved. Default: body
+    * @static
+    * @property ROOT
+    */
     Y.EditorSelection.ROOT = Y.one('body');
 
-    Y.EditorSelection.hasCursor = function () {
+    Y.EditorSelection.hasCursor = function() {
         var cur = Y.all('#' + Y.EditorSelection.CUR_WRAPID);
         return cur.size();
     };
 
     /**
-     * Called from Editor keydown to remove the "extra" space before the cursor.
-     * @static
-     * @method cleanCursor
-     */
-    Y.EditorSelection.cleanCursor = function () {
+    * Called from Editor keydown to remove the "extra" space before the cursor.
+    * @static
+    * @method cleanCursor
+    */
+    Y.EditorSelection.cleanCursor = function() {
         var cur, sel = 'br.yui-cursor';
         cur = Y.all(sel);
         if (cur.size()) {
-            cur.each(function (b) {
+            cur.each(function(b) {
                 var c = b.get('parentNode.parentNode.childNodes'), html;
                 if (c.size()) {
                     b.remove();
@@ -540,68 +544,68 @@ YUI.add('editor-selection', function (Y, NAME) {
 
     Y.EditorSelection.prototype = {
         /**
-         * Range text value
-         * @property text
-         * @type String
-         */
+        * Range text value
+        * @property text
+        * @type String
+        */
         text: null,
         /**
-         * Flag to show if the range is collapsed or not
-         * @property isCollapsed
-         * @type Boolean
-         */
+        * Flag to show if the range is collapsed or not
+        * @property isCollapsed
+        * @type Boolean
+        */
         isCollapsed: null,
         /**
-         * A Node instance of the parentNode of the anchorNode of the range
-         * @property anchorNode
-         * @type Node
-         */
+        * A Node instance of the parentNode of the anchorNode of the range
+        * @property anchorNode
+        * @type Node
+        */
         anchorNode: null,
         /**
-         * The offset from the range object
-         * @property anchorOffset
-         * @type Number
-         */
+        * The offset from the range object
+        * @property anchorOffset
+        * @type Number
+        */
         anchorOffset: null,
         /**
-         * A Node instance of the actual textNode of the range.
-         * @property anchorTextNode
-         * @type Node
-         */
+        * A Node instance of the actual textNode of the range.
+        * @property anchorTextNode
+        * @type Node
+        */
         anchorTextNode: null,
         /**
-         * A Node instance of the parentNode of the focusNode of the range
-         * @property focusNode
-         * @type Node
-         */
+        * A Node instance of the parentNode of the focusNode of the range
+        * @property focusNode
+        * @type Node
+        */
         focusNode: null,
         /**
-         * The offset from the range object
-         * @property focusOffset
-         * @type Number
-         */
+        * The offset from the range object
+        * @property focusOffset
+        * @type Number
+        */
         focusOffset: null,
         /**
-         * A Node instance of the actual textNode of the range.
-         * @property focusTextNode
-         * @type Node
-         */
+        * A Node instance of the actual textNode of the range.
+        * @property focusTextNode
+        * @type Node
+        */
         focusTextNode: null,
         /**
-         * The actual Selection/Range object
-         * @property _selection
-         * @private
-         */
+        * The actual Selection/Range object
+        * @property _selection
+        * @private
+        */
         _selection: null,
         /**
-         * Wrap an element, with another element
-         * @private
-         * @method _wrap
-         * @param {HTMLElement} n The node to wrap
-         * @param {String} tag The tag to use when creating the new element.
-         * @return {HTMLElement} The wrapped node
-         */
-        _wrap: function (n, tag) {
+        * Wrap an element, with another element
+        * @private
+        * @method _wrap
+        * @param {HTMLElement} n The node to wrap
+        * @param {String} tag The tag to use when creating the new element.
+        * @return {HTMLElement} The wrapped node
+        */
+        _wrap: function(n, tag) {
             var tmp = Y.Node.create('<' + tag + '></' + tag + '>');
             tmp.set(INNER_HTML, n.get(INNER_HTML));
             n.set(INNER_HTML, '');
@@ -609,27 +613,27 @@ YUI.add('editor-selection', function (Y, NAME) {
             return Y.Node.getDOMNode(tmp);
         },
         /**
-         * Swap an element, with another element
-         * @private
-         * @method _swap
-         * @param {HTMLElement} n The node to swap
-         * @param {String} tag The tag to use when creating the new element.
-         * @return {HTMLElement} The new node
-         */
-        _swap: function (n, tag) {
+        * Swap an element, with another element
+        * @private
+        * @method _swap
+        * @param {HTMLElement} n The node to swap
+        * @param {String} tag The tag to use when creating the new element.
+        * @return {HTMLElement} The new node
+        */
+        _swap: function(n, tag) {
             var tmp = Y.Node.create('<' + tag + '></' + tag + '>');
             tmp.set(INNER_HTML, n.get(INNER_HTML));
             n.replace(tmp, n);
             return Y.Node.getDOMNode(tmp);
         },
         /**
-         * Get all the nodes in the current selection. This method will actually perform a filter first.
-         * Then it calls doc.execCommand('fontname', null, 'yui-tmp') to touch all nodes in the selection.
-         * The it compiles a list of all nodes affected by the execCommand and builds a NodeList to return.
-         * @method getSelected
-         * @return {NodeList} A NodeList of all items in the selection.
-         */
-        getSelected: function () {
+        * Get all the nodes in the current selection. This method will actually perform a filter first.
+        * Then it calls doc.execCommand('fontname', null, 'yui-tmp') to touch all nodes in the selection.
+        * The it compiles a list of all nodes affected by the execCommand and builds a NodeList to return.
+        * @method getSelected
+        * @return {NodeList} A NodeList of all items in the selection.
+        */
+        getSelected: function() {
             var editorSelection = Y.EditorSelection,
                 root = editorSelection.ROOT,
                 nodes,
@@ -639,7 +643,7 @@ YUI.add('editor-selection', function (Y, NAME) {
             Y.config.doc.execCommand('fontname', null, editorSelection.TMP);
             nodes = root.all(editorSelection.ALL);
 
-            nodes.each(function (n, k) {
+            nodes.each(function(n, k) {
                 if (n.getStyle(FONT_FAMILY) === editorSelection.TMP) {
                     n.setStyle(FONT_FAMILY, '');
                     editorSelection.removeFontFamily(n);
@@ -651,27 +655,25 @@ YUI.add('editor-selection', function (Y, NAME) {
             return Y.all(items);
         },
         /**
-         * Insert HTML at the current cursor position and return a Node instance of the newly inserted element.
-         * @method insertContent
-         * @param {String} html The HTML to insert.
-         * @return {Node} The inserted Node.
-         */
-        insertContent: function (html) {
+        * Insert HTML at the current cursor position and return a Node instance of the newly inserted element.
+        * @method insertContent
+        * @param {String} html The HTML to insert.
+        * @return {Node} The inserted Node.
+        */
+        insertContent: function(html) {
             return this.insertAtCursor(html, this.anchorTextNode, this.anchorOffset, true);
         },
         /**
-         * Insert HTML at the current cursor position, this method gives you control over the text node to insert into
-         * and the offset where to put it.
-         * @method insertAtCursor
-         * @param {String} html The HTML to insert.
-         * @param {Node} node The text node to break when inserting.
-         * @param {Number} offset The left offset of the text node to break and insert the new content.
-         * @param {Boolean} collapse Should the range be collapsed after insertion. default: false
-         * @return {Node} The inserted Node.
-         */
-        insertAtCursor: function (html, node, offset, collapse) {
-            var cur = Y.Node.create('<' + Y.EditorSelection.DEFAULT_TAG + ' class="yui-non"></'
-                                    + Y.EditorSelection.DEFAULT_TAG + '>'),
+        * Insert HTML at the current cursor position, this method gives you control over the text node to insert into and the offset where to put it.
+        * @method insertAtCursor
+        * @param {String} html The HTML to insert.
+        * @param {Node} node The text node to break when inserting.
+        * @param {Number} offset The left offset of the text node to break and insert the new content.
+        * @param {Boolean} collapse Should the range be collapsed after insertion. default: false
+        * @return {Node} The inserted Node.
+        */
+        insertAtCursor: function(html, node, offset, collapse) {
+            var cur = Y.Node.create('<' + Y.EditorSelection.DEFAULT_TAG + ' class="yui-non"></' + Y.EditorSelection.DEFAULT_TAG + '>'),
                 inHTML, txt, txt2, newNode, range = this.createRange(), b, root = Y.EditorSelection.ROOT;
 
             if (root.compareTo(node)) {
@@ -679,6 +681,7 @@ YUI.add('editor-selection', function (Y, NAME) {
                 node.append(b);
                 node = b;
             }
+
 
             if (range.pasteHTML) {
                 if (offset === 0 && node && !node.previous() && node.get('nodeType') === 3) {
@@ -700,8 +703,7 @@ YUI.add('editor-selection', function (Y, NAME) {
                     newNode = Y.Node.create(html);
                     try {
                         range.pasteHTML('<span id="rte-insert"></span>');
-                    } catch (e) {
-                    }
+                    } catch (e) {}
                     inHTML = root.one('#rte-insert');
                     if (inHTML) {
                         inHTML.set('id', '');
@@ -713,7 +715,7 @@ YUI.add('editor-selection', function (Y, NAME) {
                         range.select();
                         return newNode;
                     } else {
-                        Y.on('available', function () {
+                        Y.on('available', function() {
                             inHTML.set('id', '');
                             inHTML.replace(newNode);
                             if (range.moveToElementText) {
@@ -771,20 +773,19 @@ YUI.add('editor-selection', function (Y, NAME) {
             return newNode;
         },
         /**
-         * Get all elements inside a selection and wrap them with a new element and return a NodeList of all elements
-         * touched.
-         * @method wrapContent
-         * @param {String} tag The tag to wrap all selected items with.
-         * @return {NodeList} A NodeList of all items in the selection.
-         */
-        wrapContent: function (tag) {
+        * Get all elements inside a selection and wrap them with a new element and return a NodeList of all elements touched.
+        * @method wrapContent
+        * @param {String} tag The tag to wrap all selected items with.
+        * @return {NodeList} A NodeList of all items in the selection.
+        */
+        wrapContent: function(tag) {
             tag = (tag) ? tag : Y.EditorSelection.DEFAULT_TAG;
 
             if (!this.isCollapsed) {
                 var items = this.getSelected(),
                     changed = [], range, last, first, range2;
 
-                items.each(function (n, k) {
+                items.each(function(n, k) {
                     var t = n.get('tagName').toLowerCase();
                     if (t === 'font') {
                         changed.push(this._swap(items.item(k), tag));
@@ -814,19 +815,20 @@ YUI.add('editor-selection', function (Y, NAME) {
                 changed = Y.all(changed);
                 return changed;
 
+
             } else {
                 return Y.all([]);
             }
         },
         /**
-         * Find and replace a string inside a text node and replace it with HTML focusing the node after
-         * to allow you to continue to type.
-         * @method replace
-         * @param {String} se The string to search for.
-         * @param {String} re The string of HTML to replace it with.
-         * @return {Node} The node inserted.
-         */
-        replace: function (se, re) {
+        * Find and replace a string inside a text node and replace it with HTML focusing the node after
+        * to allow you to continue to type.
+        * @method replace
+        * @param {String} se The string to search for.
+        * @param {String} re The string of HTML to replace it with.
+        * @return {Node} The node inserted.
+        */
+        replace: function(se,re) {
             var range = this.createRange(), node, txt, index, newNode;
 
             if (range.getBookmark) {
@@ -847,23 +849,23 @@ YUI.add('editor-selection', function (Y, NAME) {
             return newNode;
         },
         /**
-         * Destroy the range.
-         * @method remove
-         * @chainable
-         * @return {EditorSelection}
-         */
-        remove: function () {
+        * Destroy the range.
+        * @method remove
+        * @chainable
+        * @return {EditorSelection}
+        */
+        remove: function() {
             if (this._selection && this._selection.removeAllRanges) {
                 this._selection.removeAllRanges();
             }
             return this;
         },
         /**
-         * Wrapper for the different range creation methods.
-         * @method createRange
-         * @return {Range}
-         */
-        createRange: function () {
+        * Wrapper for the different range creation methods.
+        * @method createRange
+        * @return {Range}
+        */
+        createRange: function() {
             if (Y.config.doc.selection) {
                 return Y.config.doc.selection.createRange();
             } else {
@@ -871,14 +873,14 @@ YUI.add('editor-selection', function (Y, NAME) {
             }
         },
         /**
-         * Select a Node (hilighting it).
-         * @method selectNode
-         * @param {Node} node The node to select
-         * @param {Boolean} collapse Should the range be collapsed after insertion. default: false
-         * @chainable
-         * @return {EditorSelection}
-         */
-        selectNode: function (node, collapse, end) {
+        * Select a Node (hilighting it).
+        * @method selectNode
+        * @param {Node} node The node to select
+        * @param {Boolean} collapse Should the range be collapsed after insertion. default: false
+        * @chainable
+        * @return {EditorSelection}
+        */
+        selectNode: function(node, collapse, end) {
             if (!node) {
                 return;
             }
@@ -906,8 +908,7 @@ YUI.add('editor-selection', function (Y, NAME) {
                 }
                 try {
                     range.moveToElementText(node);
-                } catch (e) {
-                }
+                } catch(e) {}
                 if (collapse) {
                     range.collapse(((end) ? false : true));
                 }
@@ -916,30 +917,29 @@ YUI.add('editor-selection', function (Y, NAME) {
             return this;
         },
         /**
-         * Put a placeholder in the DOM at the current cursor position.
-         * @method setCursor
-         * @return {Node}
-         */
-        setCursor: function () {
+        * Put a placeholder in the DOM at the current cursor position.
+        * @method setCursor
+        * @return {Node}
+        */
+        setCursor: function() {
             this.removeCursor(false);
             return this.insertContent(Y.EditorSelection.CURSOR);
         },
         /**
-         * Get the placeholder in the DOM at the current cursor position.
-         * @method getCursor
-         * @return {Node}
-         */
-        getCursor: function () {
+        * Get the placeholder in the DOM at the current cursor position.
+        * @method getCursor
+        * @return {Node}
+        */
+        getCursor: function() {
             return Y.EditorSelection.ROOT.all('.' + Y.EditorSelection.CURID).get('parentNode');
         },
         /**
-         * Remove the cursor placeholder from the DOM.
-         * @method removeCursor
-         * @param {Boolean} keep Setting this to true will keep the node, but remove the unique parts that make it the
-         *     cursor.
-         * @return {Node}
-         */
-        removeCursor: function (keep) {
+        * Remove the cursor placeholder from the DOM.
+        * @method removeCursor
+        * @param {Boolean} keep Setting this to true will keep the node, but remove the unique parts that make it the cursor.
+        * @return {Node}
+        */
+        removeCursor: function(keep) {
             var cur = this.getCursor();
             if (cur && cur.remove) {
                 if (keep) {
@@ -951,11 +951,11 @@ YUI.add('editor-selection', function (Y, NAME) {
             return cur;
         },
         /**
-         * Gets a stored cursor and focuses it for editing, must be called sometime after setCursor
-         * @method focusCursor
-         * @return {Node}
-         */
-        focusCursor: function (collapse, end) {
+        * Gets a stored cursor and focuses it for editing, must be called sometime after setCursor
+        * @method focusCursor
+        * @return {Node}
+        */
+        focusCursor: function(collapse, end) {
             if (collapse !== false) {
                 collapse = true;
             }
@@ -964,17 +964,17 @@ YUI.add('editor-selection', function (Y, NAME) {
             }
             var cur = this.removeCursor(true);
             if (cur) {
-                cur.each(function (c) {
+                cur.each(function(c) {
                     this.selectNode(c, collapse, end);
                 }, this);
             }
         },
         /**
-         * Generic toString for logging.
-         * @method toString
-         * @return {String}
-         */
-        toString: function () {
+        * Generic toString for logging.
+        * @method toString
+        * @return {String}
+        */
+        toString: function() {
             return 'EditorSelection Object';
         },
 
@@ -987,7 +987,7 @@ YUI.add('editor-selection', function (Y, NAME) {
          @return Number Number of characters the selection is from the beginning
          @since 3.13.0
          */
-        getEditorOffset: function (node) {
+        getEditorOffset: function(node) {
             var container = (node || Y.EditorSelection.ROOT).getDOMNode(),
                 caretOffset = 0,
                 doc = Y.config.doc,
@@ -1005,7 +1005,7 @@ YUI.add('editor-selection', function (Y, NAME) {
             } else {
                 sel = doc.selection;
 
-                if (sel && sel.type !== "Control") {
+                if ( sel && sel.type !== "Control") {
                     range = sel.createRange();
                     preCaretRange = doc.body.createTextRange();
                     preCaretRange.moveToElementText(container);
@@ -1020,5 +1020,7 @@ YUI.add('editor-selection', function (Y, NAME) {
 
     //TODO Remove this alias in 3.6.0
     Y.Selection = Y.EditorSelection;
+
+
 
 }, 'patched-v3.18.1', {"requires": ["node"]});

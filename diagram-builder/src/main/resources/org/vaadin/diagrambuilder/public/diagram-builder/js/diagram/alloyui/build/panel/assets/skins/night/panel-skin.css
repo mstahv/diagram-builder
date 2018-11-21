@@ -13,11 +13,10 @@
     -moz-border-radius: 7px;
     border-radius: 7px;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-hd {
-    padding: 11px 57px 11px 22px; /* Room for close button. */
-    min-height: 17px; /* For the close button */
-    _height: 17px; /* IE6 */
+    padding: 11px 57px 11px 22px;   /* Room for close button. */
+    min-height: 17px;               /* For the close button */
+    _height: 17px;                  /* IE6 */
     -webkit-border-top-left-radius: 7px;
     -webkit-border-top-right-radius: 7px;
     -moz-border-radius-topleft: 7px;
@@ -27,30 +26,27 @@
     font-weight: bold;
     color: white;
     background-color: #555658;
-    background: -moz-linear-gradient(
-            0% 100% 90deg,
-            #343536 0%,
-            #555658 96%,
-            #3E3F41 100%
-    );
+	background: -moz-linear-gradient(
+		0% 100% 90deg,
+		#343536 0%,
+		#555658 96%,
+		#3E3F41 100%
+	);
     background: -webkit-gradient(
-            linear,
-            left bottom,
-            left top,
-            from(#343536),
-            color-stop(0.96, #555658),
-            to(#3E3F41)
+        linear,
+        left bottom,
+        left top,
+        from(#343536),
+        color-stop(0.96, #555658),
+        to(#3E3F41)
     );
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-hd .yui3-widget-buttons {
     padding: 11px;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-bd {
     padding: 11px 22px 17px;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-ft {
     background-color: #575858;
     border-top: 1px solid #494A4A;
@@ -63,7 +59,6 @@
     border-bottom-right-radius: 7px;
     border-bottom-left-radius: 7px;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-ft .yui3-widget-buttons {
     bottom: 0;
     position: relative;
@@ -74,7 +69,6 @@
     margin-left: -5px;
     margin-right: -5px;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-ft .yui3-button {
     margin: 5px;
 }
@@ -107,11 +101,9 @@ http://nicolasgallagher.com/css-image-replacement-with-pseudo-elements/
     *color: #86A5EC;
     *background: url(sprite_icons.png) no-repeat center 3px;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-hd .yui3-button-close:hover {
     background-color: #333;
 }
-
 .yui3-skin-night .yui3-panel .yui3-widget-hd .yui3-button-close:before {
     /*
     Displays the [x] icon in place of the "Close" text.
@@ -125,7 +117,6 @@ http://nicolasgallagher.com/css-image-replacement-with-pseudo-elements/
     width: 22px;
     margin: 3px 0 0 1px;
 }
-
 .yui3-skin-night .yui3-panel-hidden .yui3-widget-hd .yui3-button-close {
     /* Required for IE > 7 to deal with pseudo :before element */
     display: none;

@@ -1100,4 +1100,4 @@ A.Connector = A.Base.create('line', A.Base, [], {
     }
 });
 
-}, '3.4.0', {"requires": ["arraylist-add", "arraylist-filter", "escape", "json", "graphics", "dd"], "skinnable": true});
+}, '4.1.0', {"requires": ["arraylist-add", "arraylist-filter", "escape", "json", "graphics", "dd"], "skinnable": true});

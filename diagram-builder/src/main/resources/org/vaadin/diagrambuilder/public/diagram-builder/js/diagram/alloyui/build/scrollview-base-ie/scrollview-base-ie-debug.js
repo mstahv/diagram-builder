@@ -1,54 +1,55 @@
 YUI.add('scrollview-base-ie', function (Y, NAME) {
 
+/**
+ * IE specific support for the scrollview-base module.
+ *
+ * @module scrollview-base-ie
+ */
+
+Y.mix(Y.ScrollView.prototype, {
+
     /**
-     * IE specific support for the scrollview-base module.
+     * Internal method to fix text selection in IE
      *
-     * @module scrollview-base-ie
+     * @method _fixIESelect
+     * @for ScrollView
+     * @private
+     * @param {Node} bb The bounding box
+     * @param {Node} cb The content box
      */
+    _fixIESelect : function(bb, cb) {
+        this._cbDoc = cb.get("ownerDocument");
+        this._nativeBody = Y.Node.getDOMNode(Y.one("body", this._cbDoc));
 
-    Y.mix(Y.ScrollView.prototype, {
+        cb.on("mousedown", function() {
+            this._selectstart = this._nativeBody.onselectstart;
+            this._nativeBody.onselectstart = this._iePreventSelect;
+            this._cbDoc.once("mouseup", this._ieRestoreSelect, this);
+        }, this);
+    },
 
-        /**
-         * Internal method to fix text selection in IE
-         *
-         * @method _fixIESelect
-         * @for ScrollView
-         * @private
-         * @param {Node} bb The bounding box
-         * @param {Node} cb The content box
-         */
-        _fixIESelect: function (bb, cb) {
-            this._cbDoc = cb.get("ownerDocument");
-            this._nativeBody = Y.Node.getDOMNode(Y.one("body", this._cbDoc));
+    /**
+     * Native onselectstart handle to prevent selection in IE
+     *
+     * @method _iePreventSelect
+     * @for ScrollView
+     * @private
+     */
+    _iePreventSelect : function() {
+        return false;
+    },
 
-            cb.on("mousedown", function () {
-                this._selectstart = this._nativeBody.onselectstart;
-                this._nativeBody.onselectstart = this._iePreventSelect;
-                this._cbDoc.once("mouseup", this._ieRestoreSelect, this);
-            }, this);
-        },
+    /**
+     * Restores native onselectstart handle, backed up to prevent selection in IE
+     *
+     * @method _ieRestoreSelect
+     * @for ScrollView
+     * @private
+     */
+    _ieRestoreSelect : function() {
+        this._nativeBody.onselectstart = this._selectstart;
+    }
+}, true);
 
-        /**
-         * Native onselectstart handle to prevent selection in IE
-         *
-         * @method _iePreventSelect
-         * @for ScrollView
-         * @private
-         */
-        _iePreventSelect: function () {
-            return false;
-        },
-
-        /**
-         * Restores native onselectstart handle, backed up to prevent selection in IE
-         *
-         * @method _ieRestoreSelect
-         * @for ScrollView
-         * @private
-         */
-        _ieRestoreSelect: function () {
-            this._nativeBody.onselectstart = this._selectstart;
-        }
-    }, true);
 
 }, 'patched-v3.18.1', {"requires": ["scrollview-base"]});

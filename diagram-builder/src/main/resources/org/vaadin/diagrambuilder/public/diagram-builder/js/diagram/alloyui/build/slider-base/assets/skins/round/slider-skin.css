@@ -14,7 +14,6 @@
     height: 25px;
     background-position: 0 3px;
 }
-
 .yui3-skin-round .yui3-slider-x .yui3-slider-thumb {
     height: 26px;
     width: 24px;
@@ -26,7 +25,6 @@
     left: -2px;
     width: 5px;
 }
-
 .yui3-skin-round .yui3-slider-x .yui3-slider-rail-cap-right {
     background-position: 0 -37px;
     height: 20px;
@@ -38,7 +36,6 @@
     left: 0;
     top: -7px;
 }
-
 .yui3-skin-round .yui3-slider-x .yui3-slider-thumb-shadow {
     left: 0;
     opacity: 0.15;
@@ -62,7 +59,6 @@
     width: 25px;
     background-position: 3px 0;
 }
-
 .yui3-skin-round .yui3-slider-y .yui3-slider-thumb {
     width: 26px;
     height: 24px;
@@ -74,7 +70,6 @@
     top: -2px;
     height: 5px;
 }
-
 .yui3-skin-round .yui3-slider-y .yui3-slider-rail-cap-bottom {
     background-position: -37px 0;
     width: 20px;
@@ -86,7 +81,6 @@
     top: 0;
     left: -8px;
 }
-
 .yui3-skin-round .yui3-slider-y .yui3-slider-thumb-shadow {
     top: 0;
     left: -48px;

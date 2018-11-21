@@ -1471,7 +1471,7 @@ A.namespace('DiagramBuilder.types').task = A.DiagramNodeTask;
 
 A.namespace('DiagramBuilder.types').group = A.DiagramNodeGroup;
 
-}, '3.4.0', {
+}, '4.1.0', {
     "requires": [
         "aui-aria",
         "aui-map",

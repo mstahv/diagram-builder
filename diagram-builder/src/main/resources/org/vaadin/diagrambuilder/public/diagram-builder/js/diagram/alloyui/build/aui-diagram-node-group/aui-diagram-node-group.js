@@ -130,4 +130,4 @@ var DiagramNodeGroup = A.Component.create({
 A.DiagramNodeGroup = DiagramNodeGroup;
 
 
-}, '3.4.0', {"requires": ["aui-diagram-node-state"]});
+}, '4.1.0', {"requires": ["aui-diagram-node-state"]});

@@ -1,5 +1,6 @@
 YUI.add('editor-tab', function (Y, NAME) {
 
+
     /**
      * Handles tab and shift-tab indent/outdent support.
      * @class Plugin.EditorTab
@@ -9,18 +10,18 @@ YUI.add('editor-tab', function (Y, NAME) {
      * @submodule editor-tab
      */
 
-    var EditorTab = function () {
+    var EditorTab = function() {
         EditorTab.superclass.constructor.apply(this, arguments);
     }, HOST = 'host';
 
     Y.extend(EditorTab, Y.Base, {
         /**
-         * Listener for host's nodeChange event and captures the tabkey interaction.
-         * @private
-         * @method _onNodeChange
-         * @param {Event} e The Event facade passed from the host.
-         */
-        _onNodeChange: function (e) {
+        * Listener for host's nodeChange event and captures the tabkey interaction.
+        * @private
+        * @method _onNodeChange
+        * @param {Event} e The Event facade passed from the host.
+        */
+        _onNodeChange: function(e) {
             var action = 'indent';
 
             if (e.changedType === 'tab') {
@@ -36,31 +37,33 @@ YUI.add('editor-tab', function (Y, NAME) {
                 }
             }
         },
-        initializer: function () {
+        initializer: function() {
             this.get(HOST).on('nodeChange', Y.bind(this._onNodeChange, this));
         }
     }, {
-                 /**
-                  * editorTab
-                  * @property NAME
-                  * @static
-                  */
-                 NAME: 'editorTab',
-                 /**
-                  * tab
-                  * @property NS
-                  * @static
-                  */
-                 NS: 'tab',
-                 ATTRS: {
-                     host: {
-                         value: false
-                     }
-                 }
-             });
+        /**
+        * editorTab
+        * @property NAME
+        * @static
+        */
+        NAME: 'editorTab',
+        /**
+        * tab
+        * @property NS
+        * @static
+        */
+        NS: 'tab',
+        ATTRS: {
+            host: {
+                value: false
+            }
+        }
+    });
+
 
     Y.namespace('Plugin');
 
     Y.Plugin.EditorTab = EditorTab;
+
 
 }, 'patched-v3.18.1', {"requires": ["editor-base"]});

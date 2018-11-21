@@ -1,38 +1,38 @@
 YUI.add('cookie', function (Y, NAME) {
 
-    /**
-     * Utilities for cookie management
-     * @module cookie
-     */
+/**
+ * Utilities for cookie management
+ * @module cookie
+ */
 
-        //shortcuts
-    var L = Y.Lang,
-        O = Y.Object,
-        NULL = null,
+    //shortcuts
+    var L       = Y.Lang,
+        O       = Y.Object,
+        NULL    = null,
 
         //shortcuts to functions
-        isString = L.isString,
-        isObject = L.isObject,
+        isString    = L.isString,
+        isObject    = L.isObject,
         isUndefined = L.isUndefined,
-        isFunction = L.isFunction,
-        encode = encodeURIComponent,
-        decode = decodeURIComponent,
+        isFunction  = L.isFunction,
+        encode      = encodeURIComponent,
+        decode      = decodeURIComponent,
 
         //shortcut to document
-        doc = Y.config.doc;
+        doc         = Y.config.doc;
 
     /*
      * Throws an error message.
      */
-    function error(message) {
+    function error(message){
         throw new TypeError(message);
     }
 
     /*
      * Checks the validity of a cookie name.
      */
-    function validateCookieName(name) {
-        if (!isString(name) || name === "") {
+    function validateCookieName(name){
+        if (!isString(name) || name === ""){
             error("Cookie name must be a non-empty string.");
         }
     }
@@ -40,8 +40,8 @@ YUI.add('cookie', function (Y, NAME) {
     /*
      * Checks the validity of a subcookie name.
      */
-    function validateSubcookieName(subName) {
-        if (!isString(subName) || subName === "") {
+    function validateSubcookieName(subName){
+        if (!isString(subName) || subName === ""){
             error("Subcookie name must be a non-empty string.");
         }
     }
@@ -68,34 +68,34 @@ YUI.add('cookie', function (Y, NAME) {
          * @private
          * @static
          */
-        _createCookieString: function (name /*:String*/, value /*:Variant*/, encodeValue /*:Boolean*/, options
-                                       /*:Object*/) /*:String*/ {
+        _createCookieString : function (name /*:String*/, value /*:Variant*/, encodeValue /*:Boolean*/, options /*:Object*/) /*:String*/ {
 
             options = options || {};
 
             var text /*:String*/ = encode(name) + "=" + (encodeValue ? encode(value) : value),
                 expires = options.expires,
-                path = options.path,
-                domain = options.domain;
+                path    = options.path,
+                domain  = options.domain;
 
-            if (isObject(options)) {
+
+            if (isObject(options)){
                 //expiration date
-                if (expires instanceof Date) {
+                if (expires instanceof Date){
                     text += "; expires=" + expires.toUTCString();
                 }
 
                 //path
-                if (isString(path) && path !== "") {
+                if (isString(path) && path !== ""){
                     text += "; path=" + path;
                 }
 
                 //domain
-                if (isString(domain) && domain !== "") {
+                if (isString(domain) && domain !== ""){
                     text += "; domain=" + domain;
                 }
 
                 //secure
-                if (options.secure === true) {
+                if (options.secure === true){
                     text += "; secure";
                 }
             }
@@ -111,15 +111,15 @@ YUI.add('cookie', function (Y, NAME) {
          * @private
          * @static
          */
-        _createCookieHashString: function (hash /*:Object*/) /*:String*/ {
-            if (!isObject(hash)) {
+        _createCookieHashString : function (hash /*:Object*/) /*:String*/ {
+            if (!isObject(hash)){
                 error("Cookie._createCookieHashString(): Argument must be an object.");
             }
 
             var text /*:Array*/ = [];
 
-            O.each(hash, function (value, key) {
-                if (!isFunction(value) && !isUndefined(value)) {
+            O.each(hash, function(value, key){
+                if (!isFunction(value) && !isUndefined(value)){
                     text.push(encode(key) + "=" + encode(String(value)));
                 }
             });
@@ -135,14 +135,14 @@ YUI.add('cookie', function (Y, NAME) {
          * @private
          * @static
          */
-        _parseCookieHash: function (text) {
+        _parseCookieHash : function (text) {
 
-            var hashParts = text.split("&"),
-                hashPart = NULL,
-                hash = {};
+            var hashParts   = text.split("&"),
+                hashPart    = NULL,
+                hash        = {};
 
-            if (text.length) {
-                for (var i = 0, len = hashParts.length; i < len; i++) {
+            if (text.length){
+                for (var i=0, len=hashParts.length; i < len; i++){
                     hashPart = hashParts[i].split("=");
                     hash[decode(hashPart[0])] = decode(hashPart[1]);
                 }
@@ -154,36 +154,33 @@ YUI.add('cookie', function (Y, NAME) {
         /**
          * Parses a cookie string into an object representing all accessible cookies.
          * @param {String} text The cookie string to parse.
-         * @param {Boolean} shouldDecode (Optional) Indicates if the cookie values should be decoded or not. Default is
-         *     true.
+         * @param {Boolean} shouldDecode (Optional) Indicates if the cookie values should be decoded or not. Default is true.
          * @param {Object} options (Optional) Contains settings for loading the cookie.
          * @return {Object} An object containing entries for each accessible cookie.
          * @method _parseCookieString
          * @private
          * @static
          */
-        _parseCookieString: function (text /*:String*/, shouldDecode /*:Boolean*/, options /*:Object*/) /*:Object*/ {
+        _parseCookieString : function (text /*:String*/, shouldDecode /*:Boolean*/, options /*:Object*/) /*:Object*/ {
 
             var cookies /*:Object*/ = {};
 
             if (isString(text) && text.length > 0) {
 
-                var decodeValue = (shouldDecode === false ? function (s) {
-                        return s;
-                    } : decode),
+                var decodeValue = (shouldDecode === false ? function(s){return s;} : decode),
                     cookieParts = text.split(/;\s/g),
-                    cookieName = NULL,
+                    cookieName  = NULL,
                     cookieValue = NULL,
                     cookieNameValue = NULL;
 
-                for (var i = 0, len = cookieParts.length; i < len; i++) {
+                for (var i=0, len=cookieParts.length; i < len; i++){
                     //check for normally-formatted cookie (name-value)
                     cookieNameValue = cookieParts[i].match(/([^=]+)=/i);
-                    if (cookieNameValue instanceof Array) {
+                    if (cookieNameValue instanceof Array){
                         try {
                             cookieName = decode(cookieNameValue[1]);
-                            cookieValue = decodeValue(cookieParts[i].substring(cookieNameValue[1].length + 1));
-                        } catch (ex) {
+                            cookieValue = decodeValue(cookieParts[i].substring(cookieNameValue[1].length+1));
+                        } catch (ex){
                             //intentionally ignore the cookie - the encoding is wrong
                         }
                     } else {
@@ -217,7 +214,7 @@ YUI.add('cookie', function (Y, NAME) {
          * @method _setDoc
          * @private
          */
-        _setDoc: function (newDoc) {
+        _setDoc: function(newDoc){
             doc = newDoc;
         },
 
@@ -233,7 +230,7 @@ YUI.add('cookie', function (Y, NAME) {
          * @method exists
          * @static
          */
-        exists: function (name) {
+        exists: function(name) {
 
             validateCookieName(name);   //throws error
 
@@ -258,7 +255,7 @@ YUI.add('cookie', function (Y, NAME) {
          * @method get
          * @static
          */
-        get: function (name, options) {
+        get : function (name, options) {
 
             validateCookieName(name);   //throws error
 
@@ -284,7 +281,7 @@ YUI.add('cookie', function (Y, NAME) {
                 return NULL;
             }
 
-            if (!isFunction(converter)) {
+            if (!isFunction(converter)){
                 return cookie;
             } else {
                 return converter(cookie);
@@ -305,8 +302,7 @@ YUI.add('cookie', function (Y, NAME) {
          * @method getSub
          * @static
          */
-        getSub: function (name /*:String*/, subName /*:String*/, converter /*:Function*/, options
-                          /*:Object*/) /*:Variant*/ {
+        getSub : function (name /*:String*/, subName /*:String*/, converter /*:Function*/, options /*:Object*/) /*:Variant*/ {
 
             var hash /*:Variant*/ = this.getSubs(name, options);
 
@@ -314,11 +310,11 @@ YUI.add('cookie', function (Y, NAME) {
 
                 validateSubcookieName(subName);   //throws error
 
-                if (isUndefined(hash[subName])) {
+                if (isUndefined(hash[subName])){
                     return NULL;
                 }
 
-                if (!isFunction(converter)) {
+                if (!isFunction(converter)){
                     return hash[subName];
                 } else {
                     return converter(hash[subName]);
@@ -338,12 +334,12 @@ YUI.add('cookie', function (Y, NAME) {
          * @method getSubs
          * @static
          */
-        getSubs: function (name /*:String*/, options /*:Object*/) {
+        getSubs : function (name /*:String*/, options /*:Object*/) {
 
             validateCookieName(name);   //throws error
 
             var cookies = this._parseCookieString(doc.cookie, false, options);
-            if (isString(cookies[name])) {
+            if (isString(cookies[name])){
                 return this._parseCookieHash(cookies[name]);
             }
             return NULL;
@@ -361,14 +357,14 @@ YUI.add('cookie', function (Y, NAME) {
          * @method remove
          * @static
          */
-        remove: function (name, options) {
+        remove : function (name, options) {
 
             validateCookieName(name);   //throws error
 
             //set options
             options = Y.merge(options || {}, {
-                                                 expires: new Date(0)
-                                             });
+                expires: new Date(0)
+            });
 
             //set cookie
             return this.set(name, "", options);
@@ -386,7 +382,7 @@ YUI.add('cookie', function (Y, NAME) {
          * @method removeSub
          * @static
          */
-        removeSub: function (name, subName, options) {
+        removeSub : function(name, subName, options) {
 
             validateCookieName(name);   //throws error
 
@@ -398,7 +394,7 @@ YUI.add('cookie', function (Y, NAME) {
             var subs = this.getSubs(name);
 
             //delete the indicated subcookie
-            if (isObject(subs) && subs.hasOwnProperty(subName)) {
+            if (isObject(subs) && subs.hasOwnProperty(subName)){
                 delete subs[subName];
 
                 if (!options.removeIfEmpty) {
@@ -407,8 +403,8 @@ YUI.add('cookie', function (Y, NAME) {
                     return this.setSubs(name, subs, options);
                 } else {
                     //reset the cookie if there are subcookies left, else remove
-                    for (var key in subs) {
-                        if (subs.hasOwnProperty(key) && !isFunction(subs[key]) && !isUndefined(subs[key])) {
+                    for (var key in subs){
+                        if (subs.hasOwnProperty(key) && !isFunction(subs[key]) && !isUndefined(subs[key])){
                             return this.setSubs(name, subs, options);
                         }
                     }
@@ -433,11 +429,11 @@ YUI.add('cookie', function (Y, NAME) {
          * @method set
          * @static
          */
-        set: function (name, value, options) {
+        set : function (name, value, options) {
 
             validateCookieName(name);   //throws error
 
-            if (isUndefined(value)) {
+            if (isUndefined(value)){
                 error("Cookie.set(): Value cannot be undefined.");
             }
 
@@ -460,19 +456,19 @@ YUI.add('cookie', function (Y, NAME) {
          * @method setSub
          * @static
          */
-        setSub: function (name, subName, value, options) {
+        setSub : function (name, subName, value, options) {
 
             validateCookieName(name);   //throws error
 
             validateSubcookieName(subName);   //throws error
 
-            if (isUndefined(value)) {
+            if (isUndefined(value)){
                 error("Cookie.setSub(): Subcookie value cannot be undefined.");
             }
 
             var hash = this.getSubs(name);
 
-            if (!isObject(hash)) {
+            if (!isObject(hash)){
                 hash = {};
             }
 
@@ -493,11 +489,11 @@ YUI.add('cookie', function (Y, NAME) {
          * @method setSubs
          * @static
          */
-        setSubs: function (name, value, options) {
+        setSubs : function (name, value, options) {
 
             validateCookieName(name);   //throws error
 
-            if (!isObject(value)) {
+            if (!isObject(value)){
                 error("Cookie.setSubs(): Cookie value must be an object.");
             }
 
@@ -507,5 +503,6 @@ YUI.add('cookie', function (Y, NAME) {
         }
 
     };
+
 
 }, 'patched-v3.18.1', {"requires": ["yui-base"]});

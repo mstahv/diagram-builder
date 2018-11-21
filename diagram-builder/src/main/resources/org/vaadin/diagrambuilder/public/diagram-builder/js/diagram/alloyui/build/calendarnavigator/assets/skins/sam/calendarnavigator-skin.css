@@ -1,19 +1,19 @@
 .yui3-skin-sam .yui3-calendarnav-prevmonth, .yui3-skin-sam .yui3-calendarnav-nextmonth {
-    width: 0;
-    height: 0;
-    padding: 0;
-    margin: 0;
-    border: 10px solid transparent;
-    position: absolute;
-    /* ie6 height fix */
-    font-size: 0;
-    line-height: 0;
-    /* ie6 transparent fix */
-    _border-left-color: white;
-    _border-top-color: white;
-    _border-right-color: white;
-    _border-bottom-color: white;
-    _filter: chroma(color=white);
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: 10px solid transparent;
+  position: absolute;
+  /* ie6 height fix */
+  font-size: 0;
+  line-height: 0;
+  /* ie6 transparent fix */
+  _border-left-color: white;
+  _border-top-color: white;
+  _border-right-color: white;
+  _border-bottom-color: white;
+  _filter: chroma(color=white);
 }
 
 .yui3-skin-sam .yui3-calendarnav-prevmonth:hover,
@@ -38,7 +38,6 @@
     border-right-color: #CCCCCC;
     border-left-color: transparent;
 }
-
 .yui3-skin-sam .yui3-calendarnav-nextmonth.yui3-calendarnav-month-disabled,
 .yui3-skin-sam .yui3-calendarnav-nextmonth.yui3-calendarnav-month-disabled:hover,
 [dir="rtl"] .yui3-skin-sam .yui3-calendarnav-prevmonth.yui3-calendarnav-month-disabled,

@@ -85,4 +85,4 @@ var DiagramNodeFork = A.Component.create({
 A.DiagramNodeFork = DiagramNodeFork;
 
 
-}, '3.4.0', {"requires": ["aui-diagram-node-state"]});
+}, '4.1.0', {"requires": ["aui-diagram-node-state"]});

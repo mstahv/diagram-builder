@@ -13,13 +13,12 @@ YUI.add('pluginhost-base', function (Y, NAME) {
     /**
      * <p>
      * An augmentable class, which provides the augmented class with the ability to host plugins.
-     * It adds <a href="#method_plug">plug</a> and <a href="#method_unplug">unplug</a> methods to the augmented class,
-     * which can be used to add or remove plugins from instances of the class.
+     * It adds <a href="#method_plug">plug</a> and <a href="#method_unplug">unplug</a> methods to the augmented class, which can
+     * be used to add or remove plugins from instances of the class.
      * </p>
      *
-     * <p>Plugins can also be added through the constructor configuration object passed to the host class' constructor
-     * using the "plugins" property. Supported values for the "plugins" property are those defined by the <a
-     * href="#method_plug">plug</a> method.
+     * <p>Plugins can also be added through the constructor configuration object passed to the host class' constructor using
+     * the "plugins" property. Supported values for the "plugins" property are those defined by the <a href="#method_plug">plug</a> method.
      *
      * For example the following code would add the AnimPlugin and IOPlugin to Overlay (the plugin host):
      * <xmp>
@@ -27,9 +26,8 @@ YUI.add('pluginhost-base', function (Y, NAME) {
      * </xmp>
      * </p>
      * <p>
-     * Plug.Host's protected <a href="#method_initPlugins">_initPlugins</a> and <a
-     * href="#method_destroyPlugins">_destroyPlugins</a> methods should be invoked by the host class at the appropriate
-     * point in the host's lifecyle.
+     * Plug.Host's protected <a href="#method_initPlugins">_initPlugins</a> and <a href="#method_destroyPlugins">_destroyPlugins</a>
+     * methods should be invoked by the host class at the appropriate point in the host's lifecyle.
      * </p>
      *
      * @class Plugin.Host
@@ -60,7 +58,7 @@ YUI.add('pluginhost-base', function (Y, NAME) {
          * can be the configuration for the plugin.
          * @return {Base} A reference to the host object
          */
-        plug: function (Plugin, config) {
+        plug: function(Plugin, config) {
             var i, ln, ns;
 
             if (L.isArray(Plugin)) {
@@ -104,12 +102,12 @@ YUI.add('pluginhost-base', function (Y, NAME) {
          * plugin instance and delete the namespace from the host object.
          *
          * @method unplug
-         * @param {String | Function} plugin The namespace of the plugin, or the plugin class with the static NS
-         *     namespace property defined. If not provided, all registered plugins are unplugged.
+         * @param {String | Function} plugin The namespace of the plugin, or the plugin class with the static NS namespace property defined. If not provided,
+         * all registered plugins are unplugged.
          * @return {Base} A reference to the host object
          * @chainable
          */
-        unplug: function (plugin) {
+        unplug: function(plugin) {
             var ns = plugin,
                 plugins = this._plugins;
 
@@ -149,7 +147,7 @@ YUI.add('pluginhost-base', function (Y, NAME) {
          * @param {String} ns The plugin's namespace
          * @return {Plugin} Returns a truthy value (the plugin instance) if present, or undefined if not.
          */
-        hasPlugin: function (ns) {
+        hasPlugin : function(ns) {
             return (this._plugins[ns] && this[ns]);
         },
 
@@ -163,7 +161,7 @@ YUI.add('pluginhost-base', function (Y, NAME) {
          * @private
          */
 
-        _initPlugins: function (config) {
+        _initPlugins: function(config) {
             this._plugins = this._plugins || {};
 
             if (this._initConfigPlugins) {
@@ -176,11 +174,12 @@ YUI.add('pluginhost-base', function (Y, NAME) {
          * @method _destroyPlugins
          * @private
          */
-        _destroyPlugins: function () {
+        _destroyPlugins: function() {
             this.unplug();
         }
     };
 
     Y.namespace("Plugin").Host = PluginHost;
+
 
 }, 'patched-v3.18.1', {"requires": ["yui-base"]});

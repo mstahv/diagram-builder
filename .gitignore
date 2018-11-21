@@ -1,3 +1,6 @@
 diagram-builder-demo/src/main/webapp/VAADIN/widgetsets
 .idea
 *.iml
+package-lock.json
+node_modules
+target

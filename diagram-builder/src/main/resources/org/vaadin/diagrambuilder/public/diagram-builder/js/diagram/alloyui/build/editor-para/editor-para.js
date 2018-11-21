@@ -1,5 +1,6 @@
 YUI.add('editor-para', function (Y, NAME) {
 
+
     /**
      * Plugin for Editor to paragraph auto wrapping and correction.
      * @class Plugin.EditorPara
@@ -10,29 +11,30 @@ YUI.add('editor-para', function (Y, NAME) {
      */
 
 
-    var EditorPara = function () {
-            EditorPara.superclass.constructor.apply(this, arguments);
-        }, HOST = 'host', NODE_CHANGE = 'nodeChange', PARENT_NODE = 'parentNode',
-        FIRST_P = '> p', P = 'p', BR = '<br>', FC = 'firstChild', LI = 'li';
+    var EditorPara = function() {
+        EditorPara.superclass.constructor.apply(this, arguments);
+    }, HOST = 'host', NODE_CHANGE = 'nodeChange', PARENT_NODE = 'parentNode',
+    FIRST_P = '> p', P = 'p', BR = '<br>', FC = 'firstChild', LI = 'li';
+
 
     Y.extend(EditorPara, Y.Plugin.EditorParaBase, {
         /**
-         * Resolves the ROOT editor element.
-         * @method _getRoot
-         * @private
-         */
-        _getRoot: function () {
+        * Resolves the ROOT editor element.
+        * @method _getRoot
+        * @private
+        */
+        _getRoot: function() {
             return this.get(HOST).getInstance().EditorSelection.ROOT;
         },
 
         /**
-         * nodeChange handler to handle fixing an empty document.
-         * @private
-         * @method _onNodeChange
-         */
-        _onNodeChange: function (e) {
+        * nodeChange handler to handle fixing an empty document.
+        * @private
+        * @method _onNodeChange
+        */
+        _onNodeChange: function(e) {
             var host = this.get(HOST), inst = host.getInstance(),
-                html, txt, par, d, sel, btag = inst.EditorSelection.DEFAULT_BLOCK_TAG,
+                html, txt, par , d, sel, btag = inst.EditorSelection.DEFAULT_BLOCK_TAG,
                 inHTML, txt2, childs, aNode, node2, top, n, sib, para2, prev,
                 ps, br, item, p, imgs, t, LAST_CHILD = ':last-child', para, b, dir,
                 lc, lc2, found = false, root = this._getRoot(), start;
@@ -142,7 +144,7 @@ YUI.add('editor-para', function (Y, NAME) {
                                         childs = sib.get('childNodes');
                                         start = false;
                                         /*jshint loopfunc: true */
-                                        childs.each(function (c) {
+                                        childs.each(function(c) {
                                             if (start) {
                                                 n.append(c);
                                             }
@@ -248,12 +250,12 @@ YUI.add('editor-para', function (Y, NAME) {
                     }
 
                     if (Y.UA.gecko) {
-                        /*
-                         * This forced FF to redraw the content on backspace.
-                         * On some occasions FF will leave a cursor residue after content has been deleted.
-                         * Dropping in the empty textnode and then removing it causes FF to redraw and
-                         * remove the "ghost cursors"
-                         */
+                       /*
+                        * This forced FF to redraw the content on backspace.
+                        * On some occasions FF will leave a cursor residue after content has been deleted.
+                        * Dropping in the empty textnode and then removing it causes FF to redraw and
+                        * remove the "ghost cursors"
+                        */
                         // d = e.changedNode;
                         // t = inst.config.doc.createTextNode(' ');
                         // d.appendChild(t);
@@ -316,7 +318,7 @@ YUI.add('editor-para', function (Y, NAME) {
             }
         },
 
-        initializer: function () {
+        initializer: function() {
             var host = this.get(HOST);
             if (host.editorBR) {
                 Y.error('Can not plug EditorPara and EditorBR at the same time.');
@@ -326,27 +328,28 @@ YUI.add('editor-para', function (Y, NAME) {
             host.on(NODE_CHANGE, Y.bind(this._onNodeChange, this));
         }
     }, {
-                 /**
-                  * editorPara
-                  * @static
-                  * @property NAME
-                  */
-                 NAME: 'editorPara',
-                 /**
-                  * editorPara
-                  * @static
-                  * @property NS
-                  */
-                 NS: 'editorPara',
-                 ATTRS: {
-                     host: {
-                         value: false
-                     }
-                 }
-             });
+        /**
+        * editorPara
+        * @static
+        * @property NAME
+        */
+        NAME: 'editorPara',
+        /**
+        * editorPara
+        * @static
+        * @property NS
+        */
+        NS: 'editorPara',
+        ATTRS: {
+            host: {
+                value: false
+            }
+        }
+    });
 
     Y.namespace('Plugin');
 
     Y.Plugin.EditorPara = EditorPara;
+
 
 }, 'patched-v3.18.1', {"requires": ["editor-para-base"]});

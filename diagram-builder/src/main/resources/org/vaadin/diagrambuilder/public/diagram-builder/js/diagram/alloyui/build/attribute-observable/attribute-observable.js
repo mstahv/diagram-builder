@@ -3,6 +3,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
     /*For log lines*/
     /*jshint maxlen:200*/
 
+
     /**
      * The attribute module provides an augmentable Attribute implementation, which
      * adds configurable attributes and attribute change events to the class being
@@ -37,7 +38,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
         // Perf tweak - avoid creating event literals if not required.
         this._ATTR_E_FACADE = {};
 
-        EventTarget.call(this, {emitFacade: true});
+        EventTarget.call(this, {emitFacade:true});
     }
 
     AttributeObservable._ATTR_CFG = [BROADCAST];
@@ -64,7 +65,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
          *
          * @return {Object} A reference to the host object.
          */
-        set: function (name, val, opts) {
+        set : function(name, val, opts) {
             return this._setAttr(name, val, opts);
         },
 
@@ -81,7 +82,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
          * the event facade passed to subscribers of the attribute's change event.
          * @return {Object} A reference to the host object.
          */
-        _set: function (name, val, opts) {
+        _set : function(name, val, opts) {
             return this._setAttr(name, val, opts, true);
         },
 
@@ -94,7 +95,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
          * @return {Object} A reference to the host object.
          * @chainable
          */
-        setAttrs: function (attrs, opts) {
+        setAttrs : function(attrs, opts) {
             return this._setAttrs(attrs, opts);
         },
 
@@ -108,10 +109,10 @@ YUI.add('attribute-observable', function (Y, NAME) {
          * @return {Object} A reference to the host object.
          * @chainable
          */
-        _setAttrs: function (attrs, opts) {
+        _setAttrs : function(attrs, opts) {
             var attr;
             for (attr in attrs) {
-                if (attrs.hasOwnProperty(attr)) {
+                if ( attrs.hasOwnProperty(attr) ) {
                     this.set(attr, attrs[attr], opts);
                 }
             }
@@ -131,7 +132,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
          * @param {Object} opts Any additional event data to mix into the attribute change event's event facade.
          * @param {Object} [cfg] The attribute config stored in State, if already available.
          */
-        _fireAttrChange: function (attrName, subAttrName, currVal, newVal, opts, cfg) {
+        _fireAttrChange : function(attrName, subAttrName, currVal, newVal, opts, cfg) {
             var host = this,
                 eventName = this._getFullType(attrName + CHANGE),
                 state = host._state,
@@ -189,10 +190,9 @@ YUI.add('attribute-observable', function (Y, NAME) {
          * @private
          * @method _defAttrChangeFn
          * @param {EventFacade} e The event object for attribute change events.
-         * @param {boolean} eventFastPath Whether or not we're using this as a fast path in the case of no listeners or
-         *     not
+         * @param {boolean} eventFastPath Whether or not we're using this as a fast path in the case of no listeners or not
          */
-        _defAttrChangeFn: function (e, eventFastPath) {
+        _defAttrChangeFn : function(e, eventFastPath) {
 
             var opts = e._attrOpts;
             if (opts) {
@@ -200,6 +200,7 @@ YUI.add('attribute-observable', function (Y, NAME) {
             }
 
             if (!this._setAttrVal(e.attrName, e.subAttrName, e.prevVal, e.newVal, opts)) {
+
 
                 if (!eventFastPath) {
                     // Prevent "after" listeners from being invoked since nothing changed.
@@ -220,15 +221,16 @@ YUI.add('attribute-observable', function (Y, NAME) {
     Y.AttributeObservable = AttributeObservable;
 
     /**
-     The `AttributeEvents` class extension was deprecated in YUI 3.8.0 and is now
-     an alias for the `AttributeObservable` class extension. Use that class
-     extnesion instead. This alias will be removed in a future version of YUI.
+    The `AttributeEvents` class extension was deprecated in YUI 3.8.0 and is now
+    an alias for the `AttributeObservable` class extension. Use that class
+    extnesion instead. This alias will be removed in a future version of YUI.
 
-     @class AttributeEvents
-     @uses EventTarget
-     @deprecated Use `AttributeObservable` instead.
-     @see AttributeObservable
-     **/
+    @class AttributeEvents
+    @uses EventTarget
+    @deprecated Use `AttributeObservable` instead.
+    @see AttributeObservable
+    **/
     Y.AttributeEvents = AttributeObservable;
+
 
 }, 'patched-v3.18.1', {"requires": ["event-custom"]});

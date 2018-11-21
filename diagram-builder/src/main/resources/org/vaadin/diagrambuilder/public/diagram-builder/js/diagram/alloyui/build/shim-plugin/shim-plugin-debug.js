@@ -35,23 +35,23 @@ YUI.add('shim-plugin', function (Y, NAME) {
      * @static
      */
     Shim.TEMPLATE = '<iframe class="' + Shim.CLASS_NAME +
-                    '" frameborder="0" title="Node Stacking Shim"' +
-                    'src="javascript:false" tabindex="-1" role="presentation"' +
-                    'style="position:absolute; z-index:-1;"></iframe>';
+            '" frameborder="0" title="Node Stacking Shim"' +
+            'src="javascript:false" tabindex="-1" role="presentation"' +
+            'style="position:absolute; z-index:-1;"></iframe>';
 
     Shim.prototype = {
-        init: function (config) {
+        init: function(config) {
             this._host = config.host;
             this.initEvents();
             this.insert();
             this.sync();
         },
 
-        initEvents: function () {
+        initEvents: function() {
             this._resizeHandle = this._host.on('resize', this.sync, this);
         },
 
-        getShim: function () {
+        getShim: function() {
             return this._shim || (
                 this._shim = Y.Node.create(
                     Shim.TEMPLATE,
@@ -60,25 +60,25 @@ YUI.add('shim-plugin', function (Y, NAME) {
             );
         },
 
-        insert: function () {
+        insert: function() {
             var node = this._host;
-            this._shim = node.insertBefore(this.getShim(),
-                                           node.get('firstChild'));
+            this._shim = node.insertBefore( this.getShim(),
+                    node.get('firstChild'));
         },
 
         /**
          * Updates the size of the shim to fill its container
          * @method sync
          */
-        sync: function () {
+        sync: function() {
             var shim = this._shim,
                 node = this._host;
 
             if (shim) {
                 shim.setAttrs({
-                                  width: node.getStyle('width'),
-                                  height: node.getStyle('height')
-                              });
+                    width: node.getStyle('width'),
+                    height: node.getStyle('height')
+                });
             }
         },
 
@@ -86,7 +86,7 @@ YUI.add('shim-plugin', function (Y, NAME) {
          * Removes the shim and destroys the plugin
          * @method destroy
          */
-        destroy: function () {
+        destroy: function() {
             var shim = this._shim;
             if (shim) {
                 shim.remove(true);
@@ -101,5 +101,6 @@ YUI.add('shim-plugin', function (Y, NAME) {
 
     Y.namespace('Plugin');
     Y.Plugin.Shim = Shim;
+
 
 }, 'patched-v3.18.1', {"requires": ["node-style", "node-pluginhost"]});

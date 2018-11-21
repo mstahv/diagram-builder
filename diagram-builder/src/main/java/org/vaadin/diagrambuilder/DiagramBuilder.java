@@ -19,9 +19,13 @@ import org.vaadin.diagrambuilder.listener.ConnectorMouseOverListener;
 import org.vaadin.diagrambuilder.listener.ConnectorRightClickListener;
 import org.vaadin.diagrambuilder.listener.GroupDragEndListener;
 import org.vaadin.diagrambuilder.listener.GroupDragStartListener;
+import org.vaadin.diagrambuilder.listener.GroupMouseOutListener;
+import org.vaadin.diagrambuilder.listener.GroupMouseOverListener;
 import org.vaadin.diagrambuilder.listener.GroupRightClickListener;
 import org.vaadin.diagrambuilder.listener.TaskDragEndListener;
 import org.vaadin.diagrambuilder.listener.TaskDragStartListener;
+import org.vaadin.diagrambuilder.listener.TaskMouseOutListener;
+import org.vaadin.diagrambuilder.listener.TaskMouseOverListener;
 import org.vaadin.diagrambuilder.listener.TaskRightClickListener;
 
 import java.io.IOException;
@@ -77,6 +81,7 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         nodeEvent.createRightClickEvent();
         nodeEvent.createDragStartEvent();
         nodeEvent.createDragEndEvent();
+        nodeEvent.createMouseMoveEvent();
     }
 
     public void addConnectorMouseOutListener(ConnectorMouseOutListener listener) {
@@ -93,6 +98,14 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     public void addConnectorRightClickListener(ConnectorRightClickListener listener) {
         connectorEvent.addRightClickListener(listener);
+    }
+
+    public void addTaskMouseOverListener(TaskMouseOverListener listener) {
+        nodeEvent.addTaskMouseOverListener(listener);
+    }
+
+    public void addTaskMouseOutListener(TaskMouseOutListener listener) {
+        nodeEvent.addTaskMouseOutListener(listener);
     }
 
     public void addTaskRightClickListener(TaskRightClickListener listener) {
@@ -117,6 +130,14 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     public void addGroupDragEndListener(GroupDragEndListener listener) {
         nodeEvent.addGroupDragEndListener(listener);
+    }
+
+    public void addGroupMouseOverListener(GroupMouseOverListener listener) {
+        nodeEvent.addGroupMouseOverListener(listener);
+    }
+
+    public void addGroupMouseOutListener(GroupMouseOutListener listener) {
+        nodeEvent.addGroupMouseOutListener(listener);
     }
 
     public Transition[] getTransitions() {
@@ -144,6 +165,7 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
             node.setOnRightClick(Node.ON_RIGHT_CLICK_JAVASCRIPT + eventId);
             node.setOnDragStart(Node.ON_DRAG_START_JAVASCRIPT + eventId);
             node.setOnDragEnd(Node.ON_DRAG_END_JAVASCRIPT + eventId);
+            node.setOnMouseMove(Node.ON_MOUSE_MOVE_JAVASCRIPT + eventId);
         }
 
         markAsDirty();

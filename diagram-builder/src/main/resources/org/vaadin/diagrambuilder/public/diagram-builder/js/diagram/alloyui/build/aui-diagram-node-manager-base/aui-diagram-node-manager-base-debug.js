@@ -33,4 +33,4 @@ var DiagramNodeManagerBase = A.Component.create({
 A.DiagramNodeManager = new DiagramNodeManagerBase();
 
 
-}, '3.4.0', {"requires": ["base"]});
+}, '4.1.0', {"requires": ["base"]});

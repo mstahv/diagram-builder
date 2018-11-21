@@ -1680,4 +1680,4 @@ DiagramNode = A.Component.create({
 A.DiagramNode = DiagramNode;
 
 
-}, '3.4.0', {"requires": ["aui-aria", "aui-diagram-node-manager-base", "escape", "overlay"]});
+}, '4.1.0', {"requires": ["aui-aria", "aui-diagram-node-manager-base", "escape", "overlay"]});

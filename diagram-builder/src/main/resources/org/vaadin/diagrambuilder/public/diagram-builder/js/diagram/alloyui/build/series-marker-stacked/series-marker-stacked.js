@@ -1,47 +1,50 @@
 YUI.add('series-marker-stacked', function (Y, NAME) {
 
+/**
+ * Provides functionality for creating a stacked marker series.
+ *
+ * @module charts
+ * @submodule series-marker-stacked
+ */
+/**
+ * StackedMarkerSeries plots markers with different series stacked along the value axis to indicate each
+ * series' contribution to a cumulative total.
+ *
+ * @class StackedMarkerSeries
+ * @constructor
+ * @extends MarkerSeries
+ * @uses StackingUtil
+ * @param {Object} config (optional) Configuration parameters.
+ * @submodule series-marker-stacked
+ */
+Y.StackedMarkerSeries = Y.Base.create("stackedMarkerSeries", Y.MarkerSeries, [Y.StackingUtil], {
     /**
-     * Provides functionality for creating a stacked marker series.
+     * @protected
      *
-     * @module charts
-     * @submodule series-marker-stacked
-     */
-    /**
-     * StackedMarkerSeries plots markers with different series stacked along the value axis to indicate each
-     * series' contribution to a cumulative total.
+     * Calculates the coordinates for the series. Overrides base implementation.
      *
-     * @class StackedMarkerSeries
-     * @constructor
-     * @extends MarkerSeries
-     * @uses StackingUtil
-     * @param {Object} config (optional) Configuration parameters.
-     * @submodule series-marker-stacked
+     * @method setAreaData
      */
-    Y.StackedMarkerSeries = Y.Base.create("stackedMarkerSeries", Y.MarkerSeries, [Y.StackingUtil], {
+    setAreaData: function()
+    {
+        Y.StackedMarkerSeries.superclass.setAreaData.apply(this);
+        this._stackCoordinates.apply(this);
+    }
+}, {
+    ATTRS: {
         /**
-         * @protected
+         * Read-only attribute indicating the type of series.
          *
-         * Calculates the coordinates for the series. Overrides base implementation.
-         *
-         * @method setAreaData
+         * @attribute type
+         * @type String
+         * @default stackedMarker
          */
-        setAreaData: function () {
-            Y.StackedMarkerSeries.superclass.setAreaData.apply(this);
-            this._stackCoordinates.apply(this);
+        type: {
+            value:"stackedMarker"
         }
-    }, {
-                                              ATTRS: {
-                                                  /**
-                                                   * Read-only attribute indicating the type of series.
-                                                   *
-                                                   * @attribute type
-                                                   * @type String
-                                                   * @default stackedMarker
-                                                   */
-                                                  type: {
-                                                      value: "stackedMarker"
-                                                  }
-                                              }
-                                          });
+    }
+});
+
+
 
 }, 'patched-v3.18.1', {"requires": ["series-stacked", "series-marker"]});

@@ -1,5 +1,6 @@
 YUI.add('editor-para-ie', function (Y, NAME) {
 
+
     /**
      * Extends EditorParaBase with IE support
      * @class Plugin.EditorParaIE
@@ -10,27 +11,28 @@ YUI.add('editor-para-ie', function (Y, NAME) {
      */
 
 
-    var EditorParaIE = function () {
-            EditorParaIE.superclass.constructor.apply(this, arguments);
-        }, HOST = 'host', NODE_CHANGE = 'nodeChange',
-        P = 'p';
+    var EditorParaIE = function() {
+        EditorParaIE.superclass.constructor.apply(this, arguments);
+    }, HOST = 'host', NODE_CHANGE = 'nodeChange',
+    P = 'p';
+
 
     Y.extend(EditorParaIE, Y.Plugin.EditorParaBase, {
         /**
-         * Resolves the ROOT editor element.
-         * @method _getRoot
-         * @private
-         */
-        _getRoot: function () {
+        * Resolves the ROOT editor element.
+        * @method _getRoot
+        * @private
+        */
+        _getRoot: function() {
             return this.get(HOST).getInstance().EditorSelection.ROOT;
         },
 
         /**
-         * nodeChange handler to handle fixing an empty document.
-         * @private
-         * @method _onNodeChange
-         */
-        _onNodeChange: function (e) {
+        * nodeChange handler to handle fixing an empty document.
+        * @private
+        * @method _onNodeChange
+        */
+        _onNodeChange: function(e) {
             var host = this.get(HOST), inst = host.getInstance(),
                 btag = inst.EditorSelection.DEFAULT_BLOCK_TAG,
                 prev, LAST_CHILD = ':last-child', para, b, para2,
@@ -93,7 +95,7 @@ YUI.add('editor-para-ie', function (Y, NAME) {
                     break;
             }
         },
-        initializer: function () {
+        initializer: function() {
             var host = this.get(HOST);
             if (host.editorBR) {
                 Y.error('Can not plug EditorPara and EditorBR at the same time.');
@@ -103,27 +105,30 @@ YUI.add('editor-para-ie', function (Y, NAME) {
             host.on(NODE_CHANGE, Y.bind(this._onNodeChange, this));
         }
     }, {
-                 /**
-                  * editorPara
-                  * @static
-                  * @property NAME
-                  */
-                 NAME: 'editorPara',
-                 /**
-                  * editorPara
-                  * @static
-                  * @property NS
-                  */
-                 NS: 'editorPara',
-                 ATTRS: {
-                     host: {
-                         value: false
-                     }
-                 }
-             });
+        /**
+        * editorPara
+        * @static
+        * @property NAME
+        */
+        NAME: 'editorPara',
+        /**
+        * editorPara
+        * @static
+        * @property NS
+        */
+        NS: 'editorPara',
+        ATTRS: {
+            host: {
+                value: false
+            }
+        }
+    });
 
     Y.namespace('Plugin');
 
     Y.Plugin.EditorPara = EditorParaIE;
+
+
+
 
 }, 'patched-v3.18.1', {"requires": ["editor-para-base"]});

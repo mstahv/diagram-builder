@@ -55,7 +55,7 @@ YUI.add('align-plugin', function (Y, NAME) {
          * @param resize {Boolean} Whether or not the node should re-align when
          * the window is resized. Defaults to false.
          */
-        to: function (region, regionPoint, point, syncOnResize) {
+        to: function(region, regionPoint, point, syncOnResize) {
             // cache original args for syncing
             this._syncArgs = Y.Array(arguments);
 
@@ -71,7 +71,7 @@ YUI.add('align-plugin', function (Y, NAME) {
                     NULL = null,
                     size = node.getAttrs([OFFSET_HEIGHT, OFFSET_WIDTH]),
                     nodeoff = [0 - size[OFFSET_WIDTH], 0 - size[OFFSET_HEIGHT]], // reverse offsets
-                    regionFn0 = regionPoint ? points[regionPoint.charAt(0)] : NULL,
+                    regionFn0 = regionPoint ? points[regionPoint.charAt(0)]: NULL,
                     regionFn1 = (regionPoint && regionPoint !== 'cc') ? points[regionPoint.charAt(1)] : NULL,
                     nodeFn0 = point ? points[point.charAt(0)] : NULL,
                     nodeFn1 = (point && point !== 'cc') ? points[point.charAt(1)] : NULL;
@@ -100,12 +100,12 @@ YUI.add('align-plugin', function (Y, NAME) {
             return this;
         },
 
-        sync: function () {
+        sync: function() {
             this.to.apply(this, this._syncArgs);
             return this;
         },
 
-        _resize: function (add) {
+        _resize: function(add) {
             var handle = this._handle;
             if (add && !handle) {
                 this._handle = Y.on('resize', this._onresize, window, this);
@@ -115,9 +115,9 @@ YUI.add('align-plugin', function (Y, NAME) {
 
         },
 
-        _onresize: function () {
+        _onresize: function() {
             var self = this;
-            setTimeout(function () { // for performance
+            setTimeout(function() { // for performance
                 self.sync();
             });
         },
@@ -130,7 +130,7 @@ YUI.add('align-plugin', function (Y, NAME) {
          * the window is resized. If centering to viewport, this defaults
          * to true, otherwise default is false.
          */
-        center: function (region, resize) {
+        center: function(region, resize) {
             this.to(region, 'cc', 'cc', resize);
             return this;
         },
@@ -140,7 +140,7 @@ YUI.add('align-plugin', function (Y, NAME) {
          * when unplugged from the host node.
          * @method destroy
          */
-        destroy: function () {
+        destroy: function() {
             var handle = this._handle;
             if (handle) {
                 handle.detach();
@@ -149,24 +149,24 @@ YUI.add('align-plugin', function (Y, NAME) {
     };
 
     Align.points = {
-        't': function (xy, off) {
+        't': function(xy, off) {
             return xy;
         },
 
-        'r': function (xy, off) {
+        'r': function(xy, off) {
             return [xy[0] + off[0], xy[1]];
         },
 
-        'b': function (xy, off) {
+        'b': function(xy, off) {
             return [xy[0], xy[1] + off[1]];
         },
 
-        'l': function (xy, off) {
+        'l': function(xy, off) {
             return xy;
         },
 
-        'c': function (xy, off, point) {
-            var axis = (point[0] === 't' || point[0] === 'b') ? 0 : 1,
+        'c': function(xy, off, point) {
+            var axis = (point[0] === 't' || point[0] === 'b') ?  0 : 1,
                 ret, val;
 
             if (point === 'cc') {
@@ -176,7 +176,7 @@ YUI.add('align-plugin', function (Y, NAME) {
                 ret = (axis) ? [xy[0], val] : [val, xy[1]];
             }
 
-            return ret;
+             return ret;
         }
     };
 
@@ -187,5 +187,7 @@ YUI.add('align-plugin', function (Y, NAME) {
 
     Y.namespace('Plugin');
     Y.Plugin.Align = Align;
+
+
 
 }, 'patched-v3.18.1', {"requires": ["node-screen", "node-pluginhost"]});
