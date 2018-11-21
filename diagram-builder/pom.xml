@@ -242,19 +242,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>Clean Gulp Task</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>./node_modules/gulp/bin/gulp.js</executable>
-                            <arguments>
-                                <argument>clean</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
 
