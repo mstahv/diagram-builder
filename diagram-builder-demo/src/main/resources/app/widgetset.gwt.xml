@@ -8,4 +8,6 @@
 
     <!-- Inherit add-on widgetset -->
     <inherits name="org.vaadin.diagrambuilder.WidgetSet" />
+
+    <inherits name="com.vaadin.DefaultWidgetSet" />
 </module>
