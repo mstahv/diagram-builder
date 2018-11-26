@@ -20,7 +20,6 @@
         <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
         <Vaadin-License-Title>Apache License 2.0</Vaadin-License-Title>
         <Vaadin-Addon>${project.artifactId}-${project.version}.jar</Vaadin-Addon>
-        <distributionManagement.repository.url>${pom.url}</distributionManagement.repository.url>
     </properties>
 
     <organization>
@@ -51,12 +50,12 @@
         <snapshotRepository>
             <id>nexus</id>
             <name>Releases</name>
-            <url>${distributionManagement.repository.url}/maven-snapshots</url>
+            <url>${repository.url}/maven-snapshots</url>
         </snapshotRepository>
         <repository>
             <id>nexus</id>
             <name>Releases</name>
-            <url>${distributionManagement.repository.url}/maven-releases</url>
+            <url>${repository.url}/maven-releases</url>
         </repository>
     </distributionManagement>
     <repositories>

@@ -13,7 +13,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.6.1</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-        <distributionManagement.repository.url>${pom.url}</distributionManagement.repository.url>
     </properties>
         
     <licenses>
@@ -28,12 +27,12 @@
         <snapshotRepository>
             <id>nexus</id>
             <name>Releases</name>
-            <url>${distributionManagement.repository.url}/maven-snapshots</url>
+            <url>${repository.url}/maven-snapshots</url>
         </snapshotRepository>
         <repository>
             <id>nexus</id>
             <name>Releases</name>
-            <url>${distributionManagement.repository.url}/maven-releases</url>
+            <url>${repository.url}/maven-releases</url>
         </repository>
     </distributionManagement>
     <repositories>
