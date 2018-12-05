@@ -11,14 +11,13 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 import org.vaadin.diagrambuilder.DiagramBuilder;
 import org.vaadin.diagrambuilder.DiagramStateEvent;
 import org.vaadin.diagrambuilder.domain.Node;
 import org.vaadin.diagrambuilder.domain.NodeType;
 import org.vaadin.diagrambuilder.domain.Transition;
-import org.vaadin.maddon.label.RichText;
-import org.vaadin.maddon.layouts.MVerticalLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +60,6 @@ public class DemoUI extends UI {
         diagramBuilder.addGroupRightClickListener(nodeDto -> Notification.show("Group Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addGroupDragEndListener(nodeDto -> Notification.show("Group Drag ends " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addGroupDragStartListener(nodeDto -> Notification.show("Group Drag starts " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
-        diagramBuilder.addTaskMouseOverListener(nodeDto -> Notification.show("Task Mouse OVER " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
-        diagramBuilder.addTaskMouseOutListener(nodeDto -> Notification.show("Task Mouse OUT " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
 
         diagramBuilder.addTaskRightClickListener(nodeDto -> Notification.show("Task Right click " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addTaskMouseOverListener(nodeDto -> Notification.show("Task Mouse OVER " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
@@ -70,13 +67,7 @@ public class DemoUI extends UI {
         diagramBuilder.addTaskDragStartListener(nodeDto -> Notification.show("Task Drag Start " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addTaskDragEndListener(nodeDto -> Notification.show("Task Drag END " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
 
-        setContent(
-                new MVerticalLayout(
-                        new RichText().withMarkDownResource("/intro.md"),
-                        button,
-                        diagramBuilder
-                )
-        );
+        setContent(new VerticalLayout(button, diagramBuilder));
     }
 
     private void initDiagramBuilder(DiagramBuilder diagramBuilder) {

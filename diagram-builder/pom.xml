@@ -4,13 +4,13 @@
     <groupId>org.vaadin</groupId>
     <artifactId>diagram-builder</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <name>diagram-builder</name>
     <url>https://github.com/continuumsecurity/diagram-builder</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <vaadin.version>7.6.1</vaadin.version>
+        <vaadin.version>8.5.2</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
         <!-- ZIP Manifest fields -->
