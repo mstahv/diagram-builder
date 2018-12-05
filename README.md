@@ -1,6 +1,4 @@
-# DiagramBuilder Add-on for Vaadin 7 - Continuum Security Fork
-
-[![](https://jitpack.io/v/continuumsecurity/diagram-builder.svg)](https://jitpack.io/#continuumsecurity/diagram-builder/)
+# DiagramBuilder Add-on for Vaadin 8 - Continuum Security Fork
 
 > This repository uses the a forked Alloy-ui library generated from this repository: [Alloy-ui forked reporisoty](https://github.com/continuumsecurity/alloy-ui)
 
@@ -21,6 +19,11 @@ DiagramBuilder diagramBuilder = new DiagramBuilder();
 diagramBuilder.setShowDeleteNodeIcon(false);
 diagramBuilder.setEnableDeleteByKeyStroke(false);
 ```
+
+### Upgrade Vaadin version from 7.6.1 to 8.5.2
+Continuum security use Vaadin 8.5.2 and some errors were spotted using an older version, so we decided to update from
+vaadin 7 to 8 since release [1.4.1](https://github.com/continuumsecurity/diagram-builder/releases/tag/1.4.1)
+To use the previous version with vaadin 7 support pick the release [1.4.0](https://github.com/continuumsecurity/diagram-builder/releases/tag/1.4.0)
 
 ### Upgrade Vaadin version from 7.2.0.beta1 to 7.6.1
 Continuum security use Vaadin 7.6.1 and some errors were spotted when using an older version
@@ -89,6 +92,9 @@ To see the demo, navigate to http://localhost:8080/
 
  
 ## Release notes
+
+### Version 1.4.1
+* Upgrade Vaadin version from 7.6.1 to 8.5.2
 
 ### Version 1.21
 * Upgrade Vaadin version from 7.2.0.beta1 to 7.6.1

@@ -5,13 +5,13 @@
 	<groupId>org.vaadin</groupId>
 	<artifactId>diagram-builder-demo</artifactId>
 	<packaging>war</packaging>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
 	<name>DiagramBuilder Add-on Demo</name>
     <url>https://github.com/continuumsecurity/diagram-builder</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.6.1</vaadin.version>
+		<vaadin.version>8.5.2</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
     </properties>
         
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>diagram-builder</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -105,12 +105,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.peimari</groupId>
-            <artifactId>maddon</artifactId>
-            <version>1.4</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
