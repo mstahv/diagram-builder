@@ -93,6 +93,9 @@ To see the demo, navigate to http://localhost:8080/
  
 ## Release notes
 
+### Version 1.4.2
+* Upgrade Alloy version from 4.1.0 to 4.1.1 to use just the minify files.
+
 ### Version 1.4.1
 * Upgrade Vaadin version from 7.6.1 to 8.5.2
 

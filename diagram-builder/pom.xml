@@ -4,7 +4,7 @@
     <groupId>org.vaadin</groupId>
     <artifactId>diagram-builder</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <name>diagram-builder</name>
     <url>https://github.com/continuumsecurity/diagram-builder</url>
 

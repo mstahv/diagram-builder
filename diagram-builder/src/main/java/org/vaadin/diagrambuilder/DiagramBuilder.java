@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@JavaScript("vaadin://widgetsets/app.widgetset/diagram-builder/js/diagram/alloyui/build/aui/aui.js")
+@JavaScript("vaadin://widgetsets/app.widgetset/diagram-builder/js/diagram/alloyui/build/aui/aui-min.js")
 @StyleSheet("vaadin://widgetsets/app.widgetset/diagram-builder/alloyui-bootstrap.css")
 public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 

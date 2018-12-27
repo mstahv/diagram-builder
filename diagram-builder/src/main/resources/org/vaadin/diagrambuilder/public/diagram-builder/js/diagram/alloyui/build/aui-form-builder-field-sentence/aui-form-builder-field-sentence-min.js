@@ -1,1 +1,1 @@
-YUI.add("aui-form-builder-field-sentence",function(e,t){e.FormBuilderFieldSentence=e.Base.create("form-builder-field-sentence",e.FormField,[e.FormBuilderFieldBase])},"4.1.0",{requires:["aui-form-builder-field-base","aui-form-field"]});
+YUI.add("aui-form-builder-field-sentence",function(e,t){e.FormBuilderFieldSentence=e.Base.create("form-builder-field-sentence",e.FormField,[e.FormBuilderFieldBase])},"4.1.1",{requires:["aui-form-builder-field-base","aui-form-field"]});

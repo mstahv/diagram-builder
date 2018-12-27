@@ -5,7 +5,7 @@
 	<groupId>org.vaadin</groupId>
 	<artifactId>diagram-builder-demo</artifactId>
 	<packaging>war</packaging>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
 	<name>DiagramBuilder Add-on Demo</name>
     <url>https://github.com/continuumsecurity/diagram-builder</url>
 
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>diagram-builder</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
