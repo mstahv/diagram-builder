@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.vaadin</groupId>
     <artifactId>diagram-builder</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.2</version>
+    <version>1.4.3-SNAPSHOT</version>
     <name>diagram-builder</name>
     <url>https://github.com/continuumsecurity/diagram-builder</url>
 
@@ -26,7 +27,7 @@
         <name>Matti Tahvonen</name>
         <url>https://github.com/mstahv/diagram-builder/</url>
     </organization>
-    
+
     <scm>
         <url>git://github.com/mstahv/DiagramBuilder.git</url>
         <connection>scm:git:git://github.com/mstahv/diagram-builder.git</connection>
@@ -106,7 +107,7 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
         </dependency>
-		
+
         <!-- This can be replaced with TestNG or some other test framework supported by the surefire plugin -->
         <dependency>
             <groupId>junit</groupId>
@@ -163,7 +164,7 @@
                     </archive>
                 </configuration>
             </plugin>
-			
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -279,7 +280,7 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-		
+
     </build>
 
 </project>

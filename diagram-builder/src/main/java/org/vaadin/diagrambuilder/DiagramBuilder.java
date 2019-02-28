@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
-import com.vaadin.ui.JavaScriptFunction;
 
 import org.vaadin.diagrambuilder.client.DiagramBuilderClientRpc;
 import org.vaadin.diagrambuilder.client.DiagramBuilderServerRpc;
@@ -14,7 +13,9 @@ import org.vaadin.diagrambuilder.domain.Connector;
 import org.vaadin.diagrambuilder.domain.Node;
 import org.vaadin.diagrambuilder.domain.NodeType;
 import org.vaadin.diagrambuilder.domain.Transition;
-import org.vaadin.diagrambuilder.image.AutoCrop;
+import org.vaadin.diagrambuilder.event.ConnectorEvent;
+import org.vaadin.diagrambuilder.event.DiagramBuilderEvent;
+import org.vaadin.diagrambuilder.event.NodeEvent;
 import org.vaadin.diagrambuilder.listener.ConnectorLeftClickListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOutListener;
 import org.vaadin.diagrambuilder.listener.ConnectorMouseOverListener;
@@ -30,10 +31,7 @@ import org.vaadin.diagrambuilder.listener.TaskMouseOutListener;
 import org.vaadin.diagrambuilder.listener.TaskMouseOverListener;
 import org.vaadin.diagrambuilder.listener.TaskRightClickListener;
 
-import sun.misc.BASE64Decoder;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +41,6 @@ import java.util.logging.Logger;
 @StyleSheet("vaadin://widgetsets/app.widgetset/diagram-builder/alloyui-bootstrap.css")
 public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
-    private static final String EXPORT_TO_PNG_JAVASCRIPT_FUNCTION = "com.najor.printToPngBase64EventId";
-
     private final String eventId = Integer.toString(this.hashCode());
 
     private NodeType[] availableFields;
@@ -53,13 +49,11 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
 
     private ConnectorEvent connectorEvent;
     private NodeEvent nodeEvent;
+    private DiagramBuilderEvent diagramBuilderEvent;
 
     private boolean showDeleteNodeIcon = true;
     private boolean enableDeleteByKeyStroke = true;
     private boolean moveNodeOutSideGroup = false;
-
-    private ArrayList<Consumer<byte[]>> stringBase64Listeners = new ArrayList<>();
-
 
     public interface StateCallback {
         public void onStateReceived(DiagramStateEvent event);
@@ -84,19 +78,8 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
     public DiagramBuilder() {
         registerRpc(rpc);
 
-        com.vaadin.ui.JavaScript.getCurrent().addFunction(EXPORT_TO_PNG_JAVASCRIPT_FUNCTION + this.eventId, (JavaScriptFunction) jsonArray -> {
-            try {
-                String base64 = jsonArray.getString(0).replace("data:image/png;base64,", "");
-
-                byte[] imageByte = AutoCrop.autoCrop(new BASE64Decoder().decodeBuffer(base64));
-
-                stringBase64Listeners.forEach(diagramStringBase64Listener -> diagramStringBase64Listener.accept(imageByte));
-            } catch (IOException e) {
-                throw new RuntimeException("Error exporting diagram to png", e);
-            } finally {
-                stringBase64Listeners.clear();
-            }
-        });
+        diagramBuilderEvent = new DiagramBuilderEvent(eventId);
+        diagramBuilderEvent.createExportImageEvent();
 
         connectorEvent = new ConnectorEvent(eventId);
         connectorEvent.createMouseMoveEvent();
@@ -110,25 +93,9 @@ public class DiagramBuilder extends com.vaadin.ui.AbstractComponent {
         nodeEvent.createMouseMoveEvent();
     }
 
-    public void getImagePng(Consumer<byte[]> getBase64Consumer) {
-        stringBase64Listeners.clear();
-        stringBase64Listeners.add(getBase64Consumer);
 
-        String builder = "var yuiEl = document.querySelector('.property-builder-drop-container.yui3-dd-drop');\n" +
-                "yuiEl.style.height = yuiEl.scrollHeight + 'px';\n" +
-                "yuiEl.style.width = yuiEl.scrollWidth + 'px';\n" +
-                "domtoimage.toPng(yuiEl)\n" +
-                "        .then(dataURL => {\n" +
-                "   yuiEl.style.height = '';\n" +
-                "   yuiEl.style.width = '';\n" +
-                "   " + EXPORT_TO_PNG_JAVASCRIPT_FUNCTION + this.eventId + "(dataURL);\n" +
-                "}).catch(error => {" +
-                "   yuiEl.style.height = '';\n" +
-                "   yuiEl.style.width = '';\n" +
-                "   console.error('Something went wrong!',error);" +
-                "});";
-
-        com.vaadin.ui.JavaScript.getCurrent().execute(builder);
+    public void getImagePng(Consumer<byte[]> imageBytesConsumer) {
+        diagramBuilderEvent.getImagePng(imageBytesConsumer);
     }
 
 
