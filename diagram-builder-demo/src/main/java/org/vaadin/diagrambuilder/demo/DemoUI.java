@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.StreamResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -19,10 +22,12 @@ import org.vaadin.diagrambuilder.domain.Node;
 import org.vaadin.diagrambuilder.domain.NodeType;
 import org.vaadin.diagrambuilder.domain.Transition;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -32,6 +37,7 @@ import javax.servlet.annotation.WebServlet;
 public class DemoUI extends UI {
 
     private DiagramBuilder diagramBuilder;
+    private HorizontalLayout buttonBarLayout;
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = DemoUI.class, widgetset = "app.widgetset")
@@ -67,30 +73,57 @@ public class DemoUI extends UI {
         diagramBuilder.addTaskDragStartListener(nodeDto -> Notification.show("Task Drag Start " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
         diagramBuilder.addTaskDragEndListener(nodeDto -> Notification.show("Task Drag END " + nodeDto.getName(), Notification.Type.WARNING_MESSAGE));
 
-        setContent(new VerticalLayout(button, diagramBuilder));
+        buttonBarLayout = new HorizontalLayout(button, createExportToPngButton());
+        buttonBarLayout.setSpacing(true);
+
+        setContent(new VerticalLayout(buttonBarLayout, diagramBuilder));
+    }
+
+    private Button createExportToPngButton() {
+        Button exportToPngButton = new Button("Generate Diagram PNG");
+
+
+        exportToPngButton.addClickListener((Button.ClickListener) event -> diagramBuilder.getImagePng(imageAsByteArray -> {
+            ByteArrayInputStream in = new ByteArrayInputStream(imageAsByteArray);
+
+            Button downloadButton = new Button("Download");
+
+            FileDownloader fileDownloader = new FileDownloader(new StreamResource((StreamResource.StreamSource) () -> in, "image.png"));
+            fileDownloader.extend(downloadButton);
+
+            buttonBarLayout.addComponent(downloadButton);
+        }));
+
+        return exportToPngButton;
     }
 
     private void initDiagramBuilder(DiagramBuilder diagramBuilder) {
-        Node task1 = new Node("Task1", "task", 38, 158);
-        Node task2 = new Node("Task2", "task", 262, 221);
-
-        task1.setId(200L);
-        task2.setId(201L);
-
         List<Node> tasks = new ArrayList<>();
-        tasks.add(task1);
-        tasks.add(task2);
+
+        tasks.add(new Node(200L, "Task1", "task", 38, 158));
+        tasks.add(new Node(201L, "Task2", "task", 262, 221));
+
+        IntStream.rangeClosed(1, 5).forEach(value -> tasks.add(new Node(300L + value, "Task Custom " + value, "task", 38, 300 + (100 * value))));
+        IntStream.rangeClosed(6, 10).forEach(value -> tasks.add(new Node(300L + value, "Task Custom " + value, "task", 400, (100 * value))));
 
         Node group = new Node("Group", "group", 30, 140, 400, 200);
         group.setId(100L);
-        group.setChildren(tasks);
+        group.setChildren(tasks.subList(0, 3));
 
-        Node[] nodes = {task1, task2, group};
+        Node group2 = new Node("Group 2", "group", 30, 390, 600, 1000);
+        group.setId(101L);
+        group.setChildren(tasks.subList(0, 3));
 
-        diagramBuilder.setFields(nodes);
+        ArrayList<Node> allNodes = new ArrayList<>(tasks);
+        allNodes.add(group);
+        allNodes.add(group2);
+
+        diagramBuilder.setFields(allNodes.toArray(new Node[]{}));
 
         diagramBuilder.setTransitions(
-                new Transition(task1.getId().toString(), task2.getId().toString(), "TaskConnector")
+                new Transition(tasks.get(0).getId().toString(), tasks.get(1).getId().toString(), "TaskConnector"),
+                new Transition("302", "306", "TaskConnector3"),
+                new Transition("305", "310", "TaskConnector4")
         );
     }
 

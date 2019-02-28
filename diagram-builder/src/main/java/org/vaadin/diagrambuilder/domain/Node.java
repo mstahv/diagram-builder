@@ -45,6 +45,13 @@ public class Node implements Serializable {
         xy = new int[]{x, y};
     }
 
+    public Node(Long id, String name, String typeId, int x, int y) {
+        this.id = id;
+        this.name = name;
+        this.type = typeId;
+        xy = new int[]{x, y};
+    }
+
     public Node(String name, String typeId, int x, int y) {
         this.name = name;
         this.type = typeId;
