@@ -1,9 +1,10 @@
-package org.vaadin.diagrambuilder;/*
+package org.vaadin.diagrambuilder.event;/*
  * Copyright (c) 2012-2018 Continuum Security SLNE.  All rights reserved
  */
 
 import com.vaadin.ui.JavaScriptFunction;
 
+import org.vaadin.diagrambuilder.DiagramBuilder;
 import org.vaadin.diagrambuilder.domain.Connector;
 import org.vaadin.diagrambuilder.dto.ConnectorDto;
 import org.vaadin.diagrambuilder.listener.ConnectorLeftClickListener;

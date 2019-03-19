@@ -103,16 +103,16 @@ public class DemoUI extends UI {
         tasks.add(new Node(200L, "Task1", "task", 38, 158));
         tasks.add(new Node(201L, "Task2", "task", 262, 221));
 
-        IntStream.rangeClosed(1, 5).forEach(value -> tasks.add(new Node(300L + value, "Task Custom " + value, "task", 38, 300 + (100 * value))));
-        IntStream.rangeClosed(6, 10).forEach(value -> tasks.add(new Node(300L + value, "Task Custom " + value, "task", 400, (100 * value))));
+        IntStream.rangeClosed(1, 5).forEach(value -> tasks.add(new Node(300L + value, "Task Custom " + value, "task", 150, 400 + (100 * value))));
+        IntStream.rangeClosed(6, 10).forEach(value -> tasks.add(new Node(300L + value, "Task Custom " + value, "task", 550, (100 * value))));
 
         Node group = new Node("Group", "group", 30, 140, 400, 200);
         group.setId(100L);
-        group.setChildren(tasks.subList(0, 3));
+        group.setChildren(tasks.subList(0, 2));
 
-        Node group2 = new Node("Group 2", "group", 30, 390, 600, 1000);
-        group.setId(101L);
-        group.setChildren(tasks.subList(0, 3));
+        Node group2 = new Node("Group 2", "group", 130, 390, 600, 1000);
+        group2.setId(101L);
+        group2.setChildren(tasks.subList(2, 10));
 
         ArrayList<Node> allNodes = new ArrayList<>(tasks);
         allNodes.add(group);
@@ -123,7 +123,8 @@ public class DemoUI extends UI {
         diagramBuilder.setTransitions(
                 new Transition(tasks.get(0).getId().toString(), tasks.get(1).getId().toString(), "TaskConnector"),
                 new Transition("302", "306", "TaskConnector3"),
-                new Transition("305", "310", "TaskConnector4")
+                new Transition("305", "310", "TaskConnector4"),
+                new Transition("303", "307", "TaskConnector5")
         );
     }
 
